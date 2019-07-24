@@ -1,4 +1,4 @@
-import { Actions } from '../Cst'
+import { Actions, CstPumps } from '../Cst'
 import CalcPressure from './CalcPressure'
 
 export const InitialState = {
@@ -6,7 +6,15 @@ export const InitialState = {
   Energy: 0,
 
   ReactorTemp: 0,
-  ReactorPressure: 0,
+
+  SteamTemp: 0,
+  SteamPressure: 0,
+  MSIV: false,
+
+  Pumps: {
+    [CstPumps.RecircPump1]: 0,
+    [CstPumps.RecircPump2]: 0,
+  },
 
   Fout: false,
   Foutmelding: null,
@@ -15,6 +23,21 @@ export const InitialState = {
 
 export const AppReducer = (state = InitialState, action) => {
   switch (action.type) {
+  case Actions.SetPump:
+    return {
+      ...state,
+      Pumps: { ...state.Pumps, [action.ChangePump]: action.Setting },
+    }
+  case Actions.RecircPump2:
+    return {
+      ...state,
+      RecircPump2: action.Set,
+    }
+  case Actions.ToggleMSIV:
+    return {
+      ...state,
+      MSIV: !state.MSIV,
+    }
   case Actions.ReactorSetStartEnergy:
     return {
       ...state,
@@ -30,10 +53,11 @@ export const AppReducer = (state = InitialState, action) => {
       ...state,
       ReactorTemp: state.ReactorTemp + action.ReactTempDelta,
     }
-  case Actions.ReactorPressureCalc:
+
+  case Actions.SteamPressureCalc:
     return {
       ...state,
-      ReactorPressure: CalcPressure(state.ReactorTemp),
+      ReactorPressure: CalcPressure(state.SteamTemp),
     }
   default:
     return state

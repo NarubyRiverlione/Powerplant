@@ -18,15 +18,15 @@ export default class Selector extends React.Component {
   }
 
   CalcSelectedNotch() {
-    const { Side, Amount, r } = this.props
+    const { Side, Amount, Radius } = this.props
 
     const AngleNotch = 180.0 / (Amount + 1)
     const Align = Side === 'R' ? -1 : 1
     const AngleSelectedNotch = 90.0 + (this.Selected * AngleNotch * Align)
     const RadialNotch = AngleSelectedNotch * Math.PI / 180.0
 
-    const MidX = cx(r) + r * Math.cos(RadialNotch) + (15 * Align)
-    const MidY = cy(r) - r * Math.sin(RadialNotch)
+    const MidX = cx(Radius) + Radius * Math.cos(RadialNotch) + (15 * Align)
+    const MidY = cy(Radius) - Radius * Math.sin(RadialNotch)
     this.setState({ MidX, MidY })
   }
 
@@ -44,15 +44,15 @@ export default class Selector extends React.Component {
 
 
   render() {
-    const { r } = this.props
+    const { Radius } = this.props
     const { MidX, MidY } = this.state
 
     return (
       <div onClick={() => this.SelectNextNotch()}>
-        <svg height={r * 2 + 30} width={r * 2 + 10}>
+        <svg height={Radius * 2 + 30} width={Radius * 2 + 10}>
           {/* Knob */}
-          <circle cx={cx(r)} cy={cy(r)} r={r} stroke="darkgrey" strokeWidth="1" fill="none" />
-          <circle cx={cx(r)} cy={cy(r)} r={r - 3} stroke="grey" strokeWidth="5" fill="grey" />
+          <circle cx={cx(Radius)} cy={cy(Radius)} r={Radius} stroke="darkgrey" strokeWidth="1" fill="none" />
+          <circle cx={cx(Radius)} cy={cy(Radius)} r={Radius - 3} stroke="grey" strokeWidth="5" fill="grey" />
           {/* Marker */}
           <circle cx={MidX} cy={MidY} r={10} stroke="white" fill="darkgrey" />
         </svg>
@@ -64,7 +64,7 @@ export default class Selector extends React.Component {
 Selector.propTypes = {
   Amount: PropTypes.number.isRequired,
   StartSelected: PropTypes.number,
-  r: PropTypes.number.isRequired,
+  Radius: PropTypes.number.isRequired,
   cb: PropTypes.func,
   Side: PropTypes.oneOf(['L', 'R']),
 }
@@ -72,4 +72,5 @@ Selector.propTypes = {
 Selector.defaultProps = {
   StartSelected: 1,
   Side: 'R',
+  cb: undefined,
 }

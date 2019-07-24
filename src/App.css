@@ -36,13 +36,23 @@ main{
   color: #61dafb;
 }
 
-p, .text, .displayTitle{
+p, .title, .displayTitle{
   font-family:'Passion One','cursivexs' ;
   color:CornflowerBlue ;
   fill:CornflowerBlue ;
   text-align: center;
   vertical-align:middle;
   font-size: 1.75em;
+  font-weight: normal;
+  margin: 5px 0px;
+}
+.text{
+  font-family:'Passion One','cursivexs' ;
+  color:CornflowerBlue ;
+  fill:CornflowerBlue ;
+  text-align: center;
+  vertical-align:middle;
+  font-size: 1em;
   font-weight: normal;
   margin: 5px 0px;
 }

@@ -8,9 +8,13 @@ import { CstReactor, CstText } from '../Cst'
 import ControlPanel from './ControlPanel'
 import EnergyPanel from './EnergyPanel'
 import TurbinePanel from './TurbinePanel'
+import SteamPanel from './SteamPanel'
+import RecirculatePanel from './RecirculatePanel'
 
 const { StartEnergy } = CstReactor
-const { ReactorTxt, TurbineTxt } = CstText
+const {
+  ReactorTxt, TurbineTxt, SteamTxt, RecirculateTxt,
+} = CstText
 const PowerPlant = () => {
   const { dispatch } = useContext(AppContext)
   useEffect(() => {
@@ -22,6 +26,14 @@ const PowerPlant = () => {
 
       <ControlPanel Name={ReactorTxt.Title} StatusStatus="">
         <EnergyPanel />
+      </ControlPanel>
+
+      <ControlPanel Name={RecirculateTxt.Title} StatusStatus="">
+        <RecirculatePanel />
+      </ControlPanel>
+
+      <ControlPanel Name={SteamTxt.Title} StatusStatus="">
+        <SteamPanel />
       </ControlPanel>
 
       <ControlPanel Name={TurbineTxt.Title} StatusStatus="">

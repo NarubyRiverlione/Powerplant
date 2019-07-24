@@ -1,5 +1,8 @@
-// Antoine_pressure mmHG = 10^[A - (B / (C + temperature °C))]
+export const UnitConversion = {
+  Pressure_mmHG_Bar: 750.06,
+}
 
+// Antoine_pressure mmHG = 10^[A - (B / (C + temperature °C))]
 const AntoinePressure = {
   BelowBoiling: {
     A: 8.07131, B: 1730.63, C: 233.426,
@@ -18,5 +21,7 @@ const CalcPressure = Temp => (
     ? Formula(AntoinePressure.BelowBoiling, Temp)
     : Formula(AntoinePressure.AboveBoiling, Temp)
 )
+
+export const PressureBar = pressure => pressure / UnitConversion.Pressure_mmHG_Bar
 
 export default CalcPressure

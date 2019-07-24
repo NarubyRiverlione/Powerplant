@@ -1,4 +1,6 @@
-import { CstTiming, Actions, CstReactor } from '../Cst'
+import {
+  CstTiming, Actions, CstReactor, CstPumps,
+} from '../Cst'
 
 const ChangeReactorTemp = (EnergyChange, dispatch) => (
   dispatch({
@@ -6,13 +8,16 @@ const ChangeReactorTemp = (EnergyChange, dispatch) => (
     ReactTempDelta: EnergyChange,
   })
 )
-const ChangeReactorPressure = dispatch => (
-  dispatch({ type: Actions.ReactorPressureCalc })
+const ChangeSteamTemp = dispatch => (
+  dispatch({ type: Actions.SteamTempCalc })
+)
+const ChangeSteamPressure = dispatch => (
+  dispatch({ type: Actions.SteamPressureCalc })
 )
 
 /* Change energy level in reactor
 The change will take time (CstTiming.EnergyChange)
-And will in turn change the reactor temperature and pressure
+And will in turn change the reactor temperature
 */
 export const ReactorChangeEnergy = (EnergyDelta, dispatch) => {
   let Changed = 0
@@ -31,9 +36,8 @@ export const ReactorChangeEnergy = (EnergyDelta, dispatch) => {
       type: Actions.EnergyAddDelta,
       EnergyChange,
     })
-    // change temp. & press.
+    // change reactor temperature
     ChangeReactorTemp(EnergyChange, dispatch)
-    ChangeReactorPressure(dispatch)
   }, CstTiming.EnergyChange)
 }
 
@@ -43,7 +47,20 @@ export const ReactorSetStartEnergy = (StartEnergy, dispatch) => {
     type: Actions.ReactorSetStartEnergy,
     StartEnergy,
   })
-  // change temp. & press.
+  // change reactor temperature
   ChangeReactorTemp(StartEnergy + CstReactor.ColdTemp, dispatch)
-  ChangeReactorPressure(dispatch)
 }
+
+// open or close the main steam isolation valve
+export const ToggleMSIV = dispatch => (
+  dispatch({ type: Actions.ToggleMSIV })
+)
+
+// set recirculate pump 1 or 2
+export const SetPump = (ChangePump, SetTo, dispatch) => (
+  dispatch({
+    type: Actions.SetPump,
+    ChangePump,
+    Setting: SetTo * 0.25,
+  })
+)

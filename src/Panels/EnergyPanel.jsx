@@ -4,13 +4,13 @@ import { AppContext } from '../Redux/Store'
 import { ReactorChangeEnergy } from '../Redux/ActionCreator'
 
 import Display from '../Components/ControlElements/Display'
-import { UnitConversion, CstText } from '../Cst'
+import { CstText } from '../Cst'
 import ReactorButton from '../Components/ReactorButton'
 
 const { ReactorTxt } = CstText
 const EnergyPanel = () => {
   const {
-    Energy, ReactorTemp, ReactorPressure, dispatch,
+    Energy, ReactorTemp, dispatch,
   } = useContext(AppContext)
 
 
@@ -18,27 +18,20 @@ const EnergyPanel = () => {
     ReactorChangeEnergy(EnergyChange, dispatch)
   }
 
-  const PressureBar = ReactorPressure / UnitConversion.Pressure_mmHG_Bar
 
   return (
     <div className="d-flex flex-column">
       <div className="d-flex flex-row justify-content-around m-2">
         <Display
           Title={ReactorTxt.Energy}
-          Text={Energy.toLocaleString('nl-BE', { maximumFractionDigits: 2 })}
+          Text={Energy.toLocaleString(undefined, { maximumFractionDigits: 2 })}
           Width={120}
         />
         <Display
           Title={ReactorTxt.Temp}
-          Text={ReactorTemp.toLocaleString('nl-BE', { maximumFractionDigits: 1 })}
+          Text={ReactorTemp.toLocaleString(undefined, { maximumFractionDigits: 1 })}
           Width={70}
           Suffix={ReactorTxt.TempUnit}
-        />
-        <Display
-          Title={ReactorTxt.Pressure}
-          Text={PressureBar.toLocaleString('nl-BE', { maximumFractionDigits: 2 })}
-          Width={70}
-          Suffix={ReactorTxt.PressureUnit}
         />
       </div>
       <div className="d-flex flex-row justify-content-around m-2">

@@ -2,7 +2,10 @@ export const Actions = {
   ReactorSetStartEnergy: 'REACTOR_START_ENERGY',
   EnergyAddDelta: 'REACTOR_CHANGE_ENERGY',
   ReactTempAddDelta: 'REACTOR_CHANGE_TEMP',
-  ReactorPressureCalc: 'REACTOR_CALC_PRESSURE',
+  SteamTemp: 'STEAM_TEMP',
+  SteamPressureCalc: 'STEAM_CALC_PRESSURE',
+  ToggleMSIV: 'MSIV_TOGGLE',
+  SetPump: 'PUMP_SET',
 }
 
 export const CstTiming = {
@@ -21,10 +24,9 @@ export const CstReactor = {
     Power100: 254.98,
   },
 }
-
-
-export const UnitConversion = {
-  Pressure_mmHG_Bar: 750.06,
+export const CstPumps = {
+  RecircPump1: 'RecircPump1',
+  RecircPump2: 'RecircPump2',
 }
 
 export const CstText = {
@@ -34,10 +36,22 @@ export const CstText = {
     Energy: 'Energy',
     Temp: 'Temp',
     TempUnit: '°C',
-    Pressure: 'Pressure',
-    PressureUnit: 'bar',
   },
   TurbineTxt: {
     Title: 'Turbine',
+  },
+  RecirculateTxt: {
+    Title: 'Recirculate pumps',
+    Pump1: 'Pump 1',
+    Pump2: 'Pump 2',
+  },
+  SteamTxt: {
+    Title: 'Main Steam System',
+    MSIV: 'Main Steamline Isolation Valve',
+
+    Temp: 'Temp',
+    TempUnit: '°C',
+    Pressure: 'Pressure',
+    PressureUnit: 'bar',
   },
 }
