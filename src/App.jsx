@@ -1,29 +1,25 @@
 import React from 'react'
-import logo from './logo.svg'
+import { Container } from 'react-bootstrap'
 import './App.css'
+import PowerPanel from './Panels/PowerPlantPanel'
+
+import Store from './Redux/Store'
+import { CstText } from "./Cst"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit
-          {' '}
-          <code>src/App.js</code>
-          {' '}
-and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <Container fluid>
+      <header>
+        <h1>{CstText.Title}</h1>
       </header>
-    </div>
+
+      <main>
+        <Store>
+          <PowerPanel />
+        </Store>
+      </main>
+
+    </Container>
   )
 }
 
