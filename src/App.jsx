@@ -1,10 +1,10 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import './App.css'
-import PowerPanel from './Panels/PowerPlantPanel'
+import PowerPanel from './Panels/PowerPlant'
 
 import Store from './Redux/Store'
-import { CstText } from "./Cst"
+import { CstText } from './Cst'
 
 function App() {
   return (

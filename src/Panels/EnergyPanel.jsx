@@ -4,8 +4,8 @@ import { AppContext } from '../Redux/Store'
 import { ReactorChangeEnergy } from '../Redux/ActionCreator'
 
 import Display from '../Components/ControlElements/Display'
-import Button from '../Components/ControlElements/Button'
 import { UnitConversion, CstText } from '../Cst'
+import ReactorButton from '../Components/ReactorButton'
 
 const { ReactorTxt } = CstText
 const EnergyPanel = () => {
@@ -22,7 +22,7 @@ const EnergyPanel = () => {
 
   return (
     <div className="d-flex flex-column">
-      <div className="d-flex flex-row justify-content-around">
+      <div className="d-flex flex-row justify-content-around m-2">
         <Display
           Title={ReactorTxt.Energy}
           Text={Energy.toLocaleString('nl-BE', { maximumFractionDigits: 2 })}
@@ -41,47 +41,13 @@ const EnergyPanel = () => {
           Suffix={ReactorTxt.PressureUnit}
         />
       </div>
-      <div className="d-flex flex-row">
-        <div style={{ marginRight: 5 }} className="d-flex flex-row">
-          <Button
-            Caption="+10"
-            Color="SteelBlue"
-            TextColor="FloralWhite "
-            cb={() => ButtonPressed(10)}
-          />
-          <Button
-            Caption="+5"
-            Color="SteelBlue"
-            TextColor="FloralWhite "
-            cb={() => ButtonPressed(5)}
-          />
-          <Button
-            Caption="+"
-            Color="SteelBlue"
-            TextColor="FloralWhite "
-            cb={() => ButtonPressed(1)}
-          />
-        </div>
-        <div style={{ marginLeft: 5 }} className="d-flex flex-row">
-          <Button
-            Caption="-"
-            Color="SteelBlue"
-            TextColor="white"
-            cb={() => ButtonPressed(-1)}
-          />
-          <Button
-            Caption="-5"
-            Color="SteelBlue"
-            TextColor="FloralWhite "
-            cb={() => ButtonPressed(-5)}
-          />
-          <Button
-            Caption="-10"
-            Color="SteelBlue"
-            TextColor="FloralWhite "
-            cb={() => ButtonPressed(-10)}
-          />
-        </div>
+      <div className="d-flex flex-row justify-content-around m-2">
+        <ReactorButton Step={10} cb={() => ButtonPressed(10)} />
+        <ReactorButton Step={5} cb={() => ButtonPressed(5)} />
+        <ReactorButton Step={1} cb={() => ButtonPressed(1)} />
+        <ReactorButton Step={-1} cb={() => ButtonPressed(-1)} />
+        <ReactorButton Step={-5} cb={() => ButtonPressed(-5)} />
+        <ReactorButton Step={-10} cb={() => ButtonPressed(-10)} />
       </div>
     </div>
   )

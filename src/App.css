@@ -3,8 +3,8 @@
   src: url(./Fonts/LiquidCrystal-Normal.otf);
 }
 
-.container-fluid, .container {
-  background-color: lightgray;
+.container-fluid, .container, .Powerplant {
+  background-color: darkgrey;
   height: 100%;
   width:100%;
   display: flex;
@@ -72,3 +72,24 @@ p, .text, .displayTitle{
   text-shadow: 0 0;
   text-align:'center';
 }
+
+
+.CardStyle{
+  height:95%;
+  background: lightgray;
+  border: 2px solid darkgray;  
+  border-radius:25px;
+  box-shadow: 5px 10px;
+  margin: 10px
+  }
+  
+  .CardHeader{
+    text-shadow:2px 3px  whitesmoke;
+    color:black;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size:2em;
+    font-family: 'Stardos Stencil', cursive;
+    padding: 0.25em;
+  }

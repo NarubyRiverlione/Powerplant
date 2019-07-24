@@ -24,6 +24,7 @@ export const ReactorChangeEnergy = (EnergyDelta, dispatch) => {
       return
     }
     Changed += 1
+    // TODO prevent negative energy level
     const EnergyChange = Math.sign(EnergyDelta) * CstReactor.EnergyStep
     // change energy
     dispatch({

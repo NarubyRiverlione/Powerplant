@@ -30,10 +30,14 @@ export const UnitConversion = {
 export const CstText = {
   Title: 'Nuclear power plant',
   ReactorTxt: {
+    Title: 'Reactor',
     Energy: 'Energy',
     Temp: 'Temp',
     TempUnit: '°C',
     Pressure: 'Pressure',
     PressureUnit: 'bar',
+  },
+  TurbineTxt: {
+    Title: 'Turbine',
   },
 }
