@@ -1,4 +1,6 @@
-import { Actions, CstPumps } from '../Cst'
+import {
+  Actions, CstPumps, CstIntakeValve, CstOutputValve,
+} from '../Cst'
 import CalcPressure from './CalcPressure'
 
 export const InitialState = {
@@ -16,6 +18,18 @@ export const InitialState = {
     [CstPumps.RecircPump2]: 0,
   },
 
+  Valves: {
+    [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircPump1}_${CstOutputValve}`]: false,
+    [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircPump2}_${CstOutputValve}`]: false,
+  },
+
+  Flows: {
+    [CstPumps.RecircPump1]: 0,
+    [CstPumps.RecircPump2]: 0,
+  },
+
   Fout: false,
   Foutmelding: null,
 }
@@ -23,15 +37,20 @@ export const InitialState = {
 
 export const AppReducer = (state = InitialState, action) => {
   switch (action.type) {
+  case Actions.ToggleValve:
+    return {
+      ...state,
+      Valves: { ...state.Valves, [action.ValveName]: action.Position },
+    }
   case Actions.SetPump:
     return {
       ...state,
-      Pumps: { ...state.Pumps, [action.ChangePump]: action.Setting },
+      Pumps: { ...state.Pumps, [action.PumpName]: action.Level },
     }
-  case Actions.RecircPump2:
+  case Actions.SetFlow:
     return {
       ...state,
-      RecircPump2: action.Set,
+      Flows: { ...state.Flows, [action.PumpName]: action.Flow },
     }
   case Actions.ToggleMSIV:
     return {

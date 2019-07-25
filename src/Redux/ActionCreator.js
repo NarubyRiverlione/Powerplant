@@ -1,5 +1,5 @@
 import {
-  CstTiming, Actions, CstReactor, CstPumps,
+  CstTiming, Actions, CstReactor, CstIntakeValve, CstOutputValve, CstFlowMax,
 } from '../Cst'
 
 const ChangeReactorTemp = (EnergyChange, dispatch) => (
@@ -56,11 +56,59 @@ export const ToggleMSIV = dispatch => (
   dispatch({ type: Actions.ToggleMSIV })
 )
 
-// set recirculate pump 1 or 2
-export const SetPump = (ChangePump, SetTo, dispatch) => (
+const SetFlow = (PumpName, Flow, dispatch) => dispatch({ type: Actions.SetFlow, PumpName, Flow })
+
+const CalcFlow = (PumpName, Level) => Level * CstFlowMax[PumpName]
+
+// set pump level, then calc flow
+export const SetPump = (PumpName, SetTo, Valves, dispatch) => {
+  const Level = SetTo * 0.25
   dispatch({
     type: Actions.SetPump,
-    ChangePump,
-    Setting: SetTo * 0.25,
+    PumpName,
+    Level,
   })
-)
+  // only flow when intake and output valves are open
+  const Flow = Valves[`${PumpName}_${CstIntakeValve}`]
+    && Valves[`${PumpName}_${CstOutputValve}`]
+    ? CalcFlow(PumpName, Level)
+    : 0
+
+  SetFlow(PumpName, Flow, dispatch)
+}
+
+
+export const ToggleValve = (ValveName, Valves, PumpName, Pumps, dispatch) => {
+  const ValveCurrent = Valves[ValveName]
+  const NewPosition = !ValveCurrent
+  const PumpLevel = Pumps[PumpName]
+  dispatch({
+    type: Actions.ToggleValve,
+    ValveName,
+    Position: NewPosition,
+  })
+  // a pump is connected to this now closing valve --> stop pump flow
+  if (PumpName && !NewPosition) {
+    SetFlow(PumpName, 0, dispatch)
+  }
+  // a pump is connected
+  // intake valve is open
+  // now opening this output valve --> set flow
+  if (PumpName
+    && ValveName.includes(CstOutputValve)
+    && NewPosition
+    && Valves[`${PumpName}_${CstIntakeValve}`]) {
+    const Flow = CalcFlow(PumpName, PumpLevel)
+    SetFlow(PumpName, Flow, dispatch)
+  }
+  // a pump is connected
+  // output valve is open
+  // now opening this input valve --> set flow
+  if (PumpName
+    && ValveName.includes(CstIntakeValve)
+    && NewPosition
+    && Valves[`${PumpName}_${CstOutputValve}`]) {
+    const Flow = CalcFlow(PumpName, PumpLevel)
+    SetFlow(PumpName, Flow, dispatch)
+  }
+}

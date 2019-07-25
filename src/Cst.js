@@ -6,7 +6,10 @@ export const Actions = {
   SteamPressureCalc: 'STEAM_CALC_PRESSURE',
   ToggleMSIV: 'MSIV_TOGGLE',
   SetPump: 'PUMP_SET',
+  ToggleValve: 'VALVE_TOGGLE',
+  SetFlow: 'SET_FLOW',
 }
+
 
 export const CstTiming = {
   EnergyChange: 500,
@@ -29,6 +32,20 @@ export const CstPumps = {
   RecircPump2: 'RecircPump2',
 }
 
+export const CstIntakeValve = 'Intake'
+export const CstOutputValve = 'Output'
+export const CstValves = {
+  [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: 'RecircPump1_Intake',
+  [`${CstPumps.RecircPump1}_${CstOutputValve}`]: 'RecircPump1_Output',
+  [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: 'RecircPump2_Intake',
+  [`${CstPumps.RecircPump2}_${CstOutputValve}`]: 'RecircPump2_Output',
+}
+
+export const CstFlowMax = {
+  [`${CstPumps.RecircPump1}`]: 5000,
+  [`${CstPumps.RecircPump2}`]: 5000,
+}
+
 export const CstText = {
   Title: 'Nuclear power plant',
   ReactorTxt: {
@@ -44,6 +61,11 @@ export const CstText = {
     Title: 'Recirculate pumps',
     Pump1: 'Pump 1',
     Pump2: 'Pump 2',
+    CstIntakeValve: 'Intake',
+    CstOutputValve: 'Output',
+    Valves: 'Valves',
+    Level: 'Level',
+    Flow: 'Flow',
   },
   SteamTxt: {
     Title: 'Main Steam System',

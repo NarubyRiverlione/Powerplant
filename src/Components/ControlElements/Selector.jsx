@@ -25,6 +25,7 @@ const Selector = ({
   }, [Radius, Amount, Selected, Side])
 
   useEffect(() => { CalcSelectedNotch() }, [CalcSelectedNotch])
+  useEffect(() => setSelected(StartSelected), [StartSelected])
 
   const SelectNotch = (direction) => {
     let newSelectedNotch = Selected + direction
