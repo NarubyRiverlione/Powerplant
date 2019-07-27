@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Col, Row } from 'react-reflex-grid'
 
 import { AppContext } from '../Redux/Store'
 import { CstText } from '../Cst'
@@ -17,23 +18,26 @@ const SteamPanel = () => {
   const { SteamTemp, SteamPressure, MSIV } = state
 
   return (
-    <div className="d-flex flex-row justify-content-around">
-      <div className="d-flex flex-column justify-content-center align-items-end m-2">
-        <Display
-          Title={SteamTxt.Temp}
-          Text={SteamTemp.toLocaleString(undefined, { maximumFractionDigits: 1 })}
-          Width={70}
-          Suffix={`${SteamTxt.TempUnit} `} // add space for align pressure display
-        />
-        <Display
-          Title={SteamTxt.Pressure}
-          Text={PressureBar(SteamPressure).toLocaleString(undefined, { maximumFractionDigits: 2 })}
-          Width={70}
-          Suffix={SteamTxt.PressureUnit}
-        />
-      </div>
-      <div className="d-flex flex-row justify-content-center m-2">
-        <div className="d-flex flex-column align-items-center">
+    <React.Fragment>
+      <Row>
+        <Col auto>
+          <Display
+            Title={SteamTxt.Temp}
+            Text={SteamTemp.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+            Width={70}
+            Suffix={`${SteamTxt.TempUnit} `} // add space for align pressure display
+          />
+        </Col>
+        <Col auto>
+          <Display
+            Title={SteamTxt.Pressure}
+            Text={PressureBar(SteamPressure).toLocaleString(undefined, { maximumFractionDigits: 2 })}
+            Width={70}
+            Suffix={SteamTxt.PressureUnit}
+          />
+        </Col>
+
+        <Col auto>
           <span className="title">{SteamTxt.MSIV}</span>
           <Button
             Caption="MSIV"
@@ -42,9 +46,11 @@ const SteamPanel = () => {
             SetPressed={MSIV}
             cb={() => ToggleMSIV(dispatch)}
           />
-        </div>
-      </div>
-    </div>
+
+        </Col>
+
+      </Row>
+    </React.Fragment>
   )
 }
 

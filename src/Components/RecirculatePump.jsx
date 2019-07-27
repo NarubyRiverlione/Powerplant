@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+import { Col, Row } from 'react-reflex-grid'
 
 import { AppContext } from '../Redux/Store'
 import Selector from './ControlElements/Selector'
@@ -25,60 +26,79 @@ const RecirculatePump = ({ PumpName, Title }) => {
   }
 
   return (
-    <div className="d-flex flex-column">
-      {/* Title */}
-      <span className="title">{Title}</span>
-      <div className="d-flex flex-row justify-content-start align-items-center text-align-left">
+    <React.Fragment>
+      <Row justify-center>
+        {/* Title */}
+        <span className="title">{Title}</span>
+      </Row>
+      <Row justify-center>
         {/* Pump valves */}
-        <div className="d-flex flex-column m-2">
-          <span className="text">{RecirculateTxt.Valves}</span>
-          <Button
-            Caption={RecirculateTxt.CstIntakeValve}
-            Color="SlateGrey "
-            TextColor="white"
-            cb={() => SetValve(CstIntakeValve)}
-            Width={80}
-            SetPressed={ValvePosition(CstIntakeValve)}
-          />
-          <Button
-            Caption={RecirculateTxt.CstOutputValve}
-            Color="SlateGrey "
-            TextColor="white"
-            cb={() => SetValve(CstOutputValve)}
-            Width={80}
-            SetPressed={ValvePosition(CstOutputValve)}
-          />
-        </div>
+        <Col size={3} sm>
+          <Row justify-center>
+            <span className="subtitel">{RecirculateTxt.Valves}</span>
+          </Row>
+          <Row justify-center>
+            <Button
+              Caption={RecirculateTxt.CstIntakeValve}
+              Color="SlateGrey "
+              TextColor="white"
+              cb={() => SetValve(CstIntakeValve)}
+              Width={80}
+              SetPressed={ValvePosition(CstIntakeValve)}
+            />
+          </Row>
+          <Row justify-center>
+            <Button
+              Caption={RecirculateTxt.CstOutputValve}
+              Color="SlateGrey "
+              TextColor="white"
+              cb={() => SetValve(CstOutputValve)}
+              Width={80}
+              SetPressed={ValvePosition(CstOutputValve)}
+            />
+          </Row>
+
+        </Col>
+
         {/*  Pump level */}
-        <div className="d-flex flex-column m-2">
-          <span className="text">{RecirculateTxt.Level}</span>
-          <div className="d-flex flex-row">
-            <div className="m-2">
-              <Selector
-                Amount={5}
-                Radius={50}
-                cb={set => SetPump(PumpName, set - 1, state, dispatch)}
-              />
-            </div>
-            <div className="m-2">
-              {/* setting labels */}
-              <div className="d-flex flex-column">
-                <span className="text"> Off</span>
-                <span className="text"> 25 %</span>
-                <span className="text"> 50 %</span>
-                <span className="text"> 75 %</span>
-                <span className="text"> 100 %</span>
+        <Col size={6} sm>
+          <Row justify-center><span className="subtitel">{RecirculateTxt.Level}</span></Row>
+          <Row>
+            <Col auto>
+              <div>
+                <Selector
+                  Amount={5}
+                  Radius={50}
+                  cb={set => SetPump(PumpName, set - 1, state, dispatch)}
+                />
               </div>
-            </div>
-          </div>
-        </div>
+            </Col>
+            <Col auto>
+              {/* setting labels */}
+              <Row direction-column>
+                <Col auto><span className="text"> Off</span></Col>
+                <Col auto><span className="text"> 25 %</span></Col>
+                <Col auto><span className="text"> 50 %</span></Col>
+                <Col auto><span className="text"> 75 %</span></Col>
+                <Col auto><span className="text"> 100 %</span></Col>
+              </Row>
+            </Col>
+
+          </Row>
+        </Col>
+
         {/* Pump Flow */}
-        <div className="d-flex flex-colum">
-          <span className="text">{RecirculateTxt.Flow}</span>
-          <Display Text={(Flows[PumpName]).toLocaleString()} Width={75} />
-        </div>
-      </div>
-    </div>
+        <Col size={3} sm>
+          <Row justify-center>
+            <span className="subtitel">{RecirculateTxt.Flow}</span>
+          </Row>
+          <Row>
+            <Display Text={(Flows[PumpName]).toLocaleString()} Width={75} />
+          </Row>
+        </Col>
+
+      </Row>
+    </React.Fragment>
   )
 }
 

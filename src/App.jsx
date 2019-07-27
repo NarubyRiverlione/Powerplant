@@ -8,10 +8,8 @@ import { CstText } from './Cst'
 
 function App() {
   return (
-    <Container fluid>
-      <header>
-        <h1>{CstText.Title}</h1>
-      </header>
+    <React.Fragment>
+      <header>{CstText.Title}</header>
 
       <main>
         <Store>
@@ -19,7 +17,7 @@ function App() {
         </Store>
       </main>
 
-    </Container>
+    </React.Fragment>
   )
 }
 

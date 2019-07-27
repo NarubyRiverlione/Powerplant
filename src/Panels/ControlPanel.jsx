@@ -1,25 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { Container, Row, Col } from 'react-reflex-grid'
 import Display from '../Components/ControlElements/Display'
 
 
 const ControlPanel = ({
   Name, StatusStatus, ErrorMsg, children,
 }) => (
-  <div className="CardStyle d-flex flex-column">
+  <Container className="CardStyle" id={`${Name} panel`}>
+    <Row direction-column>
+      <Col auto className="CardHeader">
+        <span style={{ marginRight: 10 }}>{Name}</span>
+      </Col>
 
-    <div className="CardHeader d-flex flex-row">
-      <span style={{ marginRight: 10 }}>{Name}</span>
-
-      <Display Width={480} Text={StatusStatus} ErrorMsg={ErrorMsg} />
-    </div>
-
-    <div className="CardContent">
-      {children}
-    </div>
-
-  </div>
+      <Col auto className="CardContent">
+        {children}
+      </Col>
+    </Row>
+  </Container>
 )
 
 

@@ -1,14 +1,21 @@
 import React from 'react'
-import { CstPumps, CstText } from '../Cst'
+import { Col, Row, Container } from 'react-reflex-grid'
 
 import RecirculatePump from '../Components/RecirculatePump'
+import { CstPumps, CstText } from '../Cst'
 
 
 const RecirculatePanel = () => (
-  <div className="d-flex flex-row justify-content-around">
-    <RecirculatePump PumpName={CstPumps.RecircPump1} Title={CstText.RecirculateTxt.Pump1} />
-    <RecirculatePump PumpName={CstPumps.RecircPump2} Title={CstText.RecirculateTxt.Pump2} />
-  </div>
+  <React.Fragment>
+    <Row>
+      <Col size={6} md>
+        <RecirculatePump PumpName={CstPumps.RecircPump1} Title={CstText.RecirculateTxt.Pump1} />
+      </Col>
+      <Col size={6} md>
+        <RecirculatePump PumpName={CstPumps.RecircPump2} Title={CstText.RecirculateTxt.Pump2} />
+      </Col>
+    </Row>
+  </React.Fragment>
 )
 
 

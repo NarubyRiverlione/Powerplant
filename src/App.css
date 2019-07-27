@@ -1,105 +1,111 @@
 @font-face {
-  font-family: Display;
-  src: url(./Fonts/LiquidCrystal-Normal.otf);
+font-family: Display;
+src: url(./Fonts/LiquidCrystal-Normal.otf);
 }
 
-.container-fluid, .container, .Powerplant {
-  background-color: darkgrey;
-  height: 100%;
+.Powerplant {
+background-color: darkgrey;
+height: 100%;
+width:100%;
+padding:1em;
+}
+
+[class*="col-"] {
+padding:5px;
+}
+[class*="col-"] .grid {
+  margin:0px;
+}
+.grid{
+  letter-spacing:0px;
+  word-spacing:0px;
+}
+.col-auto {
   width:100%;
-  display: flex;
-  flex-direction: column;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-
 header {
-  background-color: darkgrey;
-  min-height: 1vmin;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: calc(10px + 1.5vmin);
-  color: white;
+background-color: darkgrey;
+min-height: 2vmin;
+align-items: center;
+justify-content: center;
+text-align: center;
+font-size: calc(10px + 4vmin);
+color: white;
 }
 
-main{
-  display: flex;
-  flex:1;
-}
-.App-link {
-  color: #61dafb;
-}
 
 p, .title, .displayTitle{
-  font-family:'Passion One','cursivexs' ;
-  color:CornflowerBlue ;
-  fill:CornflowerBlue ;
-  text-align: center;
-  vertical-align:middle;
-  font-size: 1.75em;
-  font-weight: normal;
-  margin: 5px 0px;
+font-family:'Passion One','cursivexs' ;
+color:CornflowerBlue ;
+fill:CornflowerBlue ;
+text-align: center;
+vertical-align:middle;
+font-size: 1.75em;
+font-weight: normal;
+margin: 5px 0px;
 }
-.text{
-  font-family:'Passion One','cursivexs' ;
-  color:CornflowerBlue ;
-  fill:CornflowerBlue ;
-  text-align: center;
-  vertical-align:middle;
-  font-size: 1.2em;
-  font-weight: normal;
-  margin: 5px 0px;
+
+.text, .subtitel{
+font-family:'Passion One','cursivexs' ;
+color:CornflowerBlue ;
+fill:CornflowerBlue ;
+text-align: center;
+vertical-align:middle;
+font-size: 1.2em;
+font-weight: normal;
+margin: 5px 0px;
+}
+
+.subtitel{
+  font-size: 1.5em;
 }
 
 .LedText{
-  font-family:'Passion One','cursivexs' ;
-  color:CornflowerBlue ;
-  fill:CornflowerBlue ;
-  text-align: center;
-  font-size: 1.75em;
-  font-weight: normal;
-  margin: 0;
+font-family:'Passion One','cursivexs' ;
+color:CornflowerBlue ;
+fill:CornflowerBlue ;
+text-align: center;
+font-size: 1.75em;
+font-weight: normal;
+margin: 0;
 }
 
 .display {
-  font-family: Display;
-  fill:green;
-  font-size: 1.25em;
-  text-shadow: 0 0;
-  text-align:'center';
+font-family: Display;
+fill:green;
+font-size: 1.25em;
+text-shadow: 0 0;
+text-align:'center';
 }
 
 .displayError {
-  font-family: Display;
-  fill:red;
-  font-size: 1.25em;
-  text-shadow: 0 0;
-  text-align:'center';
+font-family: Display;
+fill:red;
+font-size: 1.25em;
+text-shadow: 0 0;
+text-align:'center';
 }
 
 
 .CardStyle{
-  height:95%;
-  background: lightgray;
-  border: 2px solid darkgray;  
-  border-radius:25px;
-  box-shadow: 5px 10px;
-  margin: 10px
-  }
-  
-  .CardHeader{
-    text-shadow:2px 3px  whitesmoke;
-    color:black;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size:2em;
-    font-family: 'Stardos Stencil', cursive;
-    padding: 0.25em;
-  }
+background: lightgray;
+border: 2px solid darkgray;  
+border-radius:25px;
+box-shadow: 5px 10px;
+margin-bottom: 1em;
+}
+
+.CardHeader{
+text-shadow:2px 3px  whitesmoke;
+color:black;
+justify-content: center;
+align-items: center;
+text-align: center;
+font-size:2em;
+font-family: 'Stardos Stencil', cursive;
+padding: 0.5em;
+}
+
+.CardContent{
+padding:0.5em;
+}

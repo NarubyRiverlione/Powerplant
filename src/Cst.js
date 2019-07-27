@@ -75,8 +75,8 @@ export const CstText = {
   },
   RecirculateTxt: {
     Title: 'Recirculate pumps',
-    Pump1: 'Pump 1',
-    Pump2: 'Pump 2',
+    Pump1: 'Circuit 1',
+    Pump2: 'Circuit 2',
     CstIntakeValve: 'Intake',
     CstOutputValve: 'Output',
     Valves: 'Valves',

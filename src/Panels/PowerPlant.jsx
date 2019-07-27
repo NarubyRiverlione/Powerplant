@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 
+import { Container } from 'react-reflex-grid';
 import { AppContext } from '../Redux/Store'
 
 import { ReactorSetStartEnergy } from '../Redux/ActionCreator'
@@ -28,7 +29,7 @@ const PowerPlant = () => {
 
 
   return (
-    <div className="Powerplant">
+    <Container full className="Powerplant">
 
       <ControlPanel Name={ReactorTxt.Title} StatusStatus="">
         <EnergyPanel />
@@ -46,8 +47,7 @@ const PowerPlant = () => {
         <TurbinePanel />
       </ControlPanel>
 
-
-    </div>
+    </Container>
   )
 }
 
