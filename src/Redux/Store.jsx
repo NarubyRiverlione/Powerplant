@@ -6,17 +6,19 @@ import { AppReducer, InitialState } from './Reducer'
 
 export const AppContext = createContext()
 
+const CreateReducer = dev => (dev ? logger(AppReducer) : AppReducer)
 
 const Store = ({ children }) => {
   // state maken uit initiële state
   // dispatch uit reducer om acties uit te sturen
-  const [state, dispatch] = useReducer(logger(AppReducer), InitialState)
+  const dev = false // process.env.NODE_ENV
+  const [state, dispatch] = useReducer(CreateReducer(dev), InitialState)
 
   // context value
   // alles uit state halen
   // dispatch om actie op te roepen om aanpassingen uit te voeren
   const ContextValue = {
-    ...state,
+    state,
     dispatch,
   }
 

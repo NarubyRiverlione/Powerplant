@@ -9,13 +9,11 @@ import ReactorButton from '../Components/ReactorButton'
 
 const { ReactorTxt } = CstText
 const EnergyPanel = () => {
-  const {
-    Energy, ReactorTemp, dispatch,
-  } = useContext(AppContext)
-
+  const { state, dispatch } = useContext(AppContext)
+  const { Energy, ReactorTemp } = state
 
   const ButtonPressed = (EnergyChange) => {
-    ReactorChangeEnergy(EnergyChange, dispatch)
+    ReactorChangeEnergy(EnergyChange, state, dispatch)
   }
 
 

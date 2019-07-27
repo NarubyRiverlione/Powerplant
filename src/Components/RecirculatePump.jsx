@@ -14,16 +14,14 @@ const { RecirculateTxt } = CstText
 
 
 const RecirculatePump = ({ PumpName, Title }) => {
-  const {
-    dispatch, Valves, Pumps, Flows,
-  } = useContext(AppContext)
+  const { dispatch, state } = useContext(AppContext)
+  const { Valves, Flows } = state
 
   const ValveName = valveSuffix => `${PumpName}_${valveSuffix}`
   const ValvePosition = valveSuffix => Valves[ValveName(valveSuffix)]
 
   const SetValve = (valveSuffix) => {
-    ToggleValve(ValveName(valveSuffix), Valves,
-      PumpName, Pumps, dispatch)
+    ToggleValve(ValveName(valveSuffix), PumpName, state, dispatch)
   }
 
   return (
@@ -59,7 +57,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
               <Selector
                 Amount={5}
                 Radius={50}
-                cb={set => SetPump(PumpName, set - 1, Valves, dispatch)}
+                cb={set => SetPump(PumpName, set - 1, state, dispatch)}
               />
             </div>
             <div className="m-2">

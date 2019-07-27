@@ -15,11 +15,17 @@ const { StartEnergy } = CstReactor
 const {
   ReactorTxt, TurbineTxt, SteamTxt, RecirculateTxt,
 } = CstText
+
+
 const PowerPlant = () => {
-  const { dispatch } = useContext(AppContext)
+  const { state, dispatch } = useContext(AppContext)
+
+
   useEffect(() => {
-    ReactorSetStartEnergy(StartEnergy.Power100, dispatch)
-  }, [dispatch])
+    console.log('Called start reactor')
+    ReactorSetStartEnergy(StartEnergy.Power100, state, dispatch)
+  }, [])// eslint-disable-line
+
 
   return (
     <div className="Powerplant">

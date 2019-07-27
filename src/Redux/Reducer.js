@@ -1,14 +1,13 @@
 import {
   Actions, CstPumps, CstIntakeValve, CstOutputValve,
 } from '../Cst'
-import CalcPressure from './CalcPressure'
+
 
 export const InitialState = {
-
+  // Reactor
   Energy: 0,
-
   ReactorTemp: 0,
-
+  // Steam
   SteamTemp: 0,
   SteamPressure: 0,
   MSIV: false,
@@ -37,6 +36,7 @@ export const InitialState = {
 
 export const AppReducer = (state = InitialState, action) => {
   switch (action.type) {
+  // Valves & Pumps & Flows
   case Actions.ToggleValve:
     return {
       ...state,
@@ -47,16 +47,21 @@ export const AppReducer = (state = InitialState, action) => {
       ...state,
       Pumps: { ...state.Pumps, [action.PumpName]: action.Level },
     }
-  case Actions.SetFlow:
+  case Actions.FlowChange:
     return {
       ...state,
-      Flows: { ...state.Flows, [action.PumpName]: action.Flow },
+      Flows: {
+        ...state.Flows,
+        [action.PumpName]: state.Flows[action.PumpName] + action.FlowChangeBy,
+      },
     }
+    // MSIV
   case Actions.ToggleMSIV:
     return {
       ...state,
       MSIV: !state.MSIV,
     }
+    // Reactor Energy & Temp
   case Actions.ReactorSetStartEnergy:
     return {
       ...state,
@@ -67,16 +72,21 @@ export const AppReducer = (state = InitialState, action) => {
       ...state,
       Energy: state.Energy + action.EnergyChange,
     }
-  case Actions.ReactTempAddDelta:
+  case Actions.ReactorTemp:
     return {
       ...state,
-      ReactorTemp: state.ReactorTemp + action.ReactTempDelta,
+      ReactorTemp: action.ReactorTemp,
     }
-
-  case Actions.SteamPressureCalc:
+    // Steam Temp & Pressure
+  case Actions.SteamPressure:
     return {
       ...state,
-      ReactorPressure: CalcPressure(state.SteamTemp),
+      SteamPressure: action.SteamPressure,
+    }
+  case Actions.SteamTemp:
+    return {
+      ...state,
+      SteamTemp: action.SteamTemp,
     }
   default:
     return state

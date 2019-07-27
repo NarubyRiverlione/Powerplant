@@ -13,10 +13,8 @@ const { SteamTxt } = CstText
 
 
 const SteamPanel = () => {
-  const {
-    SteamTemp, SteamPressure, MSIV, dispatch,
-  } = useContext(AppContext)
-
+  const { state, dispatch } = useContext(AppContext)
+  const { SteamTemp, SteamPressure, MSIV } = state
 
   return (
     <div className="d-flex flex-row justify-content-around">
