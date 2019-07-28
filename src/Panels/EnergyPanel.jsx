@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { Col, Row, Container } from 'react-reflex-grid'
+import { Col, Row } from 'react-reflex-grid'
 import { AppContext } from '../Redux/Store'
 import { ReactorChangeEnergy } from '../Redux/ActionCreator'
 

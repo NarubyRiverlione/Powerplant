@@ -38,24 +38,28 @@ const RecirculatePump = ({ PumpName, Title }) => {
             <span className="subtitel">{RecirculateTxt.Valves}</span>
           </Row>
           <Row justify-center>
-            <Button
-              Caption={RecirculateTxt.CstIntakeValve}
-              Color="SlateGrey "
-              TextColor="white"
-              cb={() => SetValve(CstIntakeValve)}
-              Width={80}
-              SetPressed={ValvePosition(CstIntakeValve)}
-            />
+            <Col auto>
+              <Button
+                Caption={RecirculateTxt.CstIntakeValve}
+                Color="SlateGrey "
+                TextColor="white"
+                cb={() => SetValve(CstIntakeValve)}
+                Width={80}
+                SetPressed={ValvePosition(CstIntakeValve)}
+              />
+            </Col>
           </Row>
           <Row justify-center>
-            <Button
-              Caption={RecirculateTxt.CstOutputValve}
-              Color="SlateGrey "
-              TextColor="white"
-              cb={() => SetValve(CstOutputValve)}
-              Width={80}
-              SetPressed={ValvePosition(CstOutputValve)}
-            />
+            <Col auto>
+              <Button
+                Caption={RecirculateTxt.CstOutputValve}
+                Color="SlateGrey "
+                TextColor="white"
+                cb={() => SetValve(CstOutputValve)}
+                Width={80}
+                SetPressed={ValvePosition(CstOutputValve)}
+              />
+            </Col>
           </Row>
 
         </Col>
@@ -65,23 +69,23 @@ const RecirculatePump = ({ PumpName, Title }) => {
           <Row justify-center><span className="subtitel">{RecirculateTxt.Level}</span></Row>
           <Row>
             <Col auto>
-              <div>
-                <Selector
-                  Amount={5}
-                  Radius={50}
-                  cb={set => SetPump(PumpName, set - 1, state, dispatch)}
-                />
-              </div>
+              <br />
+              <Selector
+                Amount={5}
+                Radius={50}
+                cb={set => SetPump(PumpName, set - 1, state, dispatch)}
+              />
+
             </Col>
-            <Col auto>
+            <Col auto className="">
               {/* setting labels */}
-              <Row direction-column>
-                <Col auto><span className="text"> Off</span></Col>
-                <Col auto><span className="text"> 25 %</span></Col>
-                <Col auto><span className="text"> 50 %</span></Col>
-                <Col auto><span className="text"> 75 %</span></Col>
-                <Col auto><span className="text"> 100 %</span></Col>
-              </Row>
+
+              <Row><Col auto className="RecircLabels"><span className="text"> Off</span></Col></Row>
+              <Row><Col auto><span className="text"> 25 %</span></Col></Row>
+              <Row><Col auto><span className="text"> 50 %</span></Col></Row>
+              <Row><Col auto><span className="text"> 75 %</span></Col></Row>
+              <Row><Col auto><span className="text"> 100 %</span></Col></Row>
+
             </Col>
 
           </Row>
@@ -93,7 +97,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
             <span className="subtitel">{RecirculateTxt.Flow}</span>
           </Row>
           <Row>
-            <Display Text={(Flows[PumpName]).toLocaleString()} Width={75} />
+            <Col auto><Display Text={(Flows[PumpName]).toLocaleString()} Width={75} /></Col>
           </Row>
         </Col>
 

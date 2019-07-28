@@ -13,20 +13,20 @@ export const InitialState = {
   MSIV: false,
 
   Pumps: {
-    [CstPumps.RecircPump1]: 0,
-    [CstPumps.RecircPump2]: 0,
+    [CstPumps.RecircPump1]: 0.25,
+    [CstPumps.RecircPump2]: 0.25,
   },
 
   Valves: {
-    [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircPump1}_${CstOutputValve}`]: false,
-    [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircPump2}_${CstOutputValve}`]: false,
+    [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: true,
+    [`${CstPumps.RecircPump1}_${CstOutputValve}`]: true,
+    [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: true,
+    [`${CstPumps.RecircPump2}_${CstOutputValve}`]: true,
   },
 
   Flows: {
-    [CstPumps.RecircPump1]: 0,
-    [CstPumps.RecircPump2]: 0,
+    [CstPumps.RecircPump1]: 1250,
+    [CstPumps.RecircPump2]: 1250,
   },
 
   Fout: false,

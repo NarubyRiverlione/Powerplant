@@ -2,12 +2,17 @@
 font-family: Display;
 src: url(./Fonts/LiquidCrystal-Normal.otf);
 }
-
+.RecircLabels {
+  margin-left: -15px;
+  padding:5px;
+}
 .Powerplant {
 background-color: darkgrey;
 height: 100%;
 width:100%;
 padding:1em;
+letter-spacing:0px;
+  word-spacing:0px;
 }
 
 [class*="col-"] {
@@ -43,9 +48,11 @@ vertical-align:middle;
 font-size: 1.75em;
 font-weight: normal;
 margin: 5px 0px;
+letter-spacing:normal;
+  word-spacing:normal;
 }
 
-.text, .subtitel{
+.text, .subtitel, .RecircLabels{
 font-family:'Passion One','cursivexs' ;
 color:CornflowerBlue ;
 fill:CornflowerBlue ;
@@ -54,6 +61,8 @@ vertical-align:middle;
 font-size: 1.2em;
 font-weight: normal;
 margin: 5px 0px;
+letter-spacing:normal;
+  word-spacing:normal;
 }
 
 .subtitel{
@@ -109,3 +118,4 @@ padding: 0.5em;
 .CardContent{
 padding:0.5em;
 }
+

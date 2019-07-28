@@ -7,7 +7,6 @@ const CalcSteamTemp = (ReactorTemp, Flows) => {
     const RecircRatio = (Flows[Cst.CstPumps.RecircPump1] + Flows[Cst.CstPumps.RecircPump2]) / (Cst.CstFlowMax.RecircPump1 + Cst.CstFlowMax.RecircPump2)
     const Loss = Cst.CstSteam.TempLossFactor / RecircRatio + Cst.CstSteam.TempMinLoss
     const SteamTemp = ReactorTemp - Loss
-    debugger
     return SteamTemp
   }
   return 0
@@ -78,8 +77,8 @@ export const ReactorChangeEnergy = (EnergyDelta, state, dispatch) => {
 // set energy level in reactor
 export const ReactorSetStartEnergy = (StartEnergy, state, dispatch) => {
   dispatch({
-    type: Cst.Actions.ReactorSetStartEnergy,
-    StartEnergy,
+    type: Cst.Actions.EnergyAddDelta,
+    EnergyChange: StartEnergy,
   })
   // change reactor temperature
   ChangeReactorTemp(StartEnergy + Cst.CstReactor.ColdTemp, state, dispatch)
