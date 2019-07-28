@@ -16,7 +16,7 @@ const { RecirculateTxt } = CstText
 
 const RecirculatePump = ({ PumpName, Title }) => {
   const { dispatch, state } = useContext(AppContext)
-  const { Valves, Flows } = state
+  const { Valves, Flows, Pumps } = state
 
   const ValveName = valveSuffix => `${PumpName}_${valveSuffix}`
   const ValvePosition = valveSuffix => Valves[ValveName(valveSuffix)]
@@ -74,6 +74,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
                 Amount={5}
                 Radius={50}
                 cb={set => SetPump(PumpName, set - 1, state, dispatch)}
+                StartSelected={Pumps[PumpName] * 4 + 1}
               />
 
             </Col>

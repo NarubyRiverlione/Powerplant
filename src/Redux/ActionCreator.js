@@ -1,67 +1,52 @@
 import * as Cst from '../Cst'
-import CalcPressure from './CalcPressure'
 import ChangeOverTime from './Changes'
 
-const CalcSteamTemp = (ReactorTemp, Flows) => {
-  if (Flows[Cst.CstPumps.RecircPump1] || Flows[Cst.CstPumps.RecircPump2]) {
-    const RecircRatio = (Flows[Cst.CstPumps.RecircPump1] + Flows[Cst.CstPumps.RecircPump2]) / (Cst.CstFlowMax.RecircPump1 + Cst.CstFlowMax.RecircPump2)
-    const Loss = Cst.CstSteam.TempLossFactor / RecircRatio + Cst.CstSteam.TempMinLoss
-    const SteamTemp = ReactorTemp - Loss
-    return SteamTemp
-  }
-  return 0
+const RecircFlowFactor = (Flows) => {
+  const RecircFlow = Flows[Cst.CstPumps.RecircPump1] + Flows[Cst.CstPumps.RecircPump2]
+  const MaxRecircFlow = Cst.CstFlowMax[Cst.CstPumps.RecircPump1] + Cst.CstFlowMax[Cst.CstPumps.RecircPump2]
+  const Factor = RecircFlow / MaxRecircFlow
+  console.log(`Recirc factor: ${Factor}`)
+  return Factor
 }
 
-const ChangeSteam = (ReactorTemp, Flows, dispatch) => {
-  const SteamTemp = CalcSteamTemp(ReactorTemp, Flows)
-  console.log(`Steam change: ${SteamTemp}`)
-  setTimeout(() => {
-    const SteamPressure = CalcPressure(SteamTemp)
-    dispatch({ type: Cst.Actions.SteamTemp, SteamTemp })
-    dispatch({ type: Cst.Actions.SteamPressure, SteamPressure })
-  }, Cst.CstTiming.SteamChange)
+const ChangeSteam = (ReactorTempDelta, Flows, dispatch) => {
+  if (Flows[Cst.CstPumps.RecircPump1] || Flows[Cst.CstPumps.RecircPump2]) {
+    const Loss = Cst.CstSteam.TempLoss / RecircFlowFactor(Flows)
+    console.log(`Loss: ${Loss}`)
+    setTimeout(() => {
+      dispatch({ type: Cst.Actions.ChangeSteam, Loss })
+    }, Cst.CstTiming.SteamChange)
+  }
 }
 
 
 // Change the temperature in the reactor
 // if there is recirculation then adjust the steam drum temperature & pressure
 const ChangeReactorTemp = (EnergyChange, state, dispatch) => {
-  const ReactorTemp = state.ReactorTemp + EnergyChange
+  // console.log(`Reactor energy change: ${EnergyChange}`)
+  // console.log(`Reactor temp was: ${state.ReactorTemp}`)
+  const ReactorTempDelta = EnergyChange
   dispatch({
-    type: Cst.Actions.ReactorTemp,
-    ReactorTemp,
+    type: Cst.Actions.ReactorAddDeltaTemp,
+    ReactorTempDelta,
   })
   // update steam temp & pressure
-  ChangeSteam(ReactorTemp, state.Flows, dispatch)
+  ChangeSteam(ReactorTempDelta, state.Flows, dispatch)
 }
 
 /* Change energy level in reactor
 The change will take time (Cst.CstTiming.EnergyChange)
 And will in turn change the reactor temperature
 */
-export const ReactorChangeEnergy = (EnergyDelta, state, dispatch) => {
-  // let Changed = 0
-  // // keep changing energy until delta is reached
-  // const RefInterval = setInterval(() => {
-  //   if (Changed === Math.abs(EnergyDelta)) {
-  //     // delta is reached -> stop changing energy
-  //     clearInterval(RefInterval)
-  //     return
-  //   }
-  //   Changed += 1
-  //   // TODO prevent negative energy level
-  //   const EnergyChange = Math.sign(EnergyDelta) * Cst.CstReactor.EnergyStep
-  //   // change energy
-  //   dispatch({
-  //     type: Cst.Actions.EnergyAddDelta,
-  //     EnergyChange,
-  //   })
-  //   // change reactor temperature
-  //   ChangeReactorTemp(EnergyChange, state, dispatch)
-  // }, Cst.CstTiming.EnergyChange)
-  const ChangeEnergy = () => {
+export const ReactorChangeEnergy = (Steps, state, dispatch) => {
+  // console.log(`Steps: ${Steps}`)
+  const EnergyDelta = Steps * Cst.CstChangeStep.Energy
+  // console.log(`Energy delta: ${EnergyDelta}`)
+
+  const ChangeEnergy = (step) => {
     // TODO prevent negative energy level
-    const EnergyChange = Math.sign(EnergyDelta) * Cst.CstChangeStep.Energy
+    const EnergyChange = Math.sign(step) * Cst.CstChangeStep.Energy
+    // console.log(`Energy steo: ${EnergyChange}`)
     // change energy
     dispatch({
       type: Cst.Actions.EnergyAddDelta,
@@ -70,8 +55,8 @@ export const ReactorChangeEnergy = (EnergyDelta, state, dispatch) => {
     // change reactor temperature
     ChangeReactorTemp(EnergyChange, state, dispatch)
   }
-  ChangeOverTime(Cst.CstTiming.EnergyChange, 1,
-    EnergyDelta, ChangeEnergy)
+  ChangeOverTime(Cst.CstTiming.EnergyChange, Cst.CstChangeStep.Energy,
+    EnergyDelta, step => ChangeEnergy(step))
 }
 
 // set energy level in reactor
@@ -80,10 +65,9 @@ export const ReactorSetStartEnergy = (StartEnergy, state, dispatch) => {
     type: Cst.Actions.EnergyAddDelta,
     EnergyChange: StartEnergy,
   })
-  // change reactor temperature
-  ChangeReactorTemp(StartEnergy + Cst.CstReactor.ColdTemp, state, dispatch)
+  // update reactor temp
+  ChangeReactorTemp(StartEnergy, state, dispatch)
 }
-
 // open or close the main steam isolation valve
 export const ToggleMSIV = dispatch => (
   dispatch({ type: Cst.Actions.ToggleMSIV })
@@ -99,7 +83,7 @@ const SetFlow = (PumpName, NewFlow, state, dispatch) => {
   }
   let TempFlow = OldFlow
   const ChangeFlow = (FlowChangeBy) => {
-    // console.log(`Flow change by:${FlowChangeBy}`)
+    console.log(`Flow change by:${FlowChangeBy}`)
     dispatch({
       type: Cst.Actions.FlowChange,
       PumpName,
@@ -154,7 +138,7 @@ export const ToggleValve = (ValveName, PumpName, state, dispatch) => {
   })
   // a pump is connected to this now closing valve --> stop pump flow
   if (PumpName && !NewPosition) {
-    SetFlow(PumpName, 0, dispatch)
+    SetFlow(PumpName, 0, state, dispatch)
   }
   // a pump is connected
   // intake valve is open

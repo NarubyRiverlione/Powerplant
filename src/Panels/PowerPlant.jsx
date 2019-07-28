@@ -4,7 +4,9 @@ import { Container } from 'react-reflex-grid'
 import { AppContext } from '../Redux/Store'
 
 import { ReactorSetStartEnergy } from '../Redux/ActionCreator'
-import { CstReactor, CstText } from '../Cst'
+import {
+  CstReactor, CstText,
+} from '../Cst'
 
 import ControlPanel from './ControlPanel'
 import EnergyPanel from './EnergyPanel'
@@ -24,7 +26,7 @@ const PowerPlant = () => {
 
   useEffect(() => {
     console.log('Called start reactor')
-    ReactorSetStartEnergy(StartEnergy.Test, state, dispatch)
+    ReactorSetStartEnergy(StartEnergy.Power20, state, dispatch)
   }, [])// eslint-disable-line
 
 

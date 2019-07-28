@@ -2,10 +2,10 @@ export const Actions = {
   // Reactor
   ReactorSetStartEnergy: 'REACTOR_START_ENERGY',
   EnergyAddDelta: 'REACTOR_CHANGE_ENERGY',
-  ReactorTemp: 'REACTOR_CHANGE_TEMP',
+  ReactorAddDeltaTemp: 'REACTOR_CHANGE_TEMP',
   // Steam
-  SteamTemp: 'STEAM_CHANGE_TEMP',
-  SteamPressure: 'STEAM_CHANGE_PRESSURE',
+  ChangeSteam: 'STEAM_CHANGE',
+  // SteamPressure: 'STEAM_CHANGE_PRESSURE',
   ToggleMSIV: 'MSIV_TOGGLE',
   // Valves & Pumps & Flows
   SetPump: 'PUMP_SET',
@@ -15,7 +15,7 @@ export const Actions = {
 
 
 export const CstTiming = {
-  EnergyChange: 1500,
+  EnergyChange: 500,
   RecircPumpChange: 1000,
   SteamChange: 750,
 }
@@ -31,18 +31,18 @@ export const CstReactor = {
   StartEnergy: {
     Test: 275.0,
     Cold: 0,
-    BeforeBoiling: 97.75,
-    Boiling: 98.3,
-    BeforeOpeningBypass: 277.0,
-    OpeningBypass: 277.22,
+    BeforeBoiling: 83.03,
+    Boiling: 83.09,
+    BeforeOpeningBypass: 257.98,
+    OpeningBypass: 258.04,
+    Power20: 261.32,
     Power100: 254.98,
   },
   TempOffset: 0.9,
 }
 
 export const CstSteam = {
-  TempMinLoss: 8,
-  TempLossFactor: 5,
+  TempLoss: 3.28,
 }
 export const CstPumps = {
   RecircPump1: 'RecircPump1',

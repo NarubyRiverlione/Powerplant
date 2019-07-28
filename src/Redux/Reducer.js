@@ -1,32 +1,33 @@
 import {
-  Actions, CstPumps, CstIntakeValve, CstOutputValve,
+  Actions, CstPumps, CstIntakeValve, CstOutputValve, CstReactor,
 } from '../Cst'
+import CalcPressure from './CalcPressure'
 
 
 export const InitialState = {
   // Reactor
   Energy: 0,
-  ReactorTemp: 0,
+  ReactorTemp: CstReactor.ColdTemp,
   // Steam
   SteamTemp: 0,
   SteamPressure: 0,
   MSIV: false,
 
   Pumps: {
-    [CstPumps.RecircPump1]: 0.25,
-    [CstPumps.RecircPump2]: 0.25,
+    [CstPumps.RecircPump1]: 0,
+    [CstPumps.RecircPump2]: 0,
   },
 
   Valves: {
-    [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: true,
-    [`${CstPumps.RecircPump1}_${CstOutputValve}`]: true,
-    [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: true,
-    [`${CstPumps.RecircPump2}_${CstOutputValve}`]: true,
+    [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircPump1}_${CstOutputValve}`]: false,
+    [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircPump2}_${CstOutputValve}`]: false,
   },
 
   Flows: {
-    [CstPumps.RecircPump1]: 1250,
-    [CstPumps.RecircPump2]: 1250,
+    [CstPumps.RecircPump1]: 0,
+    [CstPumps.RecircPump2]: 0,
   },
 
   Fout: false,
@@ -72,21 +73,17 @@ export const AppReducer = (state = InitialState, action) => {
       ...state,
       Energy: state.Energy + action.EnergyChange,
     }
-  case Actions.ReactorTemp:
+  case Actions.ReactorAddDeltaTemp:
     return {
       ...state,
-      ReactorTemp: action.ReactorTemp,
+      ReactorTemp: state.ReactorTemp + action.ReactorTempDelta,
     }
     // Steam Temp & Pressure
-  case Actions.SteamPressure:
+  case Actions.ChangeSteam:
     return {
       ...state,
-      SteamPressure: action.SteamPressure,
-    }
-  case Actions.SteamTemp:
-    return {
-      ...state,
-      SteamTemp: action.SteamTemp,
+      SteamTemp: state.ReactorTemp - action.Loss < 0 ? 0 : state.ReactorTemp - action.Loss,
+      SteamPressure: CalcPressure(state.ReactorTemp - action.Loss < 0 ? 0 : state.ReactorTemp - action.Loss),
     }
   default:
     return state

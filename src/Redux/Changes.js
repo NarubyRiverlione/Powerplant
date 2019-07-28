@@ -5,7 +5,7 @@ const ChangeOverTime = (IntervalTime, Step, DeltaWanted, StepCb, DoneCb) => {
     // will next step overflow DoneValue --> final step only what still needed
     // console.log(`next will be  ${Math.abs(DeltaWanted) - Changed + Step}`)
 
-    if (Math.abs(DeltaWanted) - Math.abs(Changed + Step) < 0) {
+    if (Math.abs(DeltaWanted) - Math.abs(Changed + Step) < Number.EPSILON) {
       // finale step
       // console.log(`todo: ${Math.abs(DeltaWanted) - Changed + Step}`)
 

@@ -13,8 +13,8 @@ const EnergyPanel = () => {
   const { state, dispatch } = useContext(AppContext)
   const { Energy, ReactorTemp } = state
 
-  const ButtonPressed = (EnergyChange) => {
-    ReactorChangeEnergy(EnergyChange, state, dispatch)
+  const ButtonPressed = (steps) => {
+    ReactorChangeEnergy(steps, state, dispatch)
   }
 
 
@@ -24,7 +24,7 @@ const EnergyPanel = () => {
         <Col size={6} xs>
           <Display
             Title={ReactorTxt.Energy}
-            Text={Energy.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+            Text={Energy.toLocaleString(undefined, { maximumFractionDigits: 4 })}
             Width={120}
           />
         </Col>
