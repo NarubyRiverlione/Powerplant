@@ -15,7 +15,7 @@ export const Actions = {
 
 
 export const CstTiming = {
-  EnergyChange: 500,
+  EnergyChange: 750,
   RecircPumpChange: 1000,
   SteamChange: 750,
 }
@@ -26,7 +26,6 @@ export const CstChangeStep = {
   // SteamTemp: 1,
 }
 export const CstReactor = {
-
   ColdTemp: 30,
   StartEnergy: {
     Test: 275.0,
@@ -38,11 +37,14 @@ export const CstReactor = {
     Power20: 261.32,
     Power100: 254.98,
   },
-  TempOffset: 0.9,
 }
 
 export const CstSteam = {
   TempLoss: 3.28,
+  FlowFactor: 0.001740309723,
+  FlowCorrection: -78.42,
+  BypassMinPressure: 45041.81, // 60 bar
+  BypassMaxFlow: 3,
 }
 export const CstPumps = {
   RecircPump1: 'RecircPump1',
@@ -73,6 +75,11 @@ export const CstText = {
   },
   TurbineTxt: {
     Title: 'Turbine',
+    SteamFlow: 'Steam flow',
+    SteamFlowUnit: 'MBL/h',
+    BypassValve: 'Bypass valve',
+    Speed: 'Speed',
+    Pressure: 'Pressure',
   },
   RecirculateTxt: {
     Title: 'Recirculate pumps',

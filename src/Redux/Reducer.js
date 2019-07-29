@@ -1,7 +1,8 @@
+/* eslint no-case-declarations:off */
 import {
   Actions, CstPumps, CstIntakeValve, CstOutputValve, CstReactor,
 } from '../Cst'
-import CalcPressure from './CalcPressure'
+import { CalcPressure, CalcFlow, CalcBypassValve } from './CalcSteam'
 
 
 export const InitialState = {
@@ -11,7 +12,11 @@ export const InitialState = {
   // Steam
   SteamTemp: 0,
   SteamPressure: 0,
+  SteamFlow: 0,
   MSIV: false,
+  // Turbine
+  BypassValve: 0,
+  TurbineSpeed: 0,
 
   Pumps: {
     [CstPumps.RecircPump1]: 0,
@@ -80,10 +85,16 @@ export const AppReducer = (state = InitialState, action) => {
     }
     // Steam Temp & Pressure
   case Actions.ChangeSteam:
+    const SteamTemp = state.ReactorTemp - action.Loss < 0 ? 0 : state.ReactorTemp - action.Loss
+    const SteamPressure = CalcPressure(SteamTemp)
+    const SteamFlow = CalcFlow(SteamPressure)
+    const BypassValve = CalcBypassValve(SteamFlow)
     return {
       ...state,
-      SteamTemp: state.ReactorTemp - action.Loss < 0 ? 0 : state.ReactorTemp - action.Loss,
-      SteamPressure: CalcPressure(state.ReactorTemp - action.Loss < 0 ? 0 : state.ReactorTemp - action.Loss),
+      SteamTemp,
+      SteamPressure,
+      SteamFlow,
+      BypassValve,
     }
   default:
     return state

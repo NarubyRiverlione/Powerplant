@@ -26,9 +26,8 @@ const PowerPlant = () => {
 
   useEffect(() => {
     console.log('Called start reactor')
-    ReactorSetStartEnergy(StartEnergy.Power20, state, dispatch)
+    ReactorSetStartEnergy(StartEnergy.BeforeOpeningBypass, state, dispatch)
   }, [])// eslint-disable-line
-
 
   return (
     <Container full className="Powerplant">

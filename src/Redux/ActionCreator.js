@@ -5,14 +5,14 @@ const RecircFlowFactor = (Flows) => {
   const RecircFlow = Flows[Cst.CstPumps.RecircPump1] + Flows[Cst.CstPumps.RecircPump2]
   const MaxRecircFlow = Cst.CstFlowMax[Cst.CstPumps.RecircPump1] + Cst.CstFlowMax[Cst.CstPumps.RecircPump2]
   const Factor = RecircFlow / MaxRecircFlow
-  console.log(`Recirc factor: ${Factor}`)
+  // console.log(`Recirc factor: ${Factor}`)
   return Factor
 }
 
-const ChangeSteam = (ReactorTempDelta, Flows, dispatch) => {
+const ChangeSteam = (Flows, dispatch) => {
   if (Flows[Cst.CstPumps.RecircPump1] || Flows[Cst.CstPumps.RecircPump2]) {
     const Loss = Cst.CstSteam.TempLoss / RecircFlowFactor(Flows)
-    console.log(`Loss: ${Loss}`)
+    // console.log(`Loss: ${Loss}`)
     setTimeout(() => {
       dispatch({ type: Cst.Actions.ChangeSteam, Loss })
     }, Cst.CstTiming.SteamChange)
@@ -31,7 +31,7 @@ const ChangeReactorTemp = (EnergyChange, state, dispatch) => {
     ReactorTempDelta,
   })
   // update steam temp & pressure
-  ChangeSteam(ReactorTempDelta, state.Flows, dispatch)
+  ChangeSteam(state.Flows, dispatch)
 }
 
 /* Change energy level in reactor
@@ -83,7 +83,7 @@ const SetFlow = (PumpName, NewFlow, state, dispatch) => {
   }
   let TempFlow = OldFlow
   const ChangeFlow = (FlowChangeBy) => {
-    console.log(`Flow change by:${FlowChangeBy}`)
+    // console.log(`Flow change by:${FlowChangeBy}`)
     dispatch({
       type: Cst.Actions.FlowChange,
       PumpName,
@@ -95,7 +95,7 @@ const SetFlow = (PumpName, NewFlow, state, dispatch) => {
       // --> create Flows here
       TempFlow += FlowChangeBy
       const Flows = { ...state.Flows, [PumpName]: TempFlow }
-      ChangeSteam(state.ReactorTemp, Flows, dispatch)
+      ChangeSteam(Flows, dispatch)
     }
   }
   // console.log(`Flow start changing: todo:${FlowDelta} , step=${Step}`)

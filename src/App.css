@@ -7,12 +7,10 @@ src: url(./Fonts/LiquidCrystal-Normal.otf);
   padding:5px;
 }
 .Powerplant {
-background-color: darkgrey;
-height: 100%;
-width:100%;
-padding:1em;
-letter-spacing:0px;
-  word-spacing:0px;
+  background-color: darkgrey;
+  height: 100%;
+  width:100%;
+  padding:1em;
 }
 
 [class*="col-"] {
@@ -22,20 +20,20 @@ padding:5px;
   margin:0px;
 }
 .grid{
-  letter-spacing:0px;
-  word-spacing:0px;
+  letter-spacing:0px !important;
+  word-spacing:0px !important;
 }
 .col-auto {
   width:100%;
 }
 header {
-background-color: darkgrey;
-min-height: 2vmin;
-align-items: center;
-justify-content: center;
-text-align: center;
-font-size: calc(10px + 4vmin);
-color: white;
+  background-color: darkgrey;
+  min-height: 2vmin;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: calc(10px + 4vmin);
+  color: white;
 }
 
 
@@ -48,8 +46,6 @@ vertical-align:middle;
 font-size: 1.75em;
 font-weight: normal;
 margin: 5px 0px;
-letter-spacing:normal;
-  word-spacing:normal;
 }
 
 .text, .subtitel, .RecircLabels{
@@ -61,8 +57,6 @@ vertical-align:middle;
 font-size: 1.2em;
 font-weight: normal;
 margin: 5px 0px;
-letter-spacing:normal;
-  word-spacing:normal;
 }
 
 .subtitel{
@@ -97,11 +91,11 @@ text-align:'center';
 
 
 .CardStyle{
-background: lightgray;
-border: 2px solid darkgray;  
-border-radius:25px;
-box-shadow: 5px 10px;
-margin-bottom: 1em;
+  background: lightgray;
+  border: 2px solid darkgray;  
+  border-radius:25px;
+  box-shadow: 5px 10px;
+  margin-bottom: 1em;
 }
 
 .CardHeader{
