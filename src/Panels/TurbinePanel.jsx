@@ -39,14 +39,14 @@ const TurbinePanel = () => {
             <Col auto xl>
               {/* Turbine Setpoint */}
               <Row className="justify-center"><span className="subtitel ">{TurbineTxt.Setpoint}</span></Row>
-              <Row>
-                <Col auto>
+              <Row className="justify-start">
+                <Col size={6}>
                   <Display Text={TurbineSetpoint.toLocaleString(undefined, { maximumFractionDigits: 0 })} Width={50} Suffix={TurbineTxt.SteamFlowUnit} />
                 </Col>
-                <Col auto>
+                <Col size={3}>
                   <ReactorButton Step={1} cb={() => TurbineChangeSetpoint(1, dispatch)} />
                 </Col>
-                <Col auto>
+                <Col size={3}>
                   <ReactorButton Step={-1} cb={() => TurbineChangeSetpoint(-1, dispatch)} />
                 </Col>
               </Row>

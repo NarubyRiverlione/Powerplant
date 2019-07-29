@@ -44,8 +44,8 @@ export const CalcTurbineSteamIntake = (SteamFlow, TurbineSetpoint) => {
   return Intake
 }
 
-export const CalcGenerator = (TurbineSteamIntake) => {
-  if (TurbineSteamIntake <= 0) return 0
+export const CalcGenerator = (TurbineSteamIntake, Breaker, TurbineSpeed) => {
+  if (TurbineSpeed !== 1800 || !Breaker) return 0
   const Output = TurbineSteamIntake * Generator.PowerFactor + Generator.PowerCorrection
   return Output < 0 ? 0 : Output
 }

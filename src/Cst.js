@@ -15,6 +15,8 @@ export const Actions = {
   TurbineSetpointChange: 'TURBINE_SETPOINT_CHANGE',
   TurbineSetRollup: 'TURBINE_SET_ROLLUP',
   TurbineSpeed: 'TURBINE_SPEED',
+  // Generator
+  GeneratorBreaker: 'GENERATOR_BREAKER',
 }
 
 
@@ -119,5 +121,8 @@ export const CstText = {
     Title: 'Generator',
     Power: 'Power',
     PowerUnit: 'MW',
+    Breaker: 'Breaker',
+    Open: 'Open',
+    Closed: 'Closed',
   },
 }

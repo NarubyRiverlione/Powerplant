@@ -1,4 +1,4 @@
-const ChangeOverTime = (IntervalTime, Step, DeltaWanted, StepCb, DoneCb) => {
+const ChangeOverTime = (IntervalTime, Step, DeltaWanted, StepCb, RandomChange = true) => {
   let Changed = 0
   // keep changing energy until delta is reached
   const RefInterval = setInterval(() => {
@@ -13,13 +13,13 @@ const ChangeOverTime = (IntervalTime, Step, DeltaWanted, StepCb, DoneCb) => {
       // console.log(`FinalStep ${FinalStep}`)
       StepCb(FinalStep)
       clearInterval(RefInterval)
-      if (DoneCb) DoneCb()
+
       return
     }
+    const step = RandomChange ? Math.floor(Math.random() * Step) : Step
+    Changed += step
 
-    Changed += Step
-
-    StepCb(Step)
+    StepCb(step)
   }, IntervalTime)
 }
 

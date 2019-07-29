@@ -56,7 +56,7 @@ export const ReactorChangeEnergy = (Steps, state, dispatch) => {
     ChangeReactorTemp(EnergyChange, state, dispatch)
   }
   ChangeOverTime(Cst.CstTiming.EnergyChange, Cst.CstChangeStep.Energy,
-    EnergyDelta, step => ChangeEnergy(step))
+    EnergyDelta, step => ChangeEnergy(step), false)
 }
 
 // Set energy level in reactor
@@ -80,6 +80,17 @@ export const TurbineChangeSetpoint = (Step, dispatch) => (
 
 // turbine set rollup speed, then rollup over time
 export const TurbineSetRollup = (TurbineRollup, state, dispatch) => {
+  const { TurbineSpeed, TurbineSteamIntake } = state
+
+  // only rollup when there is steam
+  if (TurbineSteamIntake === 0) return
+
+  // allow only 1800 after 900 is reached
+  if (TurbineRollup === 1800 && TurbineSpeed !== 900) {
+    console.warn('Unable to rollup to 1800')
+    return
+  }
+
   dispatch({ type: Cst.Actions.TurbineSetRollup, TurbineRollup })
 
   const ChangeTurbineSpeed = (TurbineSpeedChange) => {
@@ -177,5 +188,18 @@ export const ToggleValve = (ValveName, PumpName, state, dispatch) => {
     && Valves[`${PumpName}_${Cst.CstOutputValve}`]) {
     const Flow = CalcFlow(PumpName, PumpLevel)
     SetFlow(PumpName, Flow, state, dispatch)
+  }
+}
+
+// open or close generator breaker
+export const GeneratorChangeBreaker = (state, dispatch) => {
+  const { GeneratorBreaker, TurbineSpeed } = state
+  if (GeneratorBreaker) {
+    // can always open the breaker
+    dispatch({ type: Cst.Actions.GeneratorBreaker, GeneratorBreaker: false })
+  }
+  if (!GeneratorBreaker && TurbineSpeed === 1800) {
+    // try to close breaker
+    dispatch({ type: Cst.Actions.GeneratorBreaker, GeneratorBreaker: true })
   }
 }
