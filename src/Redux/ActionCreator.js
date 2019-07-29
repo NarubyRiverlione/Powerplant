@@ -74,8 +74,21 @@ export const ToggleMSIV = dispatch => (
 )
 
 // change turbine setpoint
-export const TurbineChangeSetpoint = (Step, state, dispatch) => {
+export const TurbineChangeSetpoint = (Step, dispatch) => (
   dispatch({ type: Cst.Actions.TurbineSetpointChange, Step })
+)
+
+// turbine set rollup speed, then rollup over time
+export const TurbineSetRollup = (TurbineRollup, state, dispatch) => {
+  dispatch({ type: Cst.Actions.TurbineSetRollup, TurbineRollup })
+
+  const ChangeTurbineSpeed = (TurbineSpeedChange) => {
+    dispatch({ type: Cst.Actions.TurbineSpeed, TurbineSpeedChange })
+  }
+
+  const direction = TurbineRollup > state.TurbineSpeed ? +1 : -1
+  ChangeOverTime(Cst.CstTiming.TurbineRollup, Cst.CstChangeStep.TurbineRollup * direction,
+    TurbineRollup - state.TurbineSpeed, step => ChangeTurbineSpeed(step))
 }
 
 const SetFlow = (PumpName, NewFlow, state, dispatch) => {

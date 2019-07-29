@@ -21,6 +21,7 @@ export const InitialState = {
   TurbineSpeed: 0,
   TurbineSetpoint: 0,
   TurbineSteamIntake: 0,
+  TurbineRollup: 0,
   // Generator
   GeneratorPower: 0,
 
@@ -105,7 +106,6 @@ export const AppReducer = (state = InitialState, action) => {
       SteamFlow,
       BypassValve,
       TurbineSteamIntake,
-      // TurbineSpeed: TurbineSteamIntake * 100,
       GeneratorPower,
     }
 
@@ -119,8 +119,18 @@ export const AppReducer = (state = InitialState, action) => {
       TurbineSetpoint,
       TurbineSteamIntake: TurbineSteamIntakeUpdate,
       BypassValve: CalcBypassValve(state.SteamFlow, TurbineSteamIntakeUpdate),
-      // TurbineSpeed: TurbineSteamIntakeUpdate * 100,
       GeneratorPower: CalcGenerator(TurbineSteamIntakeUpdate),
+    }
+
+  case Actions.TurbineSetRollup:
+    return {
+      ...state,
+      TurbineRollup: action.TurbineRollup,
+    }
+  case Actions.TurbineSpeed:
+    return {
+      ...state,
+      TurbineSpeed: state.TurbineSpeed + action.TurbineSpeedChange,
     }
   default:
     return state

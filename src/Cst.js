@@ -11,20 +11,24 @@ export const Actions = {
   SetPump: 'PUMP_SET',
   ToggleValve: 'VALVE_TOGGLE',
   FlowChange: 'FLOW_CHANGE',
+  // Turbine
   TurbineSetpointChange: 'TURBINE_SETPOINT_CHANGE',
+  TurbineSetRollup: 'TURBINE_SET_ROLLUP',
+  TurbineSpeed: 'TURBINE_SPEED',
 }
 
 
 export const CstTiming = {
-  EnergyChange: 750,
+  EnergyChange: 1000,
   RecircPumpChange: 1000,
   SteamChange: 750,
+  TurbineRollup: 500,
 }
 
 export const CstChangeStep = {
   Energy: 0.05554,
   RecircPump: 100,
-  // SteamTemp: 1,
+  TurbineRollup: 100,
 }
 export const CstReactor = {
   ColdTemp: 30,
@@ -84,9 +88,13 @@ export const CstText = {
     SteamFlow: 'Steam flow',
     SteamFlowUnit: 'MBL/h',
     BypassValve: 'Bypass valve',
-    Speed: 'Speed',
+    Speed: 'Speed control',
     Pressure: 'Pressure',
     Setpoint: 'Setpoint',
+    Rollup: 'Rollup',
+    RollupOff: 'Off',
+    Rollup900: '900',
+    Rollup1800: '1800',
   },
   RecirculateTxt: {
     Title: 'Recirculate pumps',
