@@ -13,10 +13,11 @@ import EnergyPanel from './EnergyPanel'
 import TurbinePanel from './TurbinePanel'
 import SteamPanel from './SteamPanel'
 import RecirculatePanel from './RecirculatePanel'
+import GeneratorPanel from './GeneratorPanel'
 
 const { StartEnergy } = CstReactor
 const {
-  ReactorTxt, TurbineTxt, SteamTxt, RecirculateTxt,
+  ReactorTxt, TurbineTxt, SteamTxt, RecirculateTxt, GeneratorTxt,
 } = CstText
 
 
@@ -26,7 +27,7 @@ const PowerPlant = () => {
 
   useEffect(() => {
     console.log('Called start reactor')
-    ReactorSetStartEnergy(StartEnergy.BeforeOpeningBypass, state, dispatch)
+    ReactorSetStartEnergy(StartEnergy.Power20, state, dispatch)
   }, [])// eslint-disable-line
 
   return (
@@ -46,6 +47,10 @@ const PowerPlant = () => {
 
       <ControlPanel Name={TurbineTxt.Title} StatusStatus="">
         <TurbinePanel />
+      </ControlPanel>
+
+      <ControlPanel Name={GeneratorTxt.Title} StatusStatus="">
+        <GeneratorPanel />
       </ControlPanel>
 
     </Container>

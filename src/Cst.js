@@ -11,6 +11,7 @@ export const Actions = {
   SetPump: 'PUMP_SET',
   ToggleValve: 'VALVE_TOGGLE',
   FlowChange: 'FLOW_CHANGE',
+  TurbineSetpointChange: 'TURBINE_SETPOINT_CHANGE',
 }
 
 
@@ -39,12 +40,17 @@ export const CstReactor = {
   },
 }
 
-export const CstSteam = {
+export const Steam = {
   TempLoss: 3.28,
   FlowFactor: 0.001740309723,
   FlowCorrection: -78.42,
   BypassMinPressure: 45041.81, // 60 bar
   BypassMaxFlow: 3,
+}
+
+export const Generator = {
+  PowerFactor: 64.8,
+  PowerCorrection: 2.161,
 }
 export const CstPumps = {
   RecircPump1: 'RecircPump1',
@@ -80,6 +86,7 @@ export const CstText = {
     BypassValve: 'Bypass valve',
     Speed: 'Speed',
     Pressure: 'Pressure',
+    Setpoint: 'Setpoint',
   },
   RecirculateTxt: {
     Title: 'Recirculate pumps',
@@ -99,5 +106,10 @@ export const CstText = {
     TempUnit: '°C',
     Pressure: 'Pressure',
     PressureUnit: 'bar',
+  },
+  GeneratorTxt: {
+    Title: 'Generator',
+    Power: 'Power',
+    PowerUnit: 'MW',
   },
 }

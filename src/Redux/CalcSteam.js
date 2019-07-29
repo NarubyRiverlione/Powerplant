@@ -1,4 +1,4 @@
-import { CstSteam } from '../Cst'
+import { Steam, Generator } from '../Cst'
 
 export const UnitConversion = {
   Pressure_mmHG_Bar: 750.06,
@@ -27,12 +27,25 @@ export const CalcPressure = Temp => (
 export const PressureBar = pressure => pressure / UnitConversion.Pressure_mmHG_Bar
 
 export const CalcFlow = (Pressure) => {
-  if (Pressure < CstSteam.BypassMinPressure) return 0
-  const Flow = Pressure * CstSteam.FlowFactor + CstSteam.FlowCorrection
+  if (Pressure < Steam.BypassMinPressure) return 0
+  const Flow = Pressure * Steam.FlowFactor + Steam.FlowCorrection
   return Flow
 }
 
-export const CalcBypassValve = (SteamFlow) => {
-  const bypass = SteamFlow / CstSteam.BypassMaxFlow * 100
-  return bypass > 100 ? 100 : bypass
+export const CalcBypassValve = (SteamFlow, TurbineSteamIntake) => {
+  let bypass = (SteamFlow - TurbineSteamIntake) / Steam.BypassMaxFlow * 100
+  if (bypass > 100) bypass = 100
+  if (bypass < 0) bypass = 0
+  return bypass
+}
+
+export const CalcTurbineSteamIntake = (SteamFlow, TurbineSetpoint) => {
+  const Intake = SteamFlow > TurbineSetpoint ? TurbineSetpoint : SteamFlow
+  return Intake
+}
+
+export const CalcGenerator = (TurbineSteamIntake) => {
+  if (TurbineSteamIntake <= 0) return 0
+  const Output = TurbineSteamIntake * Generator.PowerFactor + Generator.PowerCorrection
+  return Output < 0 ? 0 : Output
 }

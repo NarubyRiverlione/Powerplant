@@ -11,7 +11,7 @@ const RecircFlowFactor = (Flows) => {
 
 const ChangeSteam = (Flows, dispatch) => {
   if (Flows[Cst.CstPumps.RecircPump1] || Flows[Cst.CstPumps.RecircPump2]) {
-    const Loss = Cst.CstSteam.TempLoss / RecircFlowFactor(Flows)
+    const Loss = Cst.Steam.TempLoss / RecircFlowFactor(Flows)
     // console.log(`Loss: ${Loss}`)
     setTimeout(() => {
       dispatch({ type: Cst.Actions.ChangeSteam, Loss })
@@ -59,7 +59,7 @@ export const ReactorChangeEnergy = (Steps, state, dispatch) => {
     EnergyDelta, step => ChangeEnergy(step))
 }
 
-// set energy level in reactor
+// Set energy level in reactor
 export const ReactorSetStartEnergy = (StartEnergy, state, dispatch) => {
   dispatch({
     type: Cst.Actions.EnergyAddDelta,
@@ -68,10 +68,15 @@ export const ReactorSetStartEnergy = (StartEnergy, state, dispatch) => {
   // update reactor temp
   ChangeReactorTemp(StartEnergy, state, dispatch)
 }
-// open or close the main steam isolation valve
+// Open or close the main steam isolation valve
 export const ToggleMSIV = dispatch => (
   dispatch({ type: Cst.Actions.ToggleMSIV })
 )
+
+// change turbine setpoint
+export const TurbineChangeSetpoint = (Step, state, dispatch) => {
+  dispatch({ type: Cst.Actions.TurbineSetpointChange, Step })
+}
 
 const SetFlow = (PumpName, NewFlow, state, dispatch) => {
   const OldFlow = state.Flows[PumpName]
