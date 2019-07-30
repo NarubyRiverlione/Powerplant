@@ -6,11 +6,11 @@ const cx = r => r + 5
 const cy = r => r + 20
 
 const Selector = ({
-  StartSelected, Side, Amount, Radius, cb,
+  OverwriteSelected, Side, Amount, Radius, cb,
 }) => {
   const [MidX, setMidX] = useState(0)
   const [MidY, setMidY] = useState(0)
-  const [Selected, setSelected] = useState(StartSelected)
+  const [Selected, setSelected] = useState(OverwriteSelected)
 
   const CalcSelectedNotch = useCallback(() => {
     const AngleNotch = 180.0 / (Amount + 1)
@@ -24,9 +24,6 @@ const Selector = ({
     setMidY(newMidY)
   }, [Radius, Amount, Selected, Side])
 
-  useEffect(() => { CalcSelectedNotch() }, [CalcSelectedNotch])
-  useEffect(() => setSelected(StartSelected), [StartSelected])
-
   const SelectNotch = (direction) => {
     let newSelectedNotch = Selected + direction
     // max boundary
@@ -39,6 +36,15 @@ const Selector = ({
     // cb will change prop Selected
     if (cb && newSelectedNotch !== Selected) { cb(newSelectedNotch) }
   }
+
+  useEffect(() => { CalcSelectedNotch() }, [CalcSelectedNotch])
+  useEffect(() => {
+    console.log(`use effect ovewrite selected: ${OverwriteSelected} <->${Selected}`)
+    if (OverwriteSelected !== Selected) {
+      setSelected(OverwriteSelected)
+      SelectNotch(OverwriteSelected - Selected)
+    }
+  }, [OverwriteSelected, Selected]) // eslint-disable-line
 
 
   return (
@@ -76,14 +82,14 @@ const Selector = ({
 
 Selector.propTypes = {
   Amount: PropTypes.number.isRequired,
-  StartSelected: PropTypes.number,
+  OverwriteSelected: PropTypes.number,
   Radius: PropTypes.number.isRequired,
   cb: PropTypes.func,
   Side: PropTypes.oneOf(['L', 'R']),
 }
 
 Selector.defaultProps = {
-  StartSelected: 1,
+  OverwriteSelected: 1,
   Side: 'R',
   cb: undefined,
 }

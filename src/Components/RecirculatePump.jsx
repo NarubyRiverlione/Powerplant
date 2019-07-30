@@ -24,7 +24,8 @@ const RecirculatePump = ({ PumpName, Title }) => {
   const SetValve = (valveSuffix) => {
     ToggleValve(ValveName(valveSuffix), PumpName, state, dispatch)
   }
-
+  const PumpLevel = Pumps[PumpName] * 4 + 1
+  // console.log(`${PumpName}: ${PumpLevel}`)
   return (
     <React.Fragment>
       <Row justify-center>
@@ -74,7 +75,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
                 Amount={5}
                 Radius={50}
                 cb={set => SetPump(PumpName, set - 1, state, dispatch)}
-                StartSelected={Pumps[PumpName] * 4 + 1}
+                OverwriteSelected={PumpLevel}
               />
 
             </Col>

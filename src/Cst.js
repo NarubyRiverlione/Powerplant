@@ -22,7 +22,7 @@ export const Actions = {
 
 export const CstTiming = {
   EnergyChange: 1000,
-  RecircPumpChange: 1000,
+  RecircPumpChange: 500,
   SteamChange: 750,
   TurbineRollup: 500,
 }

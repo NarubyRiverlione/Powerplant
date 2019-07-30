@@ -3,7 +3,7 @@ const ChangeOverTime = (IntervalTime, Step, DeltaWanted, StepCb, RandomChange = 
   // keep changing energy until delta is reached
   const RefInterval = setInterval(() => {
     // will next step overflow DoneValue --> final step only what still needed
-    console.log(`next will be  ${Math.abs(DeltaWanted) - Changed + Step}`)
+    // console.log(`still have ${Math.abs(DeltaWanted) - Changed + Step} change todo`)
 
     if (Math.abs(DeltaWanted) - Math.abs(Changed + Step) < Number.EPSILON) {
       // finale step
