@@ -3,6 +3,8 @@ export const Actions = {
   ReactorSetStartEnergy: 'REACTOR_START_ENERGY',
   EnergyAddDelta: 'REACTOR_CHANGE_ENERGY',
   ReactorAddDeltaTemp: 'REACTOR_CHANGE_TEMP',
+  ReactorLevelChange: 'REACTOR_CHANGE_LEVEL',
+  ReactorLevelChangeTimer: 'STORE_REF_REACTOR_LEVEL_INTERVAL',
   // Steam
   ChangeSteam: 'STEAM_CHANGE',
   // SteamPressure: 'STEAM_CHANGE_PRESSURE',
@@ -25,6 +27,7 @@ export const CstTiming = {
   RecircPumpChange: 500,
   SteamChange: 750,
   TurbineRollup: 500,
+  ReactorLevelUpdate: 1000,
 }
 
 export const CstChangeStep = {
@@ -46,15 +49,16 @@ export const CstReactor = {
   },
 }
 
-export const Steam = {
+export const CstSteam = {
   TempLoss: 3.28,
   FlowFactor: 0.001740309723,
   FlowCorrection: -78.42,
   BypassMinPressure: 45041.81, // 60 bar
   BypassMaxFlow: 3,
+  ReactorLevelChangeFactor: 0.000002,
 }
 
-export const Generator = {
+export const CstGenerator = {
   PowerFactor: 64.8,
   PowerCorrection: 2.161,
 }
@@ -84,7 +88,9 @@ export const CstText = {
     Energy: 'Energy',
     Temp: 'Temp',
     TempUnit: '°C',
+    Level: 'Cooling level',
   },
+
   TurbineTxt: {
     Title: 'Turbine',
     SteamFlow: 'Steam flow',

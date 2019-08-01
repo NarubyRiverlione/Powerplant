@@ -9,23 +9,29 @@ const RecircFlowFactor = (Flows) => {
   // console.log(`Recirc factor: ${Factor}`)
   return Factor
 }
+
+// Change steam temp & pressure in the steam drum
+// steam temp is based on reactor temp - Loss
 const ChangeSteam = (Flows, dispatch) => {
   if (Flows[Cst.CstPumps.RecircPump1] || Flows[Cst.CstPumps.RecircPump2]) {
-    const Loss = Cst.Steam.TempLoss / RecircFlowFactor(Flows)
-    // console.log(`Loss: ${Loss}`)
+    const Loss = Cst.CstSteam.TempLoss / RecircFlowFactor(Flows)
+    // console.log(`Temp loss reactor <-> steam drum = ${Loss}`)
     setTimeout(() => {
       dispatch({ type: Cst.Actions.ChangeSteam, Loss })
     }, Cst.CstTiming.SteamChange)
   }
 }
-const ChangeFlow = (FlowChangeBy, PumpName, dispatch) => {
-  // console.log(`Flow change by:${FlowChangeBy}`)
+
+// Change the steam flow from the drum to the turbine
+const ChangeSteamFlow = (FlowChangeBy, PumpName, dispatch) => {
+  // console.log(`Steam flow change by:${FlowChangeBy}`)
   dispatch({
     type: Cst.Actions.FlowChange,
     PumpName,
     FlowChangeBy,
   })
 }
+
 // Change the temperature in the reactor
 // if there is recirculation then adjust the steam drum temperature & pressure
 const ChangeReactorTemp = (EnergyChange, state, dispatch) => {
@@ -38,6 +44,31 @@ const ChangeReactorTemp = (EnergyChange, state, dispatch) => {
   })
   // update steam temp & pressure
   ChangeSteam(state.Flows, dispatch)
+}
+
+// change the water level in the reactor
+// every  CstTiming.ReactorLevelUpdate tick
+// by the previous calculated ReactorLevelChange
+export const ReactorLevelChangeTimer = (state, dispatch, stop = false) => {
+  // stop interval
+  if (stop) {
+    clearInterval(state.ReactorLevelChangeTimer)
+    return dispatch({
+      type: Cst.Actions.ReactorLevelChangeTimer,
+      RefReactorLevelTimer: null,
+    })
+  }
+
+  const RefReactorLevelTimer = setInterval(() => {
+    dispatch({ type: Cst.Actions.ReactorLevelChange })
+  }, Cst.CstTiming.ReactorLevelUpdate)
+
+  // store ref to the interval timer in state
+  // so it can be stopped, and know that it's already running
+  return dispatch({
+    type: Cst.Actions.ReactorLevelChangeTimer,
+    RefReactorLevelTimer,
+  })
 }
 
 /* Change energy level in reactor
@@ -65,7 +96,7 @@ export const ReactorChangeEnergy = (Steps, state, dispatch) => {
     EnergyDelta, step => ChangeEnergy(step), false)
 }
 
-// Set energy level in reactor
+// Set energy in reactor
 export const ReactorSetStartEnergy = (StartEnergy, state, dispatch) => {
   dispatch({
     type: Cst.Actions.EnergyAddDelta,
@@ -74,6 +105,7 @@ export const ReactorSetStartEnergy = (StartEnergy, state, dispatch) => {
   // update reactor temp
   ChangeReactorTemp(StartEnergy, state, dispatch)
 }
+
 // Open or close the main steam isolation valve
 export const ToggleMSIV = dispatch => (
   dispatch({ type: Cst.Actions.ToggleMSIV })
@@ -83,7 +115,6 @@ export const ToggleMSIV = dispatch => (
 export const TurbineChangeSetpoint = (Step, dispatch) => (
   dispatch({ type: Cst.Actions.TurbineSetpointChange, Step })
 )
-
 // turbine set rollup speed, then rollup over time
 export const TurbineSetRollup = (TurbineRollup, state, dispatch) => {
   const { TurbineSpeed, TurbineSteamIntake } = state
@@ -138,15 +169,15 @@ export const SetPump = (PumpName, SetTo, state, dispatch) => {
 
   if (CurrentFlow !== FlowShouldAlreadyBe) {
     // need to first set the change so it can be undone --> React see changes and renders Selector
-    console.warn(`Already changing pump. back to ${CurrentLevel}`)
+    // console.warn(`Already changing pump. back to ${CurrentLevel}`)
     const UndoPumps = { ...Pumps, [PumpName]: CurrentLevel }
-    return dispatch({
+    dispatch({
       type: Cst.Actions.SetPump,
       Pumps: UndoPumps,
     })
+  } else {
+    SetFlow(PumpName, state.Valves, state.Flows, Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
   }
-
-  SetFlow(PumpName, state.Valves, state.Flows, Pumps, dispatch, ChangeFlow, ChangeSteam)
 }
 
 // open or close a valve
@@ -174,7 +205,7 @@ export const ToggleValve = (ValveName, PumpName, state, dispatch) => {
     && Valves[`${PumpName}_${Cst.CstIntakeValve}`]) {
     // const Flow = CalcFlow(PumpName, PumpLevel)
     // SetFlow(PumpName, Flow, state, dispatch)
-    SetFlow(PumpName, Valves, state.Flows, state.Pumps, dispatch, ChangeFlow, ChangeSteam)
+    SetFlow(PumpName, Valves, state.Flows, state.Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
   }
   // a pump is connected
   // output valve is open
@@ -185,6 +216,6 @@ export const ToggleValve = (ValveName, PumpName, state, dispatch) => {
     && Valves[`${PumpName}_${Cst.CstOutputValve}`]) {
     // const Flow = CalcFlow(PumpName, PumpLevel)
     // SetFlow(PumpName, Flow, state, dispatch)
-    SetFlow(PumpName, Valves, state.Flows, state.Pumps, dispatch, ChangeFlow, ChangeSteam)
+    SetFlow(PumpName, Valves, state.Flows, state.Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
   }
 }

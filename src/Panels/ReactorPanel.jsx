@@ -9,9 +9,9 @@ import { CstText } from '../Cst'
 import ReactorButton from '../Components/ReactorButton'
 
 const { ReactorTxt } = CstText
-const EnergyPanel = () => {
+const ReactorPanel = () => {
   const { state, dispatch } = useContext(AppContext)
-  const { Energy, ReactorTemp } = state
+  const { Energy, ReactorTemp, ReactorLevel } = state
 
   const ButtonPressed = (steps) => {
     ReactorChangeEnergy(steps, state, dispatch)
@@ -21,19 +21,26 @@ const EnergyPanel = () => {
   return (
     <React.Fragment>
       <Row>
-        <Col size={6} xs>
+        <Col size={4} md>
           <Display
             Title={ReactorTxt.Energy}
             Text={Energy.toLocaleString(undefined, { maximumFractionDigits: 4 })}
             Width={120}
           />
         </Col>
-        <Col size={6} xs>
+        <Col size={4} md>
           <Display
             Title={ReactorTxt.Temp}
             Text={ReactorTemp.toLocaleString(undefined, { maximumFractionDigits: 1 })}
             Width={70}
             Suffix={ReactorTxt.TempUnit}
+          />
+        </Col>
+        <Col size={4} md>
+          <Display
+            Title={ReactorTxt.Level}
+            Text={ReactorLevel.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+            Width={50}
           />
         </Col>
       </Row>
@@ -59,4 +66,4 @@ const EnergyPanel = () => {
   )
 }
 
-export default EnergyPanel
+export default ReactorPanel

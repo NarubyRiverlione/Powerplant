@@ -3,13 +3,13 @@ import React, { useEffect, useContext } from 'react'
 import { Container } from 'react-reflex-grid'
 import { AppContext } from '../Redux/Store'
 
-import { ReactorSetStartEnergy } from '../Redux/ActionCreator'
+import { ReactorSetStartEnergy, ReactorLevelChangeTimer } from '../Redux/ActionCreator'
 import {
   CstReactor, CstText,
 } from '../Cst'
 
 import ControlPanel from './ControlPanel'
-import EnergyPanel from './EnergyPanel'
+import ReactorPanel from './ReactorPanel'
 import TurbinePanel from './TurbinePanel'
 import SteamPanel from './SteamPanel'
 import RecirculatePanel from './RecirculatePanel'
@@ -27,15 +27,17 @@ const PowerPlant = () => {
 
   useEffect(() => {
     console.log('Called start reactor')
-    ReactorSetStartEnergy(StartEnergy.BeforeBoiling, state, dispatch)
+    ReactorSetStartEnergy(StartEnergy.Power20, state, dispatch)
+    ReactorLevelChangeTimer(state, dispatch)
   }, [])// eslint-disable-line
 
   return (
     <Container full className="Powerplant">
 
       <ControlPanel Name={ReactorTxt.Title} StatusStatus="">
-        <EnergyPanel />
+        <ReactorPanel />
       </ControlPanel>
+
 
       <ControlPanel Name={RecirculateTxt.Title} StatusStatus="">
         <RecirculatePanel />
