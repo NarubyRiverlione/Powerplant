@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-reflex-grid'
 
-import { AppContext } from '../Redux/Store'
 import { CstText } from '../Cst'
 import { PressureBar } from '../Redux/CalcSteam'
 
@@ -14,8 +14,12 @@ const { SteamTxt } = CstText
 
 
 const SteamPanel = () => {
-  const { state, dispatch } = useContext(AppContext)
-  const { SteamTemp, SteamPressure, MSIV } = state
+  const dispatch = useDispatch()
+  const { SteamTemp, SteamPressure, MSIV } = useSelector((state) => ({
+    SteamTemp: state.SteamTemp,
+    SteamPressure: state.SteamPressure,
+    MSIV: state.MSIV,
+  }))
 
   return (
     <React.Fragment>
@@ -44,7 +48,7 @@ const SteamPanel = () => {
             Color="green"
             TextColor="white"
             SetPressed={MSIV}
-            cb={() => ToggleMSIV(dispatch)}
+            cb={() => dispatch(ToggleMSIV())}
           />
 
         </Col>

@@ -2,22 +2,23 @@
 font-family: Display;
 src: url(./Fonts/LiquidCrystal-Normal.otf);
 }
-.RecircLabels {
-  margin-left: -15px;
-  padding:5px;
+@font-face {
+font-family: Display;
+src: url(./Fonts/LiquidCrystal-Normal.otf);
 }
-.Powerplant {
+
+.SubDive {
   background-color: darkgrey;
   height: 100%;
   width:100%;
-  padding:1em;
+  /* padding:0.5em; */
 }
 
 [class*="col-"] {
-padding:5px;
+padding:5px !important;
 }
 [class*="col-"] .grid {
-  margin:0px;
+  padding:15px !important;
 }
 .grid{
   letter-spacing:0px !important;
@@ -38,7 +39,8 @@ header {
 
 
 p, .title, .displayTitle{
-font-family:'Passion One','cursivexs' ;
+/* font-family:'Passion One','cursivexs' ; */
+font-family: 'Stardos Stencil', cursive;
 color:CornflowerBlue ;
 fill:CornflowerBlue ;
 text-align: center;
@@ -48,8 +50,8 @@ font-weight: normal;
 margin: 5px 0px;
 }
 
-.text, .subtitel, .RecircLabels{
-font-family:'Passion One','cursivexs' ;
+.text, .subtitel{
+  font-family: 'Stardos Stencil', cursive;
 color:CornflowerBlue ;
 fill:CornflowerBlue ;
 text-align: center;
@@ -90,26 +92,46 @@ text-align:'center';
 }
 
 
-.CardStyle{
-  background: lightgray;
-  border: 2px solid darkgray;  
-  border-radius:25px;
-  box-shadow: 5px 10px;
+.ControlPanel{
+  background: lightgray; /* gainsboro */
+  border: 3px solid darkgray;  
+  border-radius:10px;
+  /* box-shadow: 5px 10px; */
+  margin-left: 5px;
   margin-bottom: 1em;
+
 }
 
-.CardHeader{
+.InnerPanel{
+  background: gainsboro; /* lightgray */
+  border: 2px solid white;  
+  border-radius:50px;
+  /* box-shadow: 5px 10px; */
+  /* margin: 1em; */
+  width: 100%;
+}
+
+.PanelHeader{
 text-shadow:2px 3px  whitesmoke;
 color:black;
 justify-content: center;
 align-items: center;
 text-align: center;
 font-size:2em;
+font-weight: 400;
 font-family: 'Stardos Stencil', cursive;
 padding: 0.5em;
 }
 
-.CardContent{
+.PanelContent{
 padding:0.5em;
 }
 
+.screwLeft{
+  display: flex !important;
+ justify-content: flex-start;
+}
+.screwRight{
+  display: flex !important;
+ justify-content: flex-end;
+}

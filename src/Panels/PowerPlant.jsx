@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from 'react'
-
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Container } from 'react-reflex-grid'
-import { AppContext } from '../Redux/Store'
 
 import { ReactorSetStartEnergy, ReactorLevelChangeTimer } from '../Redux/ActionCreator'
 import {
@@ -22,13 +21,12 @@ const {
 
 
 const PowerPlant = () => {
-  const { state, dispatch } = useContext(AppContext)
-
+  const dispatch = useDispatch()
 
   useEffect(() => {
     console.log('Called start reactor')
-    ReactorSetStartEnergy(StartEnergy.Power20, state, dispatch)
-    ReactorLevelChangeTimer(state, dispatch)
+    dispatch(ReactorSetStartEnergy(StartEnergy.Power20))
+    dispatch(ReactorLevelChangeTimer())
   }, [])// eslint-disable-line
 
   return (

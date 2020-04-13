@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-reflex-grid'
 
-import { AppContext } from '../Redux/Store'
 import { CstText } from '../Cst'
 import { GeneratorChangeBreaker } from '../Redux/ActionCreator'
 
@@ -12,8 +12,11 @@ const { GeneratorTxt } = CstText
 
 
 const GeneratorPanel = () => {
-  const { state, dispatch } = useContext(AppContext)
-  const { GeneratorPower, GeneratorBreaker } = state
+  const dispatch = useDispatch()
+  const { GeneratorPower, GeneratorBreaker } = useSelector((state) => ({
+    GeneratorPower: state.GeneratorPower,
+    GeneratorBreaker: state.GeneratorBreaker,
+  }))
 
   return (
     <React.Fragment>
@@ -25,7 +28,7 @@ const GeneratorPanel = () => {
             SetPressed={GeneratorBreaker}
             Color="Red"
             TextColor="yellow"
-            cb={() => GeneratorChangeBreaker(state, dispatch)}
+            cb={() => dispatch(GeneratorChangeBreaker())}
           />
 
         </Col>

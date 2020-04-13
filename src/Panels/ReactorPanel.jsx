@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
-
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-reflex-grid'
-import { AppContext } from '../Redux/Store'
 import { ReactorChangeEnergy } from '../Redux/ActionCreator'
 
 import Display from '../Components/ControlElements/Display'
@@ -10,11 +9,15 @@ import ReactorButton from '../Components/ReactorButton'
 
 const { ReactorTxt } = CstText
 const ReactorPanel = () => {
-  const { state, dispatch } = useContext(AppContext)
-  const { Energy, ReactorTemp, ReactorLevel } = state
+  const dispatch = useDispatch()
+  const { Energy, ReactorTemp, ReactorLevel } = useSelector((state) => ({
+    Energy: state.Energy,
+    ReactorTemp: state.ReactorTemp,
+    ReactorLevel: state.ReactorLevel,
+  }))
 
   const ButtonPressed = (steps) => {
-    ReactorChangeEnergy(steps, state, dispatch)
+    dispatch(ReactorChangeEnergy(steps))
   }
 
 

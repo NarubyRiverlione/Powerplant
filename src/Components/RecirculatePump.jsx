@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+
 import { Col, Row } from 'react-reflex-grid'
 
-import { AppContext } from '../Redux/Store'
 import Selector from './ControlElements/Selector'
 import { SetPump, ToggleValve } from '../Redux/ActionCreator'
 import Button from './ControlElements/Button'
@@ -15,14 +16,18 @@ const { RecirculateTxt } = CstText
 
 
 const RecirculatePump = ({ PumpName, Title }) => {
-  const { dispatch, state } = useContext(AppContext)
-  const { Valves, Flows, Pumps } = state
+  const dispatch = useDispatch()
+  const { Valves, Flows, Pumps } = useSelector((state) => ({
+    Valves: state.Valves,
+    Flows: state.Flows,
+    Pumps: state.Pumps,
+  }))
 
-  const ValveName = valveSuffix => `${PumpName}_${valveSuffix}`
-  const ValvePosition = valveSuffix => Valves[ValveName(valveSuffix)]
+  const ValveName = (valveSuffix) => `${PumpName}_${valveSuffix}`
+  const ValvePosition = (valveSuffix) => Valves[ValveName(valveSuffix)]
 
   const SetValve = (valveSuffix) => {
-    ToggleValve(ValveName(valveSuffix), PumpName, state, dispatch)
+    dispatch(ToggleValve(ValveName(valveSuffix), PumpName))
   }
   const PumpLevel = Pumps[PumpName] * 4 + 1
   // console.log(`${PumpName}: ${PumpLevel}`)
@@ -74,7 +79,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
               <Selector
                 Amount={5}
                 Radius={50}
-                cb={set => SetPump(PumpName, set - 1, state, dispatch)}
+                cb={(set) => dispatch(SetPump(PumpName, set - 1))}
                 OverwriteSelected={PumpLevel}
               />
 

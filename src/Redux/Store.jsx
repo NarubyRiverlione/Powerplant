@@ -1,34 +1,42 @@
-import React, { useReducer, createContext } from 'react'
-import PropTypes from 'prop-types'
-import logger from 'use-reducer-logger'
+import React from 'react'
+// redux & middleware
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import { createLogger } from 'redux-logger'
 
+import PropTypes from 'prop-types'
 import { AppReducer, InitialState } from './Reducer'
 
-export const AppContext = createContext()
+// gebruik de logger middleware enkel in dev
+const LoggerMiddleWare = createLogger({
+  // eslint-disable-next-line
+  predicate: (getState, action) => (
+    process.env.NODE_ENV !== 'production'
+  ),
+})
 
-const CreateReducer = dev => (dev ? logger(AppReducer) : AppReducer)
-
-const Store = ({ children }) => {
-  // state maken uit initiële state
-  // dispatch uit reducer om acties uit te sturen
-  const dev = false // process.env.NODE_ENV
-  const [state, dispatch] = useReducer(CreateReducer(dev), InitialState)
-
-  // context value
-  // alles uit state halen
-  // dispatch om actie op te roepen om aanpassingen uit te voeren
-  const ContextValue = {
-    state,
-    dispatch,
-  }
-
-
-  return (
-    <AppContext.Provider value={ContextValue}>
-      {children}
-    </AppContext.Provider>
+// bundel alle middleware in 1 enhancer, maak dan de store
+const ConfigureStore = (initState) => {
+  const enhancer = compose(
+    applyMiddleware(
+      thunkMiddleware,
+      LoggerMiddleWare,
+    ),
   )
+  return createStore(AppReducer, initState, enhancer)
 }
+
+// maak normale redux store met de config die de app reducer + middleware bevat,
+// start met de InitialState uit de app reducer
+const ReduxStore = ConfigureStore(InitialState)
+
+
+const Store = ({ children }) => (
+  <Provider store={ReduxStore}>
+    {children}
+  </Provider>
+)
 Store.propTypes = {
   children: PropTypes.element.isRequired,
 }

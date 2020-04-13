@@ -18,13 +18,13 @@ const AntoinePressure = {
 const Formula = (Antione, T) => Math.pow(10, (Antione.A - (Antione.B / (Antione.C + T))))
 
 // return pressure in mmHG
-export const Pressure = Temp => (
+export const Pressure = (Temp) => (
   Temp <= 100.0
     ? Formula(AntoinePressure.BelowBoiling, Temp)
     : Formula(AntoinePressure.AboveBoiling, Temp)
 )
 
-export const PressureBar = pressure => pressure / UnitConversion.Pressure_mmHG_Bar
+export const PressureBar = (pressure) => pressure / UnitConversion.Pressure_mmHG_Bar
 
 export const Flow = (SteamPressure) => {
   if (SteamPressure < CstSteam.BypassMinPressure) return 0
@@ -32,10 +32,12 @@ export const Flow = (SteamPressure) => {
   return SteamFlow
 }
 
-export const ReactorLevelChange = (SteamPressure) => {
-  const LevelChange = -SteamPressure * CstSteam.ReactorLevelChangeFactor
-  console.log(`Reactor water lvl will change by: ${LevelChange}`)
-  return LevelChange
+export const ReactorLevelChange = (SteamPressure, FeedwaterFlow = 0) => {
+  const Output = -SteamPressure * CstSteam.ReactorLevelChangeFactor
+  const Input = FeedwaterFlow * CstSteam.ReactorLevelGainFactor
+  const Change = Output + Input
+  console.log(`Reactor water lvl output: ${Output}, input: ${Input} -->  change by: ${Change}`)
+  return Change
 }
 
 

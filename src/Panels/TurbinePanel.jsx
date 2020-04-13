@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-reflex-grid'
 
-import { AppContext } from '../Redux/Store'
 import { CstText } from '../Cst'
 import { TurbineChangeSetpoint, TurbineSetRollup } from '../Redux/ActionCreator'
 
@@ -12,10 +12,18 @@ import Button from '../Components/ControlElements/Button'
 const { TurbineTxt } = CstText
 
 const TurbinePanel = () => {
-  const { state, dispatch } = useContext(AppContext)
+  const dispatch = useDispatch()
   const {
     BypassValve, TurbineSpeed, SteamFlow, TurbineSetpoint, TurbineRollup,
-  } = state
+  } = useSelector((state) => ({
+    BypassValve: state.BypassValve,
+    TurbineSpeed: state.TurbineSpeed,
+    SteamFlow: state.SteamFlow,
+    TurbineSetpoint: state.TurbineSetpoint,
+    TurbineRollup: state.TurbineRollup,
+  }))
+
+
   return (
     <React.Fragment>
 
@@ -43,23 +51,23 @@ const TurbinePanel = () => {
               <Display Text={TurbineSetpoint.toLocaleString(undefined, { maximumFractionDigits: 0 })} Width={50} Suffix={TurbineTxt.SteamFlowUnit} />
             </Col>
             <Col size={3}>
-              <ReactorButton Step={1} cb={() => TurbineChangeSetpoint(1, dispatch)} />
+              <ReactorButton Step={1} cb={() => dispatch(TurbineChangeSetpoint(1))} />
             </Col>
             <Col size={3}>
-              <ReactorButton Step={-1} cb={() => TurbineChangeSetpoint(-1, dispatch)} />
+              <ReactorButton Step={-1} cb={() => dispatch(TurbineChangeSetpoint(-1))} />
             </Col>
           </Row>
           {/* Turbine Rollup */}
           <Row className="justify-center"><span className="subtitel">{TurbineTxt.Rollup}</span></Row>
           <Row>
             <Col auto>
-              <Button Caption={TurbineTxt.RollupOff} Color="SlateGrey " TextColor="white" SetPressed={TurbineRollup === 0} cb={() => TurbineSetRollup(0, state, dispatch)} />
+              <Button Caption={TurbineTxt.RollupOff} Color="SlateGrey " TextColor="white" SetPressed={TurbineRollup === 0} cb={() => dispatch(TurbineSetRollup(0))} />
             </Col>
             <Col auto>
-              <Button Caption={TurbineTxt.Rollup900} Color="SlateGrey " TextColor="white" SetPressed={TurbineRollup === 900} cb={() => TurbineSetRollup(900, state, dispatch)} />
+              <Button Caption={TurbineTxt.Rollup900} Color="SlateGrey " TextColor="white" SetPressed={TurbineRollup === 900} cb={() => dispatch(TurbineSetRollup(900))} />
             </Col>
             <Col auto>
-              <Button Caption={TurbineTxt.Rollup1800} Color="SlateGrey " TextColor="white" SetPressed={TurbineRollup === 1800} cb={() => TurbineSetRollup(1800, state, dispatch)} />
+              <Button Caption={TurbineTxt.Rollup1800} Color="SlateGrey " TextColor="white" SetPressed={TurbineRollup === 1800} cb={() => dispatch(TurbineSetRollup(1800))} />
             </Col>
           </Row>
         </Col>

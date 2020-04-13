@@ -56,6 +56,7 @@ export const CstSteam = {
   BypassMinPressure: 45041.81, // 60 bar
   BypassMaxFlow: 3,
   ReactorLevelChangeFactor: 0.000002,
+  ReactorLevelGainFactor: 0.2,
 }
 
 export const CstGenerator = {
@@ -65,6 +66,8 @@ export const CstGenerator = {
 export const CstPumps = {
   RecircPump1: 'RecircPump1',
   RecircPump2: 'RecircPump2',
+  FeedPump1: 'FeedPump1',
+  FeedPump2: 'FeedPump2',
 }
 
 export const CstIntakeValve = 'Intake'
@@ -74,11 +77,17 @@ export const CstValves = {
   [`${CstPumps.RecircPump1}_${CstOutputValve}`]: 'RecircPump1_Output',
   [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: 'RecircPump2_Intake',
   [`${CstPumps.RecircPump2}_${CstOutputValve}`]: 'RecircPump2_Output',
+  [`${CstPumps.FeedPump1}_${CstIntakeValve}`]: 'FeedPump1_Intake',
+  [`${CstPumps.FeedPump1}_${CstOutputValve}`]: 'FeedPump1_Output',
+  [`${CstPumps.FeedPump2}_${CstIntakeValve}`]: 'FeedPump2_Intake',
+  [`${CstPumps.FeedPump2}_${CstOutputValve}`]: 'FeedPump2_Output',
 }
 
 export const CstFlowMax = {
   [`${CstPumps.RecircPump1}`]: 5000,
   [`${CstPumps.RecircPump2}`]: 5000,
+  [`${CstPumps.FeedPump1}`]: 1000,
+  [`${CstPumps.FeedPump2}`]: 1000,
 }
 
 export const CstText = {

@@ -40,7 +40,7 @@ const SetFlow = (PumpName, Valves, Flows, Pumps, dispatch, ChangeFlow, ChangeSte
 
   // console.log(`Flow start changing: todo:${FlowDelta} , step=${Step}`)
   ChangeOverTime(Cst.CstTiming.RecircPumpChange, Step,
-    FlowDelta, step => UpdateFlowByStep(step))
+    FlowDelta, (step) => UpdateFlowByStep(step))
 }
 
 export default SetFlow
