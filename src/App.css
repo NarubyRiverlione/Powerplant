@@ -18,7 +18,7 @@ src: url(./Fonts/LiquidCrystal-Normal.otf);
 padding:5px !important;
 }
 [class*="col-"] .grid {
-  padding:15px !important;
+  padding:10px !important;
 }
 .grid{
   letter-spacing:0px !important;

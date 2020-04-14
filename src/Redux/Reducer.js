@@ -56,7 +56,14 @@ export const AppReducer = (state = InitialState, action) => {
     // Simulator
     case Actions.SimReset:
       return InitialState
-
+    case Actions.SimSetup:
+      return {
+        ...state,
+        Pumps: action.Pumps,
+        Valves: action.Valves,
+        Flows: action.Flows,
+        TurbineSetpoint: action.TurbineSetpoint,
+      }
     // Valves & Pumps & Flows
     case Actions.ToggleValve:
       return {
@@ -117,10 +124,14 @@ export const AppReducer = (state = InitialState, action) => {
     case Actions.ChangeSteam:
       const SteamTemp = state.ReactorTemp - action.Loss < 0 ? 0 : state.ReactorTemp - action.Loss
       const SteamPressure = CalcSteam.Pressure(SteamTemp)
-      const SteamFlow = CalcSteam.Flow(SteamPressure)
-      const ReactorLevelChange = CalcSteam.ReactorLevelChange(SteamPressure, state.FeedwaterFlow)
-      const BypassValve = CalcSteam.BypassValve(SteamFlow, state.TurbineSetpoint)
+      const SteamFlow = CalcSteam.SteamFlow(SteamPressure)
+
       const TurbineSteamIntake = CalcSteam.TurbineSteamIntake(SteamFlow, state.TurbineSetpoint)
+      const BypassValve = CalcSteam.BypassValve(SteamFlow, state.TurbineSetpoint)
+
+      const FeedwaterFlow = CalcSteam.FeedwaterFlow(SteamFlow, TurbineSteamIntake)
+      const ReactorLevelChange = CalcSteam.ReactorLevelChange(SteamFlow, FeedwaterFlow)
+
       const GeneratorPower = CalcSteam.Generator(TurbineSteamIntake, state.GeneratorBreaker, state.TurbineSpeed)
 
       return {
@@ -128,6 +139,7 @@ export const AppReducer = (state = InitialState, action) => {
         SteamTemp,
         SteamPressure,
         SteamFlow,
+        FeedwaterFlow,
         ReactorLevelChange,
         BypassValve,
         TurbineSteamIntake,

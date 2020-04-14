@@ -53,6 +53,18 @@ const ChangeReactorTemp = (EnergyChange, Flows, dispatch) => {
 export const SimulatorReset = () => (
   { type: Cst.Actions.SimReset }
 )
+export const SimulatorSetup = (startupSenario) => (dispatch) => {
+  const setupState = Cst.StartupScenarios[startupSenario]
+  if (setupState) {
+    dispatch({
+      type: Cst.Actions.SimSetup,
+      Valves: setupState.Valves,
+      Pumps: setupState.Pumps,
+      Flows: setupState.Flows,
+      TurbineSetpoint: setupState.TurbineSetpoint,
+    })
+  }
+}
 // change the water level in the reactor
 // every  CstTiming.ReactorLevelUpdate tick
 // by the previous calculated ReactorLevelChange

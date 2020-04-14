@@ -7,6 +7,7 @@ export const CstNavScreens = {
 export const Actions = {
   // Simulator
   SimReset: 'RESET_SIMULATOR ',
+  SimSetup: 'SETUP_SIMULATOR',
   // Reactor
   ReactorSetStartEnergy: 'REACTOR_START_ENERGY',
   EnergyAddDelta: 'REACTOR_CHANGE_ENERGY',
@@ -67,6 +68,7 @@ export const CstReactor = {
   },
 }
 
+
 export const CstSteam = {
   TempLoss: 3.28,
   FlowFactor: 0.001740309723,
@@ -74,7 +76,7 @@ export const CstSteam = {
   BypassMinPressure: 45041.81, // 60 bar
   BypassMaxFlow: 3,
   ReactorLevelChangeFactor: 0.000002,
-  ReactorLevelGainFactor: 0.2,
+  ReactorLevelLossFactor: 0.003,
 }
 
 export const CstGenerator = {
@@ -84,8 +86,7 @@ export const CstGenerator = {
 export const CstPumps = {
   RecircPump1: 'RecircPump1',
   RecircPump2: 'RecircPump2',
-  FeedPump1: 'FeedPump1',
-  FeedPump2: 'FeedPump2',
+
 }
 
 export const CstIntakeValve = 'Intake'
@@ -106,6 +107,26 @@ export const CstFlowMax = {
   [`${CstPumps.RecircPump2}`]: 5000,
   [`${CstPumps.FeedPump1}`]: 1000,
   [`${CstPumps.FeedPump2}`]: 1000,
+}
+
+export const StartupScenarios = {
+  [CstStartupScenarios.OpeningBypass]: {
+    TurbineSetpoint: 0,
+    Pumps: {
+      [`${CstPumps.RecircPump1}`]: 0.5,
+      [`${CstPumps.RecircPump2}`]: 0,
+    },
+    Valves: {
+      [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: true,
+      [`${CstPumps.RecircPump1}_${CstOutputValve}`]: true,
+      [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: false,
+      [`${CstPumps.RecircPump2}_${CstOutputValve}`]: false,
+    },
+    Flows: {
+      [CstPumps.RecircPump1]: 2500,
+      [CstPumps.RecircPump2]: 0,
+    },
+  },
 }
 
 export const CstText = {
