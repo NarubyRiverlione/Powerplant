@@ -12,10 +12,10 @@ import {
 } from '../Cst'
 import Display from './ControlElements/Display'
 
-const { RecirculateTxt } = CstText
+const { FeedwaterTxt } = CstText
 
 
-const RecirculatePump = ({ PumpName, Title }) => {
+const FeedwaterPump = ({ PumpName, Title }) => {
   const dispatch = useDispatch()
   const { Valves, Flows, Pumps } = useSelector((state) => ({
     Valves: state.Valves,
@@ -41,12 +41,12 @@ const RecirculatePump = ({ PumpName, Title }) => {
         {/* Pump valves */}
         <Col size={3} sm>
           <Row justify-center>
-            <span className="subtitel">{RecirculateTxt.Valves}</span>
+            <span className="subtitel">{FeedwaterTxt.Valves}</span>
           </Row>
           <Row justify-center>
             <Col auto>
               <Button
-                Caption={RecirculateTxt.CstIntakeValve}
+                Caption={FeedwaterTxt.CstIntakeValve}
                 Color="SlateGrey "
                 TextColor="white"
                 cb={() => SetValve(CstIntakeValve)}
@@ -58,7 +58,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
           <Row justify-center>
             <Col auto>
               <Button
-                Caption={RecirculateTxt.CstOutputValve}
+                Caption={FeedwaterTxt.CstOutputValve}
                 Color="SlateGrey "
                 TextColor="white"
                 cb={() => SetValve(CstOutputValve)}
@@ -72,7 +72,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
 
         {/*  Pump level */}
         <Col size={6} sm>
-          <Row justify-center><span className="subtitel">{RecirculateTxt.Level}</span></Row>
+          <Row justify-center><span className="subtitel">{FeedwaterTxt.Level}</span></Row>
           <Row>
             <Col auto>
               <br />
@@ -101,7 +101,7 @@ const RecirculatePump = ({ PumpName, Title }) => {
         {/* Pump Flow */}
         <Col size={3} sm>
           <Row justify-center>
-            <span className="subtitel">{RecirculateTxt.Flow}</span>
+            <span className="subtitel">{FeedwaterTxt.Flow}</span>
           </Row>
           <Row>
             <Col auto><Display Text={(Flows[PumpName]).toLocaleString()} Width={75} /></Col>
@@ -113,9 +113,9 @@ const RecirculatePump = ({ PumpName, Title }) => {
   )
 }
 
-RecirculatePump.propTypes = {
+FeedwaterPump.propTypes = {
   PumpName: PropTypes.string.isRequired,
   Title: PropTypes.string.isRequired,
 }
 
-export default RecirculatePump
+export default FeedwaterPump

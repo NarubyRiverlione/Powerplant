@@ -30,20 +30,20 @@ export const InitialState = {
   GeneratorBreaker: false,
 
   Pumps: {
-    [CstPumps.RecircPump1]: 0,
-    [CstPumps.RecircPump2]: 0,
+    [CstPumps.FeedwaterPump1]: 0,
+    [CstPumps.FeedwaterPump2]: 0,
   },
 
   Valves: {
-    [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircPump1}_${CstOutputValve}`]: false,
-    [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircPump2}_${CstOutputValve}`]: false,
+    [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: false,
+    [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: false,
+    [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
+    [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
   },
 
   Flows: {
-    [CstPumps.RecircPump1]: 0,
-    [CstPumps.RecircPump2]: 0,
+    [CstPumps.FeedwaterPump1]: 0,
+    [CstPumps.FeedwaterPump2]: 0,
   },
 
   Fout: false,
@@ -63,6 +63,9 @@ export const AppReducer = (state = InitialState, action) => {
         Valves: action.Valves,
         Flows: action.Flows,
         TurbineSetpoint: action.TurbineSetpoint,
+        TurbineRollup: action.TurbineRollup,
+        TurbineSpeed: action.TurbineRollup,
+        GeneratorBreaker: action.GeneratorBreaker,
       }
     // Valves & Pumps & Flows
     case Actions.ToggleValve:

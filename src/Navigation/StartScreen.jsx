@@ -11,7 +11,7 @@ const { WelcomeTxt } = CstText
 const StartScreen = () => (
   <Container full className="Powerplant">
 
-    <ControlPanel Name={WelcomeTxt.StartupScenarios} Status={WelcomeTxt.ChoiceStartup}>
+    <ControlPanel Name={WelcomeTxt.StartupConditions} Status={WelcomeTxt.ChoiceStartup}>
       <StartupChoicesPanel />
     </ControlPanel>
 

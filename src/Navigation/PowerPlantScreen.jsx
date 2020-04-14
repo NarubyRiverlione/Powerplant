@@ -11,12 +11,12 @@ import ControlPanel from '../Panels/ControlPanel'
 import ReactorPanel from '../Panels/ReactorPanel'
 import TurbinePanel from '../Panels/TurbinePanel'
 import SteamPanel from '../Panels/SteamPanel'
-import RecirculatePanel from '../Panels/RecirculatePanel'
+import FeedwaterPanel from '../Panels/FeedwaterPanel'
 import GeneratorPanel from '../Panels/GeneratorPanel'
 
 // const { StartEnergy } = CstReactor
 const {
-  ReactorTxt, TurbineTxt, SteamTxt, RecirculateTxt, GeneratorTxt,
+  ReactorTxt, TurbineTxt, SteamTxt, FeedwaterTxt, GeneratorTxt,
 } = CstText
 
 
@@ -39,8 +39,8 @@ const PowerPlantScreen = () => {
       </ControlPanel>
 
 
-      <ControlPanel Name={RecirculateTxt.Title} StatusStatus="">
-        <RecirculatePanel />
+      <ControlPanel Name={FeedwaterTxt.Title} StatusStatus="">
+        <FeedwaterPanel />
       </ControlPanel>
 
       <ControlPanel Name={SteamTxt.Title} StatusStatus="">

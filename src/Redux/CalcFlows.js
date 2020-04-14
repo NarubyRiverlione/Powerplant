@@ -20,8 +20,8 @@ const SetFlow = (PumpName, Valves, Flows, Pumps, dispatch, ChangeFlow, ChangeSte
   if (FlowDelta === 0) return
 
   let Step
-  if (PumpName.includes(Cst.CstPumps.RecircPump1) || PumpName.includes(Cst.CstPumps.RecircPump2)) {
-    Step = Math.sign(FlowDelta) * Cst.CstChangeStep.RecircPump
+  if (PumpName.includes(Cst.CstPumps.FeedwaterPump1) || PumpName.includes(Cst.CstPumps.FeedwaterPump2)) {
+    Step = Math.sign(FlowDelta) * Cst.CstChangeStep.FeedwaterPump
   }
   let TempFlow = OldFlow
 
@@ -29,7 +29,7 @@ const SetFlow = (PumpName, Valves, Flows, Pumps, dispatch, ChangeFlow, ChangeSte
     ChangeFlow(FlowChangeBy, PumpName, dispatch)
 
     // change recirc flow -->  steam temp & pressure
-    if (PumpName.includes(Cst.CstPumps.RecircPump1) || PumpName.includes(Cst.CstPumps.RecircPump2)) {
+    if (PumpName.includes(Cst.CstPumps.FeedwaterPump1) || PumpName.includes(Cst.CstPumps.FeedwaterPump2)) {
       // update state is async, not sure state.Flows is already up-to-date
       // --> create Flows here
       TempFlow += FlowChangeBy
@@ -39,7 +39,7 @@ const SetFlow = (PumpName, Valves, Flows, Pumps, dispatch, ChangeFlow, ChangeSte
   }
 
   // console.log(`Flow start changing: todo:${FlowDelta} , step=${Step}`)
-  ChangeOverTime(Cst.CstTiming.RecircPumpChange, Step,
+  ChangeOverTime(Cst.CstTiming.FeedwaterPumpChange, Step,
     FlowDelta, (step) => UpdateFlowByStep(step))
 }
 

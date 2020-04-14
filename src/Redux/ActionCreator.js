@@ -3,8 +3,8 @@ import ChangeOverTime from './Changes'
 import SetFlow from './CalcFlows'
 
 const RecircFlowFactor = (Flows) => {
-  const RecircFlow = Flows[Cst.CstPumps.RecircPump1] + Flows[Cst.CstPumps.RecircPump2]
-  const MaxRecircFlow = Cst.CstFlowMax[Cst.CstPumps.RecircPump1] + Cst.CstFlowMax[Cst.CstPumps.RecircPump2]
+  const RecircFlow = Flows[Cst.CstPumps.FeedwaterPump1] + Flows[Cst.CstPumps.FeedwaterPump2]
+  const MaxRecircFlow = Cst.CstFlowMax[Cst.CstPumps.FeedwaterPump1] + Cst.CstFlowMax[Cst.CstPumps.FeedwaterPump2]
   const Factor = RecircFlow / MaxRecircFlow
   // console.log(`Recirc factor: ${Factor}`)
   return Factor
@@ -14,7 +14,7 @@ const RecircFlowFactor = (Flows) => {
 // Steam can only by created when a recirculation pump is running
 // steam temp is based on reactor temp - Loss
 const ChangeSteam = (Flows, dispatch) => {
-  if (Flows[Cst.CstPumps.RecircPump1] || Flows[Cst.CstPumps.RecircPump2]) {
+  if (Flows[Cst.CstPumps.FeedwaterPump1] || Flows[Cst.CstPumps.FeedwaterPump2]) {
     const Loss = Cst.CstSteam.TempLoss / RecircFlowFactor(Flows)
     // console.log(`Temp loss reactor <-> steam drum = ${Loss}`)
     setTimeout(() => {
@@ -54,7 +54,7 @@ export const SimulatorReset = () => (
   { type: Cst.Actions.SimReset }
 )
 export const SimulatorSetup = (startupSenario) => (dispatch) => {
-  const setupState = Cst.StartupScenarios[startupSenario]
+  const setupState = Cst.StartupConditions[startupSenario]
   if (setupState) {
     dispatch({
       type: Cst.Actions.SimSetup,
@@ -62,6 +62,8 @@ export const SimulatorSetup = (startupSenario) => (dispatch) => {
       Pumps: setupState.Pumps,
       Flows: setupState.Flows,
       TurbineSetpoint: setupState.TurbineSetpoint,
+      TurbineRollup: setupState.TurbineRollup,
+      GeneratorBreaker: setupState.GeneratorBreaker,
     })
   }
 }
@@ -98,14 +100,14 @@ And will in turn change the reactor temperature
 */
 export const ReactorChangeEnergy = (Steps) => (
   (dispatch, getState) => {
-    // console.log(`Steps: ${Steps}`)
+    console.log(`Steps: ${Steps}`)
     const EnergyDelta = Steps * Cst.CstChangeStep.Energy
-    // console.log(`Energy delta: ${EnergyDelta}`)
+    console.log(`Energy delta: ${EnergyDelta}`)
 
     const ChangeEnergy = (step) => {
-      // TODO prevent negative energy level
       const EnergyChange = Math.sign(step) * Cst.CstChangeStep.Energy
-      // console.log(`Energy step: ${EnergyChange}`)
+      // TODO prevent negative energy level
+      console.log(`Energy step: ${EnergyChange}`)
       // change energy
       dispatch({
         type: Cst.Actions.EnergyAddDelta,
@@ -115,7 +117,7 @@ export const ReactorChangeEnergy = (Steps) => (
       const { Flows } = getState()
       ChangeReactorTemp(EnergyChange, Flows, dispatch)
     }
-    ChangeOverTime(Cst.CstTiming.EnergyChange, Cst.CstChangeStep.Energy,
+    ChangeOverTime(Cst.CstTiming.EnergyChange, Math.sign(Steps) * Cst.CstChangeStep.Energy,
       EnergyDelta, (step) => ChangeEnergy(step), false)
   })
 

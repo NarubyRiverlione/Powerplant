@@ -32,7 +32,7 @@ export const Actions = {
 
 export const CstTiming = {
   EnergyChange: 1000,
-  RecircPumpChange: 500,
+  FeedwaterPumpChange: 500,
   SteamChange: 750,
   TurbineRollup: 500,
   ReactorLevelUpdate: 1000,
@@ -40,31 +40,33 @@ export const CstTiming = {
 
 export const CstChangeStep = {
   Energy: 0.05554,
-  RecircPump: 100,
+  FeedwaterPump: 100,
   TurbineRollup: 100,
 }
 
-const CstStartupScenarios = {
+const CstStartupConditions = {
   Test: 'Test',
   Cold: 'Cold',
   BeforeBoiling: 'BeforeBoiling',
   Boiling: 'Boiling',
-  BeforeOpeningBypass: 'BeforeOpeningBypass',
-  OpeningBypass: 'OpeningBypass',
-  Power20: 'Power20',
-  Power100: 'Power100',
+  BeforeSteamFlow: 'BeforeSteamFlow',
+  Steam3MBL: 'Steam3MBL',
+  GeneratorRunning: 'GeneratorRunning',
+  // Power20: 'Power20',
+  // Power100: 'Power100',
 }
 export const CstReactor = {
   ColdTemp: 30,
   StartEnergy: {
-    [CstStartupScenarios.Test]: 275.0,
-    [CstStartupScenarios.Cold]: 0,
-    [CstStartupScenarios.BeforeBoiling]: 83.03,
-    [CstStartupScenarios.Boiling]: 83.09,
-    [CstStartupScenarios.BeforeOpeningBypass]: 257.98,
-    [CstStartupScenarios.OpeningBypass]: 258.04,
-    [CstStartupScenarios.Power20]: 261.32,
-    [CstStartupScenarios.Power100]: 254.98,
+    [CstStartupConditions.Test]: 275.0,
+    [CstStartupConditions.Cold]: 0,
+    [CstStartupConditions.BeforeBoiling]: 69.89, // 83.03,
+    [CstStartupConditions.Boiling]: 69.97, // 83.09,
+    [CstStartupConditions.BeforeSteamFlow]: 251.36,
+    [CstStartupConditions.Steam3MBL]: 253.93,
+    [CstStartupConditions.GeneratorRunning]: 253.93,
+    // [CstStartupConditions.Power20]: 261.32,
+    // [CstStartupConditions.Power100]: 254.98,
   },
 }
 
@@ -84,47 +86,81 @@ export const CstGenerator = {
   PowerCorrection: 2.161,
 }
 export const CstPumps = {
-  RecircPump1: 'RecircPump1',
-  RecircPump2: 'RecircPump2',
+  FeedwaterPump1: 'FeedwaterPump1',
+  FeedwaterPump2: 'FeedwaterPump2',
 
 }
 
 export const CstIntakeValve = 'Intake'
 export const CstOutputValve = 'Output'
 export const CstValves = {
-  [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: 'RecircPump1_Intake',
-  [`${CstPumps.RecircPump1}_${CstOutputValve}`]: 'RecircPump1_Output',
-  [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: 'RecircPump2_Intake',
-  [`${CstPumps.RecircPump2}_${CstOutputValve}`]: 'RecircPump2_Output',
-  [`${CstPumps.FeedPump1}_${CstIntakeValve}`]: 'FeedPump1_Intake',
-  [`${CstPumps.FeedPump1}_${CstOutputValve}`]: 'FeedPump1_Output',
-  [`${CstPumps.FeedPump2}_${CstIntakeValve}`]: 'FeedPump2_Intake',
-  [`${CstPumps.FeedPump2}_${CstOutputValve}`]: 'FeedPump2_Output',
+  [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 'FeedwaterPump1_Intake',
+  [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 'FeedwaterPump1_Output',
+  [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 'FeedwaterPump2_Intake',
+  [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 'FeedwaterPump2_Output',
 }
 
 export const CstFlowMax = {
-  [`${CstPumps.RecircPump1}`]: 5000,
-  [`${CstPumps.RecircPump2}`]: 5000,
-  [`${CstPumps.FeedPump1}`]: 1000,
-  [`${CstPumps.FeedPump2}`]: 1000,
+  [`${CstPumps.FeedwaterPump1}`]: 5000,
+  [`${CstPumps.FeedwaterPump2}`]: 5000,
 }
 
-export const StartupScenarios = {
-  [CstStartupScenarios.OpeningBypass]: {
+export const StartupConditions = {
+  [CstStartupConditions.BeforeSteamFlow]: {
     TurbineSetpoint: 0,
+    TurbineRollup: 0,
+    GeneratorBreaker: false,
     Pumps: {
-      [`${CstPumps.RecircPump1}`]: 0.5,
-      [`${CstPumps.RecircPump2}`]: 0,
+      [`${CstPumps.FeedwaterPump1}`]: 1,
+      [`${CstPumps.FeedwaterPump2}`]: 0,
     },
     Valves: {
-      [`${CstPumps.RecircPump1}_${CstIntakeValve}`]: true,
-      [`${CstPumps.RecircPump1}_${CstOutputValve}`]: true,
-      [`${CstPumps.RecircPump2}_${CstIntakeValve}`]: false,
-      [`${CstPumps.RecircPump2}_${CstOutputValve}`]: false,
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: true,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: true,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
     },
     Flows: {
-      [CstPumps.RecircPump1]: 2500,
-      [CstPumps.RecircPump2]: 0,
+      [CstPumps.FeedwaterPump1]: 5000,
+      [CstPumps.FeedwaterPump2]: 0,
+    },
+  },
+  [CstStartupConditions.Steam3MBL]: {
+    TurbineSetpoint: 0,
+    TurbineRollup: 0,
+    GeneratorBreaker: false,
+    Pumps: {
+      [`${CstPumps.FeedwaterPump1}`]: 1,
+      [`${CstPumps.FeedwaterPump2}`]: 0,
+    },
+    Valves: {
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: true,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: true,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
+    },
+    Flows: {
+      [CstPumps.FeedwaterPump1]: 5000,
+      [CstPumps.FeedwaterPump2]: 0,
+    },
+  },
+  [CstStartupConditions.GeneratorRunning]: {
+    TurbineSetpoint: 5,
+    GeneratorBreaker: true,
+    TurbineRollup: 1800,
+    Pumps: {
+      [`${CstPumps.FeedwaterPump1}`]: 1,
+      [`${CstPumps.FeedwaterPump2}`]: 0,
+    },
+    Valves: {
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: true,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: true,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
+    },
+    Flows: {
+      [CstPumps.FeedwaterPump1]: 5000,
+      [CstPumps.FeedwaterPump2]: 0,
     },
   },
 }
@@ -134,16 +170,17 @@ export const CstText = {
 
   WelcomeTxt: {
     Welcome: 'Welcome to the simulator of a simple nuclear power plant',
-    StartupScenarios: 'Startup scenarios',
-    ChoiceStartup: 'Choice your start up senario',
+    StartupConditions: 'Startup conditions',
+    ChoiceStartup: 'Choice your start up condition',
     Choices: [
-      { Name: CstStartupScenarios.Cold, Title: 'Cold & dark reactor' },
-      { Name: CstStartupScenarios.BeforeBoiling, Title: 'Just before boiling reactor' },
-      { Name: CstStartupScenarios.Boiling, Title: 'Boiling reactor' },
-      { Name: CstStartupScenarios.BeforeOpeningBypass, Title: 'Just before opening turbine bypass valve' },
-      { Name: CstStartupScenarios.OpeningBypass, Title: 'Opened bypass valve' },
-      { Name: CstStartupScenarios.Power20, Title: 'Output at 20 % rated' },
-      { Name: CstStartupScenarios.Power100, Title: 'Output at 100 % rated' },
+      { Name: CstStartupConditions.Cold, Title: 'Cold & dark reactor' },
+      { Name: CstStartupConditions.BeforeBoiling, Title: 'Just before boiling reactor' },
+      { Name: CstStartupConditions.Boiling, Title: 'Boiling reactor' },
+      { Name: CstStartupConditions.BeforeSteamFlow, Title: 'Just before turbine flow' },
+      { Name: CstStartupConditions.Steam3MBL, Title: 'Turbine flow 3 MBL/h' },
+      { Name: CstStartupConditions.GeneratorRunning, Title: 'Generator running' },
+      // { Name: CstStartupConditions.Power20, Title: 'Output at 20 % rated' },
+      // { Name: CstStartupConditions.Power100, Title: 'Output at 100 % rated' },
     ],
     HelpScreenTitle: 'Explication',
     HelpScreenLink: 'Read help',
@@ -175,8 +212,8 @@ export const CstText = {
     Rollup1800: '1800',
   },
 
-  RecirculateTxt: {
-    Title: 'Recirculate pumps',
+  FeedwaterTxt: {
+    Title: 'Feedwater pumps',
     Pump1: 'Circuit 1',
     Pump2: 'Circuit 2',
     CstIntakeValve: 'Inlet',
