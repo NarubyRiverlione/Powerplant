@@ -3,35 +3,36 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
+// import { createLogger } from 'redux-logger'
 
 import PropTypes from 'prop-types'
 import { AppReducer, InitialState } from './Reducer'
 
-// gebruik de logger middleware enkel in dev
+/*
+// logger middleware only in dev
 const LoggerMiddleWare = createLogger({
   // eslint-disable-next-line
   predicate: (getState, action) => (
     process.env.NODE_ENV !== 'production'
   ),
 })
+*/
 
-// bundel alle middleware in 1 enhancer, maak dan de store
+//  make a store configuration by adding all the middleware in 1 enhancer
 const ConfigureStore = (initState) => {
   const enhancer = compose(
     applyMiddleware(
       thunkMiddleware,
-      LoggerMiddleWare,
+      // LoggerMiddleWare,
     ),
   )
   return createStore(AppReducer, initState, enhancer)
 }
 
-// maak normale redux store met de config die de app reducer + middleware bevat,
-// start met de InitialState uit de app reducer
+//  create the store via de enchancer and the InitialState
 const ReduxStore = ConfigureStore(InitialState)
 
-
+// Wrap the Store around the App
 const Store = ({ children }) => (
   <Provider store={ReduxStore}>
     {children}

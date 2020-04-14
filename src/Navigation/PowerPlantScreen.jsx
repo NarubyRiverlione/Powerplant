@@ -2,35 +2,37 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Container } from 'react-reflex-grid'
 
-import { ReactorSetStartEnergy, ReactorLevelChangeTimer } from '../Redux/ActionCreator'
-import {
-  CstReactor, CstText,
-} from '../Cst'
 
-import ControlPanel from './ControlPanel'
-import ReactorPanel from './ReactorPanel'
-import TurbinePanel from './TurbinePanel'
-import SteamPanel from './SteamPanel'
-import RecirculatePanel from './RecirculatePanel'
-import GeneratorPanel from './GeneratorPanel'
+import { ReactorLevelChangeTimer } from '../Redux/ActionCreator'
+import { CstText } from '../Cst'
 
-const { StartEnergy } = CstReactor
+import SimControlsPanel from '../Panels/SimControlsPanel'
+import ControlPanel from '../Panels/ControlPanel'
+import ReactorPanel from '../Panels/ReactorPanel'
+import TurbinePanel from '../Panels/TurbinePanel'
+import SteamPanel from '../Panels/SteamPanel'
+import RecirculatePanel from '../Panels/RecirculatePanel'
+import GeneratorPanel from '../Panels/GeneratorPanel'
+
+// const { StartEnergy } = CstReactor
 const {
   ReactorTxt, TurbineTxt, SteamTxt, RecirculateTxt, GeneratorTxt,
 } = CstText
 
 
-const PowerPlant = () => {
+const PowerPlantScreen = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log('Called start reactor')
-    dispatch(ReactorSetStartEnergy(StartEnergy.Power20))
+    // console.log('Called start reactor')
+    // dispatch(ReactorSetStartEnergy(StartEnergy.Power20))
     dispatch(ReactorLevelChangeTimer())
   }, [])// eslint-disable-line
 
   return (
     <Container full className="Powerplant">
+
+      <SimControlsPanel />
 
       <ControlPanel Name={ReactorTxt.Title} StatusStatus="">
         <ReactorPanel />
@@ -57,4 +59,4 @@ const PowerPlant = () => {
   )
 }
 
-export default PowerPlant
+export default PowerPlantScreen

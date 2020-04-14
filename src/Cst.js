@@ -1,4 +1,12 @@
+export const CstNavScreens = {
+  StartScreen: '/',
+  HelpScreen: '/help',
+  PowerplantScreen: '/powerplant',
+}
+
 export const Actions = {
+  // Simulator
+  SimReset: 'RESET_SIMULATOR ',
   // Reactor
   ReactorSetStartEnergy: 'REACTOR_START_ENERGY',
   EnergyAddDelta: 'REACTOR_CHANGE_ENERGY',
@@ -21,7 +29,6 @@ export const Actions = {
   GeneratorBreaker: 'GENERATOR_BREAKER',
 }
 
-
 export const CstTiming = {
   EnergyChange: 1000,
   RecircPumpChange: 500,
@@ -35,17 +42,28 @@ export const CstChangeStep = {
   RecircPump: 100,
   TurbineRollup: 100,
 }
+
+const CstStartupScenarios = {
+  Test: 'Test',
+  Cold: 'Cold',
+  BeforeBoiling: 'BeforeBoiling',
+  Boiling: 'Boiling',
+  BeforeOpeningBypass: 'BeforeOpeningBypass',
+  OpeningBypass: 'OpeningBypass',
+  Power20: 'Power20',
+  Power100: 'Power100',
+}
 export const CstReactor = {
   ColdTemp: 30,
   StartEnergy: {
-    Test: 275.0,
-    Cold: 0,
-    BeforeBoiling: 83.03,
-    Boiling: 83.09,
-    BeforeOpeningBypass: 257.98,
-    OpeningBypass: 258.04,
-    Power20: 261.32,
-    Power100: 254.98,
+    [CstStartupScenarios.Test]: 275.0,
+    [CstStartupScenarios.Cold]: 0,
+    [CstStartupScenarios.BeforeBoiling]: 83.03,
+    [CstStartupScenarios.Boiling]: 83.09,
+    [CstStartupScenarios.BeforeOpeningBypass]: 257.98,
+    [CstStartupScenarios.OpeningBypass]: 258.04,
+    [CstStartupScenarios.Power20]: 261.32,
+    [CstStartupScenarios.Power100]: 254.98,
   },
 }
 
@@ -91,11 +109,33 @@ export const CstFlowMax = {
 }
 
 export const CstText = {
-  Title: 'Nuclear power plant',
+  Title: 'Simple nuclear power plant',
+
+  WelcomeTxt: {
+    Welcome: 'Welcome to the simulator of a simple nuclear power plant',
+    StartupScenarios: 'Startup scenarios',
+    ChoiceStartup: 'Choice your start up senario',
+    Choices: [
+      { Name: CstStartupScenarios.Cold, Title: 'Cold & dark reactor' },
+      { Name: CstStartupScenarios.BeforeBoiling, Title: 'Just before boiling reactor' },
+      { Name: CstStartupScenarios.Boiling, Title: 'Boiling reactor' },
+      { Name: CstStartupScenarios.BeforeOpeningBypass, Title: 'Just before opening turbine bypass valve' },
+      { Name: CstStartupScenarios.OpeningBypass, Title: 'Opened bypass valve' },
+      { Name: CstStartupScenarios.Power20, Title: 'Output at 20 % rated' },
+      { Name: CstStartupScenarios.Power100, Title: 'Output at 100 % rated' },
+    ],
+    HelpScreenTitle: 'Explication',
+    HelpScreenLink: 'Read help',
+  },
+  SimControlsTxt: {
+    PauzeBtn: 'Pause the simulation',
+    ReturnBtn: 'Back to start screen',
+  },
+
   ReactorTxt: {
     Title: 'Reactor',
     Energy: 'Energy',
-    Temp: 'Temp',
+    Temp: 'Core temp',
     TempUnit: '°C',
     Level: 'Cooling level',
   },
@@ -113,6 +153,7 @@ export const CstText = {
     Rollup900: '900',
     Rollup1800: '1800',
   },
+
   RecirculateTxt: {
     Title: 'Recirculate pumps',
     Pump1: 'Circuit 1',
@@ -123,15 +164,17 @@ export const CstText = {
     Level: 'Level',
     Flow: 'Flow',
   },
+
   SteamTxt: {
     Title: 'Main Steam System',
     MSIV: 'Main Steamline Isolation Valve',
 
-    Temp: 'Temp',
+    Temp: 'Steam temp',
     TempUnit: '°C',
-    Pressure: 'Pressure',
+    Pressure: 'Steam pressure',
     PressureUnit: 'bar',
   },
+
   GeneratorTxt: {
     Title: 'Generator',
     Power: 'Power',

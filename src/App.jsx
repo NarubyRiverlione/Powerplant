@@ -1,23 +1,24 @@
 import React from 'react'
 
 import './App.css'
-import PowerPanel from './Panels/PowerPlant'
+import Navigator from './Navigation/Navigator'
 
 import Store from './Redux/Store'
-import { CstText } from './Cst'
+// import { CstText } from './Cst'
 
 function App() {
   return (
-    <>
-      <header>{CstText.Title}</header>
+    <React.Fragment>
+      { // <header>{CstText.Title}</header>
+      }
 
       <main>
         <Store>
-          <PowerPanel />
+          <Navigator />
         </Store>
       </main>
 
-    </>
+    </React.Fragment>
   )
 }
 

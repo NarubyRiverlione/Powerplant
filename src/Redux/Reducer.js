@@ -1,4 +1,5 @@
-/* eslint no-case-declarations:off */
+/* eslint-disable indent */
+/* eslint-disable no-case-declarations */
 import {
   Actions, CstPumps, CstIntakeValve, CstOutputValve, CstReactor,
 } from '../Cst'
@@ -52,6 +53,10 @@ export const InitialState = {
 
 export const AppReducer = (state = InitialState, action) => {
   switch (action.type) {
+    // Simulator
+    case Actions.SimReset:
+      return InitialState
+
     // Valves & Pumps & Flows
     case Actions.ToggleValve:
       return {
@@ -105,7 +110,7 @@ export const AppReducer = (state = InitialState, action) => {
       }
 
     /* change steam Temp & Pressure in the drum, based on the reactor temp
-    - create steam flow from the drum to the turbine
+    - create steam flow from the drum too the turbine
     - open the bypass when (steam supply - steam into turbine) > CstSteam.BypassMinPressure
     - create power in the generator when steam is supplied to the turbine via the setpoint
     */

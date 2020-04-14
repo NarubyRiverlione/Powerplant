@@ -12,6 +12,7 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-reflex-grid": "^2.10.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
@@ -22,11 +23,11 @@
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-flowtype": "^4.0.0",
+    "eslint-plugin-flowtype": "^4.7.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-react-hooks": "^2.0.0"
+    "eslint-plugin-react-hooks": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

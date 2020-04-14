@@ -3,9 +3,6 @@
     "react-app",
     "airbnb"
   ],
-  "plugins": [
-    "react-hooks"
-  ],
   "rules": {
     "react/jsx-fragments": "off",
     "react-hooks/rules-of-hooks": "error",

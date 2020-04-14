@@ -11,6 +11,7 @@ const RecircFlowFactor = (Flows) => {
 }
 
 // Change steam temp & pressure in the steam drum
+// Steam can only by created when a recirculation pump is running
 // steam temp is based on reactor temp - Loss
 const ChangeSteam = (Flows, dispatch) => {
   if (Flows[Cst.CstPumps.RecircPump1] || Flows[Cst.CstPumps.RecircPump2]) {
@@ -47,6 +48,11 @@ const ChangeReactorTemp = (EnergyChange, Flows, dispatch) => {
   ChangeSteam(Flows, dispatch)
 }
 
+
+// reset the simulator
+export const SimulatorReset = () => (
+  { type: Cst.Actions.SimReset }
+)
 // change the water level in the reactor
 // every  CstTiming.ReactorLevelUpdate tick
 // by the previous calculated ReactorLevelChange

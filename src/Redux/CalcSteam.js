@@ -42,7 +42,7 @@ export const ReactorLevelChange = (SteamPressure, FeedwaterFlow = 0) => {
 
 
 export const BypassValve = (SteamFlow, TurbineSteamIntake) => {
-  let bypass = (SteamFlow - TurbineSteamIntake) / CstSteam.BypassMaxFlow * 100
+  let bypass = (SteamFlow - TurbineSteamIntake) / (CstSteam.BypassMaxFlow * 100)
   if (bypass > 100) bypass = 100
   if (bypass < 0) bypass = 0
   return bypass
