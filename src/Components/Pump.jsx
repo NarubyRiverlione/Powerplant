@@ -44,7 +44,7 @@ const Pump = ({ PumpName, Title }) => {
         </Col>
         <Col auto align-content-start>
           <Display
-            Text={Flows[`${PumpName}_${CstIntakeValve}`].toLocaleString()}
+            Text={Flows[`${PumpName}_${CstIntakeValve}`].toLocaleString(undefined, { maximumFractionDigits: 0 })}
             Width={50}
             Suffix="%"
           />
@@ -64,7 +64,7 @@ const Pump = ({ PumpName, Title }) => {
           />
         </Col>
         <Col auto>
-          <Display Text={(Flows[PumpName]).toLocaleString()} Width={50} Suffix="%" />
+          <Display Text={(Flows[PumpName]).toLocaleString(undefined, { maximumFractionDigits: 1 })} Width={50} Suffix="%" />
         </Col>
       </Row>
 
@@ -83,7 +83,7 @@ const Pump = ({ PumpName, Title }) => {
         </Col>
         <Col auto>
           <Display
-            Text={Flows[`${PumpName}_${CstOutputValve}`].toLocaleString()}
+            Text={Flows[`${PumpName}_${CstOutputValve}`].toLocaleString(undefined, { maximumFractionDigits: 0 })}
             Width={50}
             Suffix="%"
           />

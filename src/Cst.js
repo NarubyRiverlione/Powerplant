@@ -47,6 +47,7 @@ export const CstTiming = {
 export const CstChangeStep = {
   Energy: 0.05554,
   FeedwaterPump: 100,
+  RecirculatePump: 100,
   TurbineRollup: 100,
   ValveChange: 20,
 }
@@ -134,6 +135,9 @@ export const CstValves = {
 
 export const CstFlowMax = {
   Valve: 100,
+  [`${CstIntakeValve}`]: 100,
+  [`${CstOutputValve}`]: 100,
+
   [`${CstPumps.RecircLeftA}`]: 5000,
   [`${CstPumps.RecircLeftB}`]: 5000,
 
@@ -159,21 +163,50 @@ export const StartupConditions = {
     Pumps: {
       [`${CstPumps.FeedwaterPump1}`]: false,
       [`${CstPumps.FeedwaterPump2}`]: false,
+      [`${CstPumps.RecircLeftA}`]: false,
+      [`${CstPumps.RecircLeftB}`]: false,
+      [`${CstPumps.RecircRightA}`]: false,
+      [`${CstPumps.RecircRightB}`]: false,
     },
     Valves: {
       [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: false,
       [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: false,
+
       [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
       [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
+
+      [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: false,
+      [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: false,
+
+      [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: false,
+      [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: false,
+
+      [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: false,
+      [`${CstPumps.RecircRightA}_${CstOutputValve}`]: false,
+
+      [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: false,
+      [`${CstPumps.RecircRightB}_${CstOutputValve}`]: false,
+
     },
     Flows: {
-      [CstPumps.FeedwaterPump1]: 0,
+
       [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
       [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
 
-      [CstPumps.FeedwaterPump2]: 0,
       [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
       [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
+
+      [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: 100,
+      [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: 100,
+
+      [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: 0,
+
+      [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: 100,
+      [`${CstPumps.RecircRightA}_${CstOutputValve}`]: 0,
+
+      [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.RecircRightB}_${CstOutputValve}`]: 0,
     },
   },
   [CstStartupConditions.Boiling]: {
@@ -184,21 +217,50 @@ export const StartupConditions = {
     Pumps: {
       [`${CstPumps.FeedwaterPump1}`]: false,
       [`${CstPumps.FeedwaterPump2}`]: false,
+      [`${CstPumps.RecircLeftA}`]: true,
+      [`${CstPumps.RecircLeftB}`]: false,
+      [`${CstPumps.RecircRightA}`]: true,
+      [`${CstPumps.RecircRightB}`]: false,
     },
     Valves: {
       [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: false,
       [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: false,
+
       [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
       [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
+
+      [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: true,
+      [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: true,
+
+      [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: false,
+      [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: false,
+
+      [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: true,
+      [`${CstPumps.RecircRightA}_${CstOutputValve}`]: true,
+
+      [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: false,
+      [`${CstPumps.RecircRightB}_${CstOutputValve}`]: false,
+
     },
     Flows: {
-      [CstPumps.FeedwaterPump1]: 0,
+
       [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
       [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
 
-      [CstPumps.FeedwaterPump2]: 0,
       [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
       [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
+
+      [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: 100,
+      [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: 100,
+
+      [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: 0,
+
+      [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: 100,
+      [`${CstPumps.RecircRightA}_${CstOutputValve}`]: 100,
+
+      [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.RecircRightB}_${CstOutputValve}`]: 0,
     },
   },
   [CstStartupConditions.BeforeSteamFlow]: {

@@ -3,10 +3,11 @@ import ChangeOverTime from './Changes'
 import SetFlow from './CalcFlows'
 
 const RecircFlowFactor = (Flows) => {
-  const RecircFlow = Flows[Cst.CstPumps.FeedwaterPump1] + Flows[Cst.CstPumps.FeedwaterPump2]
-  const MaxRecircFlow = Cst.CstFlowMax[Cst.CstPumps.FeedwaterPump1] + Cst.CstFlowMax[Cst.CstPumps.FeedwaterPump2]
+  const RecircFlow = Flows[Cst.CstPumps.RecircLeftA] + Flows[Cst.CstPumps.RecircLeftB]
+    + Flows[Cst.CstPumps.RecircRightA] + Flows[Cst.CstPumps.RecircRightB]
+  const MaxRecircFlow = Cst.CstFlowMax[Cst.CstPumps.RecircLeftA] * 4
   const Factor = RecircFlow / MaxRecircFlow
-  // console.log(`Recirc factor: ${Factor}`)
+  console.log(`Recirculation factor: ${Factor}`)
   return Factor
 }
 
@@ -14,9 +15,10 @@ const RecircFlowFactor = (Flows) => {
 // Steam can only by created when a recirculation pump is running
 // steam temp is based on reactor temp - Loss
 const ChangeSteam = (Flows, dispatch) => {
-  if (Flows[Cst.CstPumps.FeedwaterPump1] || Flows[Cst.CstPumps.FeedwaterPump2]) {
+  if (Flows[Cst.CstPumps.RecircLeftA] || Flows[Cst.CstPumps.RecircLeftB]
+    || Flows[Cst.CstPumps.RecircRightA] || Flows[Cst.CstPumps.RecircRightB]) {
     const Loss = Cst.CstSteam.TempLoss / RecircFlowFactor(Flows)
-    // console.log(`Temp loss reactor <-> steam drum = ${Loss}`)
+    console.log(`Temp loss reactor <-> steam drum = ${Loss}`)
     setTimeout(() => {
       dispatch({ type: Cst.Actions.ChangeSteam, Loss })
     }, Cst.CstTiming.SteamChange)
@@ -277,6 +279,35 @@ export const SetPump = (PumpName) => (
     }
     */
   })
+
+
+const CheckAfterValveOperation = (Pumpname, Valvename, dispatch, getState) => {
+  const { Pumps, Flows, Valves } = getState()
+  // check if both valve are complete open
+  // and the pump that is running
+  //  --> set pump flow
+  if (
+    // pump is running
+    Pumps[Pumpname]
+    // the intake valve of this pump must be complete open
+    && Flows[`${Pumpname}_${Cst.CstIntakeValve}`] === Cst.CstFlowMax[`${Cst.CstIntakeValve}`]
+    // the output valve of this pump must be complete open
+    && Flows[`${Pumpname}_${Cst.CstOutputValve}`] === Cst.CstFlowMax[`${Cst.CstOutputValve}`]
+  ) {
+    SetFlow(Pumpname, Valves, Flows, Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
+  }
+
+  // a pump is connected to this now closing valve --> stop pump flow
+  // doesn't matter if it's a intake of output valve as both must be complete open
+  // to operate the pump
+  if (Pumpname && Flows[Valvename] === 0) {
+    dispatch({
+      type: Cst.Actions.FlowChange,
+      Flows: { ...Flows, [Pumpname]: 0 },
+    })
+  }
+}
+
 // open or close a valve -- > change flow in valve
 // check if a pump is running --> change pump flow
 export const ToggleValve = (ValveName, PumpName) => (
@@ -294,7 +325,6 @@ export const ToggleValve = (ValveName, PumpName) => (
     }
 
     // output valve can only be open when pump is running
-
     if (ValveName.includes([Cst.CstOutputValve]) && !Pumps[PumpName]) {
       console.warn(`CANNOT open  ${ValveName} as  ${PumpName} isn't running`)
       return
@@ -315,40 +345,15 @@ export const ToggleValve = (ValveName, PumpName) => (
       Valves: newValves,
     })
 
-    // callback for ChangeOverTime
-    const ChangeValveFlow = (Pumpname, Valvename, Step) => {
+    // callback for ChangeOverTime tick
+    const ChangeValveFlow = (Valvename, Step) => {
       // update valve flow
       dispatch({
         type: Cst.Actions.ValveFlowChange,
         Valvename,
         Step,
       })
-
-      // check if both valve are complete open
-      // and the pump that is running
-      //  --> set pump flow
-      if (
-        // pump is running
-        Pumps[PumpName]
-        // the intake valve of this pump must be complete open
-        && Flows[`${Pumpname}_${Cst.CstIntakeValve}`] === Cst.CstFlowMax[`${Cst.CstIntakeValve}`]
-        // the output valve of this pump must be complete open
-        && Flows[`${Pumpname}_${Cst.CstOutputValve}`] === Cst.CstFlowMax[`${Cst.CstOutputValve}`]
-      ) {
-        SetFlow(Pumpname, newValves, Flows, Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
-      }
-
-      // a pump is connected to this now closing valve --> stop pump flow
-      // doesn't matter if it's a intake of output valve as both must be complete open
-      // to operate the pump
-      if (PumpName && Flows[ValveName] === 0) {
-        dispatch({
-          type: Cst.Actions.FlowChange,
-          Flows: { ...Flows, [PumpName]: 0 },
-        })
-      }
     }
-
 
     // open or close valve slowly over time
     // change flow of valve and pump
@@ -362,7 +367,8 @@ export const ToggleValve = (ValveName, PumpName) => (
     ChangeOverTime(Cst.CstTiming.ValveChange,
       Cst.CstChangeStep.ValveChange * direction,
       target,
-      (step) => ChangeValveFlow(PumpName, ValveName, step),
-      true)
+      (step) => ChangeValveFlow(ValveName, step),
+      true,
+      () => { CheckAfterValveOperation(PumpName, ValveName, dispatch, getState) })
   })
 // #endregion
