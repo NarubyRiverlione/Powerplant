@@ -102,35 +102,52 @@ export const CstPumps = {
   FeedwaterPump1: 'FeedwaterPump1',
   FeedwaterPump2: 'FeedwaterPump2',
 
+  RecircLeftA: 'RecirculateLeftA',
+  RecircLeftB: 'RecirculateLeftB',
+
+  RecircRightA: 'RecirculateRightA',
+  RecircRightB: 'RecirculateRightB',
 }
 
 export const CstIntakeValve = 'Intake'
 export const CstOutputValve = 'Output'
 export const CstValves = {
+  [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: 'RecirculateLeftA_Intake',
+  [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: 'RecirculateLeftA_Output',
+
+  [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: 'RecirculateLeftB_Intake',
+  [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: 'RecirculateLeftB_Output',
+
+  [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: 'RecirculateRightA_Intake',
+  [`${CstPumps.RecircRightA}_${CstOutputValve}`]: 'RecirculateRightA_Output',
+
+  [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: 'RecirculateRightB_Intake',
+  [`${CstPumps.RecircRightB}_${CstOutputValve}`]: 'RecirculateRightB_Output',
+
+
   [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 'FeedwaterPump1_Intake',
   [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 'FeedwaterPump1_Output',
+
   [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 'FeedwaterPump2_Intake',
   [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 'FeedwaterPump2_Output',
 }
 
 export const CstFlowMax = {
-  [`${CstPumps.FeedwaterPump1}`]: 5000,
-  [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 100,
-  [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 100,
+  Valve: 100,
+  [`${CstPumps.RecircLeftA}`]: 5000,
+  [`${CstPumps.RecircLeftB}`]: 5000,
 
+  [`${CstPumps.RecircRightA}`]: 5000,
+  [`${CstPumps.RecircRightB}`]: 5000,
+
+  [`${CstPumps.FeedwaterPump1}`]: 5000,
   [`${CstPumps.FeedwaterPump2}`]: 5000,
-  [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 100,
-  [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 100,
 }
 
 export const CstFlowMin = {
-  [`${CstPumps.FeedwaterPump1}`]: 0,
-  [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
-  [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
-
-  [`${CstPumps.FeedwaterPump2}`]: 0,
-  [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
-  [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
+  Pump: 0,
+  [`${CstIntakeValve}`]: 0,
+  [`${CstOutputValve}`]: 0,
 }
 
 export const StartupConditions = {
@@ -313,12 +330,32 @@ export const CstText = {
     Rollup1800: '1800',
   },
 
+  RecirculationTxt: {
+    Title: 'recirculation pumps',
+
+    Steamdrum: 'Steam drum',
+    Temp: 'Temp',
+    TempUnit: '°C',
+    Pressure: 'Pressure',
+    PressureUnit: 'bar',
+
+    CircuitLeft: 'Left circuit',
+    PumpLA: 'Pump A',
+    PumpLB: 'Pump B',
+
+    CircuitRight: 'Right circuit',
+    PumpRA: 'Pump A',
+    PumpRB: 'Pump B',
+
+    Valves: 'Valves',
+    Level: 'Level',
+    Flow: 'Flow',
+  },
+
   FeedwaterTxt: {
     Title: 'Feedwater pumps',
     Pump1: 'Pump 1',
     Pump2: 'Pump 2',
-    CstIntakeValve: 'Inlet',
-    CstOutputValve: 'Outlet',
     Valves: 'Valves',
     Level: 'Level',
     Flow: 'Flow',
@@ -328,10 +365,6 @@ export const CstText = {
     Title: 'Main Steam System',
     MSIV: 'Main Steamline Isolation Valve',
 
-    Temp: 'Steam temp',
-    TempUnit: '°C',
-    Pressure: 'Steam pressure',
-    PressureUnit: 'bar',
   },
 
   GeneratorTxt: {

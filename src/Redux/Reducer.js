@@ -34,24 +34,63 @@ export const InitialState = {
   GeneratorBreaker: false,
 
   Pumps: {
+    [CstPumps.RecircLeftA]: false,
+    [CstPumps.RecircLeftB]: false,
+
+    [CstPumps.RecircRightA]: false,
+    [CstPumps.RecircRightB]: false,
+
     [CstPumps.FeedwaterPump1]: false,
     [CstPumps.FeedwaterPump2]: false,
   },
 
   Valves: {
+    [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: false,
+
+    [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: false,
+
+
+    [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircRightA}_${CstOutputValve}`]: false,
+
+    [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: false,
+    [`${CstPumps.RecircRightB}_${CstOutputValve}`]: false,
+
+
     [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: false,
     [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: false,
+
     [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
     [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
   },
 
   Flows: {
-    [CstPumps.FeedwaterPump1]: 0,
+    [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: 0,
+    [CstPumps.RecircLeftA]: 0,
+    [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: 0,
+
+    [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: 0,
+    [CstPumps.RecircLeftB]: 0,
+    [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: 0,
+
+
+    [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: 0,
+    [CstPumps.RecircRightA]: 0,
+    [`${CstPumps.RecircRightA}_${CstOutputValve}`]: 0,
+
+    [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: 0,
+    [CstPumps.RecircRightB]: 0,
+    [`${CstPumps.RecircRightB}_${CstOutputValve}`]: 0,
+
+
     [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
+    [CstPumps.FeedwaterPump1]: 0,
     [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
 
-    [CstPumps.FeedwaterPump2]: 0,
     [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+    [CstPumps.FeedwaterPump2]: 0,
     [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
   },
 

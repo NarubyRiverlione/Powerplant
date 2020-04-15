@@ -250,7 +250,7 @@ export const SetPump = (PumpName) => (
 
     // intake valve must be complete open before pump can start
     const intakeFlow = Flows[`${PumpName}_${Cst.CstIntakeValve}`]
-    if (intakeFlow !== Cst.CstFlowMax[`${PumpName}_${Cst.CstIntakeValve}`]) {
+    if (intakeFlow !== Cst.CstFlowMax.Valve) {
       console.warn(`CANNOT start pump ${PumpName} as ${PumpName}_${Cst.CstIntakeValve} valve isn't complete open`)
       return
     }
@@ -277,7 +277,6 @@ export const SetPump = (PumpName) => (
     }
     */
   })
-
 // open or close a valve -- > change flow in valve
 // check if a pump is running --> change pump flow
 export const ToggleValve = (ValveName, PumpName) => (
@@ -288,7 +287,8 @@ export const ToggleValve = (ValveName, PumpName) => (
     const currentValveFlow = Flows[ValveName]
 
     // cannot change valve position if it's already in transit
-    if (currentValveFlow !== Cst.CstFlowMax[ValveName] && currentValveFlow !== Cst.CstFlowMin[ValveName]) {
+    if (currentValveFlow !== Cst.CstFlowMax.Valve // Cst.CstFlowMax[ValveName]
+      && currentValveFlow !== 0) { // Cst.CstFlowMin[ValveName])
       console.warn(`CANNOT change ${ValveName} as it's already in transit`)
       return
     }
@@ -331,9 +331,9 @@ export const ToggleValve = (ValveName, PumpName) => (
         // pump is running
         Pumps[PumpName]
         // the intake valve of this pump must be complete open
-        && Flows[`${Pumpname}_${Cst.CstIntakeValve}`] === Cst.CstFlowMax[ValveName]
+        && Flows[`${Pumpname}_${Cst.CstIntakeValve}`] === Cst.CstFlowMax[`${Cst.CstIntakeValve}`]
         // the output valve of this pump must be complete open
-        && Flows[`${Pumpname}_${Cst.CstOutputValve}`] === Cst.CstFlowMax[ValveName]
+        && Flows[`${Pumpname}_${Cst.CstOutputValve}`] === Cst.CstFlowMax[`${Cst.CstOutputValve}`]
       ) {
         SetFlow(Pumpname, newValves, Flows, Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
       }
@@ -354,8 +354,8 @@ export const ToggleValve = (ValveName, PumpName) => (
     // change flow of valve and pump
     const direction = NewPosition ? +1 : -1
 
-    const target = currentValveFlow === Cst.CstFlowMin[ValveName] || currentValveFlow === Cst.CstFlowMax[ValveName]
-      ? Cst.CstFlowMax[ValveName]
+    const target = currentValveFlow === 0 || currentValveFlow === Cst.CstFlowMax.Valve
+      ? Cst.CstFlowMax.Valve
       : currentValveFlow
 
     // console.log(target)

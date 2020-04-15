@@ -22,7 +22,7 @@ const GeneratorPanel = () => {
     <React.Fragment>
       <Row>
         <Col size={1}>
-          <span className="subtitel">{GeneratorTxt.Breaker}</span>
+          <span className="subtitle">{GeneratorTxt.Breaker}</span>
           <Button
             Caption={GeneratorBreaker ? GeneratorTxt.Closed : GeneratorTxt.Open}
             SetPressed={GeneratorBreaker}

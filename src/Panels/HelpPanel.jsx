@@ -8,7 +8,7 @@ const { WelcomeTxt } = CstText
 const HelpPanel = () => (
   <Row>
     <Col auto>
-      <div className="subtitel">{WelcomeTxt.HelpScreenLink}</div>
+      <div className="subtitle">{WelcomeTxt.HelpScreenLink}</div>
     </Col>
   </Row>
 

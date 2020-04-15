@@ -7,15 +7,11 @@ import { Col, Row } from 'react-reflex-grid'
 // import Selector from './ControlElements/Selector'
 import { SetPump, ToggleValve } from '../Redux/ActionCreator'
 import Button from './ControlElements/Button'
-import {
-  CstText, CstIntakeValve, CstOutputValve,
-} from '../Cst'
+import { CstIntakeValve, CstOutputValve } from '../Cst'
 import Display from './ControlElements/Display'
 
-const { FeedwaterTxt } = CstText
 
-
-const FeedwaterPump = ({ PumpName, Title }) => {
+const Pump = ({ PumpName, Title }) => {
   const dispatch = useDispatch()
   const { Valves, Flows, Pumps } = useSelector((state) => ({
     Valves: state.Valves,
@@ -26,9 +22,6 @@ const FeedwaterPump = ({ PumpName, Title }) => {
   const ValveName = (valveSuffix) => `${PumpName}_${valveSuffix}`
   const ValvePosition = (valveSuffix) => Valves[ValveName(valveSuffix)]
 
-  const SetValve = (valveSuffix) => {
-    dispatch(ToggleValve(ValveName(valveSuffix), PumpName))
-  }
 
   return (
     <React.Fragment>
@@ -38,18 +31,18 @@ const FeedwaterPump = ({ PumpName, Title }) => {
       </Row>
 
       {/* Intake valve */}
-      <Row justify-center>
-        <Col size={3} sm>
+      <Row>
+        <Col auto align-content-end>
           <Button
-            Caption={FeedwaterTxt.CstIntakeValve}
+            Caption={CstIntakeValve}
             // Color="SlateGrey "
             // TextColor="white"
-            cb={() => SetValve(CstIntakeValve)}
+            cb={() => dispatch(ToggleValve(ValveName(CstIntakeValve), PumpName))}
             Width={80}
             SetPressed={ValvePosition(CstIntakeValve)}
           />
         </Col>
-        <Col size={2} sm>
+        <Col auto align-content-start>
           <Display
             Text={Flows[`${PumpName}_${CstIntakeValve}`].toLocaleString()}
             Width={50}
@@ -60,7 +53,7 @@ const FeedwaterPump = ({ PumpName, Title }) => {
 
       {/*  Pump  */}
       <Row justify-center>
-        <Col size={3} sm>
+        <Col auto>
           <Button
             Caption="Pump"
             // Color="SlateGrey "
@@ -70,7 +63,7 @@ const FeedwaterPump = ({ PumpName, Title }) => {
             SetPressed={Pumps[PumpName]}
           />
         </Col>
-        <Col size={2} sm>
+        <Col auto>
           <Display Text={(Flows[PumpName]).toLocaleString()} Width={50} Suffix="%" />
         </Col>
       </Row>
@@ -78,17 +71,17 @@ const FeedwaterPump = ({ PumpName, Title }) => {
 
       {/* Output valve  */}
       <Row justify-center>
-        <Col size={3} sm>
+        <Col auto>
           <Button
-            Caption={FeedwaterTxt.CstOutputValve}
+            Caption={CstOutputValve}
             // Color="SlateGrey "
             // TextColor="white"
-            cb={() => SetValve(CstOutputValve)}
+            cb={() => dispatch(ToggleValve(ValveName(CstOutputValve), PumpName))}
             Width={80}
             SetPressed={ValvePosition(CstOutputValve)}
           />
         </Col>
-        <Col size={2} sm>
+        <Col auto>
           <Display
             Text={Flows[`${PumpName}_${CstOutputValve}`].toLocaleString()}
             Width={50}
@@ -101,9 +94,9 @@ const FeedwaterPump = ({ PumpName, Title }) => {
   )
 }
 
-FeedwaterPump.propTypes = {
+Pump.propTypes = {
   PumpName: PropTypes.string.isRequired,
   Title: PropTypes.string.isRequired,
 }
 
-export default FeedwaterPump
+export default Pump

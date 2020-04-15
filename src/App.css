@@ -50,7 +50,7 @@ font-weight: normal;
 margin: 5px 0px;
 }
 
-.text, .subtitel{
+.text, .subtitle{
   font-family: 'Stardos Stencil', cursive;
 color:CornflowerBlue ;
 fill:CornflowerBlue ;
@@ -61,7 +61,7 @@ font-weight: normal;
 margin: 5px 0px;
 }
 
-.subtitel{
+.subtitle{
   font-size: 1.5em;
 }
 

@@ -32,7 +32,7 @@ const TurbinePanel = () => {
           <Row>
             {/* Steam Flow */}
             <Col auto>
-              <Row><Col auto><span className="subtitel">{TurbineTxt.SteamFlow}</span></Col></Row>
+              <Row><Col auto><span className="subtitle">{TurbineTxt.SteamFlow}</span></Col></Row>
               <Row>
                 <Display
                   Text={SteamFlow.toLocaleString(undefined, { maximumFractionDigits: 1 })}
@@ -45,7 +45,7 @@ const TurbinePanel = () => {
 
             {/* Bypass Valve */}
             <Col auto>
-              <Row><Col auto><span className="subtitel">{TurbineTxt.BypassValve}</span></Col></Row>
+              <Row><Col auto><span className="subtitle">{TurbineTxt.BypassValve}</span></Col></Row>
               <Row>
                 <Display
                   Text={BypassValve.toLocaleString(undefined, { maximumFractionDigits: 0 })}
@@ -60,7 +60,7 @@ const TurbinePanel = () => {
 
         {/* Turbine Setpoint */}
         <Col auto xl>
-          <Row className="justify-center"><span className="subtitel ">{TurbineTxt.Setpoint}</span></Row>
+          <Row className="justify-center"><span className="subtitle ">{TurbineTxt.Setpoint}</span></Row>
           <Row className="justify-start">
             <Col size={6}>
               <Display
@@ -78,7 +78,7 @@ const TurbinePanel = () => {
           </Row>
 
           {/* Turbine Rollup */}
-          <Row className="justify-center"><span className="subtitel">{TurbineTxt.Rollup}</span></Row>
+          <Row className="justify-center"><span className="subtitle">{TurbineTxt.Rollup}</span></Row>
           <Row>
             <Col auto>
               <Button
@@ -112,7 +112,7 @@ const TurbinePanel = () => {
 
         {/* Turbine Speed */}
         <Col auto>
-          <Row><Col auto><span className="subtitel">{TurbineTxt.Speed}</span></Col></Row>
+          <Row><Col auto><span className="subtitle">{TurbineTxt.Speed}</span></Col></Row>
           <Row><Display Text={TurbineSpeed.toLocaleString(undefined, { maximumFractionDigits: 0 })} Width={100} Suffix="RPM" /></Row>
         </Col>
       </Row>
