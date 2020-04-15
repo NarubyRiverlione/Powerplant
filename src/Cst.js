@@ -21,6 +21,8 @@ export const Actions = {
   // Valves & Pumps & Flows
   SetPump: 'PUMP_SET',
   ToggleValve: 'VALVE_TOGGLE',
+  ValveFlowChange: 'VALVE_FLOW',
+  // Pump
   FlowChange: 'FLOW_CHANGE',
   // Turbine
   TurbineSetpointChange: 'TURBINE_SETPOINT_CHANGE',
@@ -36,12 +38,14 @@ export const CstTiming = {
   SteamChange: 750,
   TurbineRollup: 500,
   ReactorLevelUpdate: 1000,
+  ValveChange: 1000,
 }
 
 export const CstChangeStep = {
   Energy: 0.05554,
   FeedwaterPump: 100,
   TurbineRollup: 100,
+  ValveChange: 20,
 }
 
 const CstStartupConditions = {
@@ -102,7 +106,22 @@ export const CstValves = {
 
 export const CstFlowMax = {
   [`${CstPumps.FeedwaterPump1}`]: 5000,
+  [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 100,
+  [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 100,
+
   [`${CstPumps.FeedwaterPump2}`]: 5000,
+  [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 100,
+  [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 100,
+}
+
+export const CstFlowMin = {
+  [`${CstPumps.FeedwaterPump1}`]: 0,
+  [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
+  [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
+
+  [`${CstPumps.FeedwaterPump2}`]: 0,
+  [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+  [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
 }
 
 export const StartupConditions = {
@@ -214,8 +233,8 @@ export const CstText = {
 
   FeedwaterTxt: {
     Title: 'Feedwater pumps',
-    Pump1: 'Circuit 1',
-    Pump2: 'Circuit 2',
+    Pump1: 'Pump 1',
+    Pump2: 'Pump 2',
     CstIntakeValve: 'Inlet',
     CstOutputValve: 'Outlet',
     Valves: 'Valves',

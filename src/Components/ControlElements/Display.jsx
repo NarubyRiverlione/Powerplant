@@ -14,18 +14,18 @@ const Display = ({
     // <div style={{ flex: 1 }} className="d-flex">
     <svg width={WidthTotal} height="50">
       {/* show title if provided */}
-      {Title && <text x="5" y="32" className="displayTitle">{Title}</text>}
+      {Title && <text x="5" y="25" className="displayTitle">{Title}</text>}
 
       {/* display text in rect   */}
       <rect
         x={Xoffset}
-        y="5"
+        y="15"
         width={Width}
-        height="40"
+        height="30" // 40
         style={{ fill: 'black', stroke: 'gray', strokeWidth: 2 }}
       />
 
-      <text x={Xoffset + 10} y="32" className={ErrorMsg ? 'displayError' : 'display'}>
+      <text x={Xoffset + 10} y="35" className={ErrorMsg ? 'displayError' : 'display'}>
         {Text}
       </text>
 
@@ -33,7 +33,7 @@ const Display = ({
       {Suffix && (
         <text
           x={Xoffset + Width + 5}
-          y="32"
+          y="35"
           className="displayTitle"
         >
           {Suffix}

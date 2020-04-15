@@ -4,16 +4,28 @@ import PropTypes from 'prop-types'
 const Button = ({
   Width, Caption, SetPressed, Color, TextColor, cb, TabIndex,
 }) => {
-  const [Background, setBackground] = useState('')
-  const [BorderColor, setBorderColor] = useState('')
-  const [ButtonTextColor, setButtonTextColor] = useState('')
+  const [Background, setBackground] = useState('ForestGreen')
+  const [BorderColor, setBorderColor] = useState('gray')
+  const [ButtonTextColor, setButtonTextColor] = useState('GhostWhite')
 
 
   useEffect(() => {
-    setBackground((!SetPressed ? '' : 'light') + Color)
-    setBorderColor((!SetPressed ? 'light' : 'dark') + Color)
-    setButtonTextColor((!SetPressed ? '' : 'light') + TextColor)
-  }, [Color, TextColor, SetPressed, setBackground, setBorderColor, setButtonTextColor])
+    if (Color === 'ForestGreen' || Color === 'IndianRed') {
+      setBackground((SetPressed ? 'ForestGreen' : 'IndianRed'))
+    } else {
+      setBackground((!SetPressed ? 'light' : '') + Color)
+    }
+    if (Color === 'ForestGreen' || Color === 'IndianRed') {
+      setBorderColor((SetPressed ? 'gray' : 'Gainsboro'))
+    } else {
+      setBorderColor((!SetPressed ? 'dark' : 'light') + Color)
+    }
+    if (TextColor === 'GhostWhite' || TextColor === 'Navy') {
+      setButtonTextColor((SetPressed ? 'GhostWhite' : 'Navy'))
+    } else {
+      setButtonTextColor((!SetPressed ? 'light' : '') + TextColor)
+    }
+  }, [SetPressed]) // eslint-disable-line
 
   const Click = () => {
     if (cb) { cb(Caption) }
@@ -23,7 +35,7 @@ const Button = ({
     <div style={{ margin: 5 }}>
       <svg
         width={Width + 10}
-        height="60"
+        height="50" // 60
         onClick={Click}
         onKeyDown={Click}
         role="button"
@@ -35,13 +47,13 @@ const Button = ({
           rx="10"
           ry="10"
           width={Width}
-          height="50"
-          style={{ fill: Background, stroke: BorderColor, strokeWidth: 5 }}
+          height="40" // 50
+          style={{ fill: Background, stroke: BorderColor, strokeWidth: 2 }} // 5
         />
 
         <text
-          x={Width / 2 + 5}
-          y="35"
+          x={Width / 2 + 2} // +5
+          y="30" // 35
           fontSize="1em"
           textAnchor="middle"
           fontWeight="bold"
@@ -60,13 +72,15 @@ export default Button
 Button.propTypes = {
   Width: PropTypes.number,
   Caption: PropTypes.string.isRequired,
-  Color: PropTypes.string.isRequired,
-  TextColor: PropTypes.string.isRequired,
+  Color: PropTypes.string,
+  TextColor: PropTypes.string,
   TabIndex: PropTypes.number,
   SetPressed: PropTypes.bool,
   cb: PropTypes.func,
 }
 Button.defaultProps = {
+  Color: 'ForestGreen',
+  TextColor: 'GhostWhite',
   Width: 60,
   SetPressed: false,
   cb: undefined,

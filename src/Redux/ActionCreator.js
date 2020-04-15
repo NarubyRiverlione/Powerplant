@@ -100,14 +100,14 @@ And will in turn change the reactor temperature
 */
 export const ReactorChangeEnergy = (Steps) => (
   (dispatch, getState) => {
-    console.log(`Steps: ${Steps}`)
+    // console.log(`Steps: ${Steps}`)
     const EnergyDelta = Steps * Cst.CstChangeStep.Energy
-    console.log(`Energy delta: ${EnergyDelta}`)
+    // console.log(`Energy delta: ${EnergyDelta}`)
 
     const ChangeEnergy = (step) => {
       const EnergyChange = Math.sign(step) * Cst.CstChangeStep.Energy
       // TODO prevent negative energy level
-      console.log(`Energy step: ${EnergyChange}`)
+      // console.log(`Energy step: ${EnergyChange}`)
       // change energy
       dispatch({
         type: Cst.Actions.EnergyAddDelta,
@@ -117,8 +117,11 @@ export const ReactorChangeEnergy = (Steps) => (
       const { Flows } = getState()
       ChangeReactorTemp(EnergyChange, Flows, dispatch)
     }
-    ChangeOverTime(Cst.CstTiming.EnergyChange, Math.sign(Steps) * Cst.CstChangeStep.Energy,
-      EnergyDelta, (step) => ChangeEnergy(step), false)
+    ChangeOverTime(Cst.CstTiming.EnergyChange,
+      Math.sign(Steps) * Cst.CstChangeStep.Energy,
+      EnergyDelta,
+      (step) => ChangeEnergy(step),
+      false)
   })
 
 // Set energy in reactor
@@ -155,7 +158,7 @@ export const TurbineSetRollup = (TurbineRollup) => (
 
     // allow only 1800 after 900 is reached
     if (TurbineRollup === 1800 && TurbineSpeed !== 900) {
-      console.warn('Unable to rollup to 1800')
+      console.warn('UNABLE to rollup to 1800 if not already on 900')
       return
     }
 
@@ -185,26 +188,34 @@ export const GeneratorChangeBreaker = () => (
   })
 
 
-// set pump level, then calc flow
-export const SetPump = (PumpName, SetTo) => (
+// toggle pump state, then calc flow
+export const SetPump = (PumpName) => (
   (dispatch, getState) => {
-    const { Pumps, Flows, Valves } = getState()
-    const CurrentLevel = Pumps[PumpName]
-    const CurrentFlow = Flows[PumpName]
-    const FlowShouldAlreadyBe = Cst.CstFlowMax[PumpName] * CurrentLevel
+    const { Pumps, Flows } = getState()
+    // const CurrentStatus = Pumps[PumpName]
+    // const CurrentFlow = Flows[PumpName]
+    // const FlowShouldAlreadyBe = CurrentStatus ? Cst.CstFlowMax[PumpName] : 0
 
+    // intake valve must be complete open before pump can start
+    const intakeFlow = Flows[`${PumpName}_${Cst.CstIntakeValve}`]
+    if (intakeFlow !== Cst.CstFlowMax[`${PumpName}_${Cst.CstIntakeValve}`]) {
+      console.warn(`CANNOT start pump ${PumpName} as ${PumpName}_${Cst.CstIntakeValve} valve isn't complete open`)
+      return
+    }
 
-    const Level = SetTo * 0.25
-    const newPumps = { ...Pumps, [PumpName]: Level }
+    // toggle pump state
+    const newPumpState = !Pumps[PumpName]
+    const newPumps = { ...Pumps, [PumpName]: newPumpState }
+
     dispatch({
       type: Cst.Actions.SetPump,
       Pumps: newPumps,
     })
-
+    /*
     if (CurrentFlow !== FlowShouldAlreadyBe) {
       // need to first set the change so it can be undone --> React see changes and renders Selector
       // console.warn(`Already changing pump. back to ${CurrentLevel}`)
-      const UndoPumps = { ...Pumps, [PumpName]: CurrentLevel }
+      const UndoPumps = { ...Pumps, [PumpName]: CurrentStatus }
       dispatch({
         type: Cst.Actions.SetPump,
         Pumps: UndoPumps,
@@ -212,41 +223,93 @@ export const SetPump = (PumpName, SetTo) => (
     } else {
       SetFlow(PumpName, Valves, Flows, newPumps, dispatch, ChangeSteamFlow, ChangeSteam)
     }
+    */
   })
 
-// open or close a valve
-// check if a pump is connected --> change flow
+// open or close a valve -- > change flow in valve
+// check if a pump is running --> change pump flow
 export const ToggleValve = (ValveName, PumpName) => (
   (dispatch, getState) => {
     const { Valves, Flows, Pumps } = getState()
-    const ValveCurrent = Valves[ValveName]
-    const NewPosition = !ValveCurrent
+    const CurrentPostion = Valves[ValveName]
+    const NewPosition = !CurrentPostion
+    const currentValveFlow = Flows[ValveName]
+
+    // cannot change valve position if it's already in transit
+    if (currentValveFlow !== Cst.CstFlowMax[ValveName] && currentValveFlow !== Cst.CstFlowMin[ValveName]) {
+      console.warn(`CANNOT change ${ValveName} as it's already in transit`)
+      return
+    }
+
+    // output valve can only be open when pump is running
+
+    if (ValveName.includes([Cst.CstOutputValve]) && !Pumps[PumpName]) {
+      console.warn(`CANNOT open  ${ValveName} as  ${PumpName} isn't running`)
+      return
+    }
+
+    // input valve can only be closed when pump isn't running
+    if (ValveName.includes([Cst.CstIntakeValve]) && Pumps[PumpName]
+      && !NewPosition) {
+      console.warn(`CANNOT close  ${ValveName} as  ${PumpName} is running`)
+      return
+    }
+
+
+    // change valve button
     const newValves = { ...Valves, [ValveName]: NewPosition }
     dispatch({
       type: Cst.Actions.ToggleValve,
       Valves: newValves,
     })
 
+    // callback for ChangeOverTime
+    const ChangeValveFlow = (Pumpname, Valvename, Step) => {
+      // update valve flow
+      dispatch({
+        type: Cst.Actions.ValveFlowChange,
+        Valvename,
+        Step,
+      })
 
-    // a pump is connected to this now closing valve --> stop pump flow
-    if (PumpName && !NewPosition) {
-      SetPump(PumpName, 0, getState, dispatch)
+      // check if both valve are complete open
+      // and the pump that is running
+      //  --> set pump flow
+      if (
+        // pump is running
+        Pumps[PumpName]
+        // the intake valve of this pump must be complete open
+        && Flows[`${Pumpname}_${Cst.CstIntakeValve}`] === Cst.CstFlowMax[ValveName]
+        // the output valve of this pump must be complete open
+        && Flows[`${Pumpname}_${Cst.CstOutputValve}`] === Cst.CstFlowMax[ValveName]
+      ) {
+        SetFlow(Pumpname, newValves, Flows, Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
+      }
+
+      // a pump is connected to this now closing valve --> stop pump flow
+      // doesn't matter if it's a intake of output valve as both must be complete open
+      // to operate the pump
+      if (PumpName && Flows[ValveName] === 0) {
+        dispatch({
+          type: Cst.Actions.FlowChange,
+          Flows: { ...Flows, [PumpName]: 0 },
+        })
+      }
     }
-    // a pump is connected &  intake valve was already open,
-    // now opening this output valve --> set flow
-    if (PumpName
-      && ValveName.includes(Cst.CstOutputValve)
-      && NewPosition
-      && Valves[`${PumpName}_${Cst.CstIntakeValve}`]) {
-      SetFlow(PumpName, newValves, Flows, Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
-    }
-    // a pump is connected
-    // output valve is open
-    // now opening this input valve --> set flow
-    if (PumpName
-      && ValveName.includes(Cst.CstIntakeValve)
-      && NewPosition
-      && Valves[`${PumpName}_${Cst.CstOutputValve}`]) {
-      SetFlow(PumpName, newValves, Flows, Pumps, dispatch, ChangeSteamFlow, ChangeSteam)
-    }
+
+
+    // open or close valve slowly over time
+    // change flow of valve and pump
+    const direction = NewPosition ? +1 : -1
+
+    const target = currentValveFlow === Cst.CstFlowMin[ValveName] || currentValveFlow === Cst.CstFlowMax[ValveName]
+      ? Cst.CstFlowMax[ValveName]
+      : currentValveFlow
+
+    // console.log(target)
+    ChangeOverTime(Cst.CstTiming.ValveChange,
+      Cst.CstChangeStep.ValveChange * direction,
+      target,
+      (step) => ChangeValveFlow(PumpName, ValveName, step),
+      true)
   })

@@ -30,8 +30,8 @@ export const InitialState = {
   GeneratorBreaker: false,
 
   Pumps: {
-    [CstPumps.FeedwaterPump1]: 0,
-    [CstPumps.FeedwaterPump2]: 0,
+    [CstPumps.FeedwaterPump1]: false,
+    [CstPumps.FeedwaterPump2]: false,
   },
 
   Valves: {
@@ -43,7 +43,12 @@ export const InitialState = {
 
   Flows: {
     [CstPumps.FeedwaterPump1]: 0,
+    [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
+    [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
+
     [CstPumps.FeedwaterPump2]: 0,
+    [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+    [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
   },
 
   Fout: false,
@@ -67,17 +72,29 @@ export const AppReducer = (state = InitialState, action) => {
         TurbineSpeed: action.TurbineRollup,
         GeneratorBreaker: action.GeneratorBreaker,
       }
-    // Valves & Pumps & Flows
+    // Valves button
     case Actions.ToggleValve:
       return {
         ...state,
         Valves: action.Valves,
       }
+    // Valves flow
+    case Actions.ValveFlowChange:
+      return {
+        ...state,
+        Flows: {
+          ...state.Flows,
+          [action.Valvename]: state.Flows[action.Valvename] + action.Step,
+        },
+      }
+
+    // Pump button
     case Actions.SetPump:
       return {
         ...state,
         Pumps: action.Pumps,
       }
+    // Pump flow
     case Actions.FlowChange:
       return {
         ...state,

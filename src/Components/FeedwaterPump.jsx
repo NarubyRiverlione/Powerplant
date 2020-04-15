@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { Col, Row } from 'react-reflex-grid'
 
-import Selector from './ControlElements/Selector'
+// import Selector from './ControlElements/Selector'
 import { SetPump, ToggleValve } from '../Redux/ActionCreator'
 import Button from './ControlElements/Button'
 import {
@@ -29,86 +29,74 @@ const FeedwaterPump = ({ PumpName, Title }) => {
   const SetValve = (valveSuffix) => {
     dispatch(ToggleValve(ValveName(valveSuffix), PumpName))
   }
-  const PumpLevel = Pumps[PumpName] * 4 + 1
-  // console.log(`${PumpName}: ${PumpLevel}`)
+
   return (
     <React.Fragment>
       <Row justify-center>
         {/* Title */}
         <span className="title">{Title}</span>
       </Row>
+
+      {/* Intake valve */}
       <Row justify-center>
-        {/* Pump valves */}
         <Col size={3} sm>
-          <Row justify-center>
-            <span className="subtitel">{FeedwaterTxt.Valves}</span>
-          </Row>
-          <Row justify-center>
-            <Col auto>
-              <Button
-                Caption={FeedwaterTxt.CstIntakeValve}
-                Color="SlateGrey "
-                TextColor="white"
-                cb={() => SetValve(CstIntakeValve)}
-                Width={80}
-                SetPressed={ValvePosition(CstIntakeValve)}
-              />
-            </Col>
-          </Row>
-          <Row justify-center>
-            <Col auto>
-              <Button
-                Caption={FeedwaterTxt.CstOutputValve}
-                Color="SlateGrey "
-                TextColor="white"
-                cb={() => SetValve(CstOutputValve)}
-                Width={80}
-                SetPressed={ValvePosition(CstOutputValve)}
-              />
-            </Col>
-          </Row>
-
+          <Button
+            Caption={FeedwaterTxt.CstIntakeValve}
+            // Color="SlateGrey "
+            // TextColor="white"
+            cb={() => SetValve(CstIntakeValve)}
+            Width={80}
+            SetPressed={ValvePosition(CstIntakeValve)}
+          />
         </Col>
-
-        {/*  Pump level */}
-        <Col size={6} sm>
-          <Row justify-center><span className="subtitel">{FeedwaterTxt.Level}</span></Row>
-          <Row>
-            <Col auto>
-              <br />
-              <Selector
-                Amount={5}
-                Radius={50}
-                cb={(set) => dispatch(SetPump(PumpName, set - 1))}
-                OverwriteSelected={PumpLevel}
-              />
-
-            </Col>
-            <Col auto className="">
-              {/* setting labels */}
-
-              <Row><Col auto className="RecircLabels"><span className="text"> Off</span></Col></Row>
-              <Row><Col auto><span className="text"> 25 %</span></Col></Row>
-              <Row><Col auto><span className="text"> 50 %</span></Col></Row>
-              <Row><Col auto><span className="text"> 75 %</span></Col></Row>
-              <Row><Col auto><span className="text"> 100 %</span></Col></Row>
-
-            </Col>
-
-          </Row>
+        <Col size={2} sm>
+          <Display
+            Text={Flows[`${PumpName}_${CstIntakeValve}`].toLocaleString()}
+            Width={50}
+            Suffix="%"
+          />
         </Col>
-
-        {/* Pump Flow */}
-        <Col size={3} sm>
-          <Row justify-center>
-            <span className="subtitel">{FeedwaterTxt.Flow}</span>
-          </Row>
-          <Row>
-            <Col auto><Display Text={(Flows[PumpName]).toLocaleString()} Width={75} /></Col>
-          </Row>
-        </Col>
-
       </Row>
+
+      {/*  Pump  */}
+      <Row justify-center>
+        <Col size={3} sm>
+          <Button
+            Caption="Pump"
+            // Color="SlateGrey "
+            // TextColor="white"
+            cb={() => dispatch(SetPump(PumpName))}
+            Width={80}
+            SetPressed={Pumps[PumpName]}
+          />
+        </Col>
+        <Col size={2} sm>
+          <Display Text={(Flows[PumpName]).toLocaleString()} Width={50} Suffix="%" />
+        </Col>
+      </Row>
+
+
+      {/* Output valve  */}
+      <Row justify-center>
+        <Col size={3} sm>
+          <Button
+            Caption={FeedwaterTxt.CstOutputValve}
+            // Color="SlateGrey "
+            // TextColor="white"
+            cb={() => SetValve(CstOutputValve)}
+            Width={80}
+            SetPressed={ValvePosition(CstOutputValve)}
+          />
+        </Col>
+        <Col size={2} sm>
+          <Display
+            Text={Flows[`${PumpName}_${CstOutputValve}`].toLocaleString()}
+            Width={50}
+            Suffix="%"
+          />
+        </Col>
+      </Row>
+
     </React.Fragment>
   )
 }
