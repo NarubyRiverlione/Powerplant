@@ -13,6 +13,10 @@ export const InitialState = {
   ReactorLevel: 0,
   ReactorLevelChange: 0,
   RefReactorLevelTimer: null,
+  RodsOut: 0,
+  RodSpeed: 0,
+  RodAction: 0,
+
   // Steam
   SteamTemp: 0,
   SteamPressure: 0,
@@ -71,6 +75,7 @@ export const AppReducer = (state = InitialState, action) => {
         TurbineRollup: action.TurbineRollup,
         TurbineSpeed: action.TurbineRollup,
         GeneratorBreaker: action.GeneratorBreaker,
+        RodsOut: action.RodsOut,
       }
     // Valves button
     case Actions.ToggleValve:
@@ -115,11 +120,15 @@ export const AppReducer = (state = InitialState, action) => {
         ...state,
         Energy: action.StartEnergy,
       }
+    case Actions.ReactorRodSpeed:
+      return { ...state, RodSpeed: action.RodSpeed }
+    case Actions.ReactorRodsOut:
+      return { ...state, RodsOut: action.RodsOut }
+    case Actions.ReactorRodAction:
+      return { ...state, RodAction: action.RodAction }
+
     case Actions.EnergyAddDelta:
-      return {
-        ...state,
-        Energy: state.Energy + action.EnergyChange,
-      }
+      return { ...state, Energy: state.Energy + action.EnergyChange }
     case Actions.ReactorAddDeltaTemp:
       return {
         ...state,

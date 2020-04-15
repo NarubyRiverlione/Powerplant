@@ -14,7 +14,7 @@ import SteamPanel from '../Panels/SteamPanel'
 import FeedwaterPanel from '../Panels/FeedwaterPanel'
 import GeneratorPanel from '../Panels/GeneratorPanel'
 
-// const { StartEnergy } = CstReactor
+
 const {
   ReactorTxt, TurbineTxt, SteamTxt, FeedwaterTxt, GeneratorTxt,
 } = CstText
@@ -24,8 +24,6 @@ const PowerPlantScreen = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // console.log('Called start reactor')
-    // dispatch(ReactorSetStartEnergy(StartEnergy.Power20))
     dispatch(ReactorLevelChangeTimer())
   }, [])// eslint-disable-line
 

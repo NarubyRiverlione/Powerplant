@@ -14,6 +14,9 @@ export const Actions = {
   ReactorAddDeltaTemp: 'REACTOR_CHANGE_TEMP',
   ReactorLevelChange: 'REACTOR_CHANGE_LEVEL',
   ReactorLevelChangeTimer: 'STORE_REF_REACTOR_LEVEL_INTERVAL',
+  ReactorRodsOut: 'RODS_OUT_REACTOR',
+  ReactorRodSpeed: 'ROD_SPEED_REACTOR',
+  ReactorRodAction: 'ROD_ACTION_REACTOR',
   // Steam
   ChangeSteam: 'STEAM_CHANGE',
   // SteamPressure: 'STEAM_CHANGE_PRESSURE',
@@ -60,6 +63,12 @@ const CstStartupConditions = {
   // Power100: 'Power100',
 }
 export const CstReactor = {
+  RodSpeed1: 1,
+  RodSpeed5: 5,
+  RodSpeed10: 10,
+  RodActionInsert: -1,
+  RodActionIdle: 0,
+  RodActionRetract: +1,
   ColdTemp: 30,
   StartEnergy: {
     [CstStartupConditions.Test]: 275.0,
@@ -125,13 +134,63 @@ export const CstFlowMin = {
 }
 
 export const StartupConditions = {
+  [CstStartupConditions.BeforeBoiling]: {
+    RodsOut: 1260,
+    TurbineSetpoint: 0,
+    TurbineRollup: 0,
+    GeneratorBreaker: false,
+    Pumps: {
+      [`${CstPumps.FeedwaterPump1}`]: false,
+      [`${CstPumps.FeedwaterPump2}`]: false,
+    },
+    Valves: {
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: false,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: false,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
+    },
+    Flows: {
+      [CstPumps.FeedwaterPump1]: 0,
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
+
+      [CstPumps.FeedwaterPump2]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
+    },
+  },
+  [CstStartupConditions.Boiling]: {
+    RodsOut: 1262,
+    TurbineSetpoint: 0,
+    TurbineRollup: 0,
+    GeneratorBreaker: false,
+    Pumps: {
+      [`${CstPumps.FeedwaterPump1}`]: false,
+      [`${CstPumps.FeedwaterPump2}`]: false,
+    },
+    Valves: {
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: false,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: false,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
+    },
+    Flows: {
+      [CstPumps.FeedwaterPump1]: 0,
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
+
+      [CstPumps.FeedwaterPump2]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
+    },
+  },
   [CstStartupConditions.BeforeSteamFlow]: {
     TurbineSetpoint: 0,
     TurbineRollup: 0,
     GeneratorBreaker: false,
     Pumps: {
-      [`${CstPumps.FeedwaterPump1}`]: 1,
-      [`${CstPumps.FeedwaterPump2}`]: 0,
+      [`${CstPumps.FeedwaterPump1}`]: true,
+      [`${CstPumps.FeedwaterPump2}`]: false,
     },
     Valves: {
       [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: true,
@@ -141,7 +200,12 @@ export const StartupConditions = {
     },
     Flows: {
       [CstPumps.FeedwaterPump1]: 5000,
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 100,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 100,
+
       [CstPumps.FeedwaterPump2]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
     },
   },
   [CstStartupConditions.Steam3MBL]: {
@@ -149,8 +213,8 @@ export const StartupConditions = {
     TurbineRollup: 0,
     GeneratorBreaker: false,
     Pumps: {
-      [`${CstPumps.FeedwaterPump1}`]: 1,
-      [`${CstPumps.FeedwaterPump2}`]: 0,
+      [`${CstPumps.FeedwaterPump1}`]: true,
+      [`${CstPumps.FeedwaterPump2}`]: false,
     },
     Valves: {
       [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: true,
@@ -160,7 +224,12 @@ export const StartupConditions = {
     },
     Flows: {
       [CstPumps.FeedwaterPump1]: 5000,
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 100,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 100,
+
       [CstPumps.FeedwaterPump2]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
     },
   },
   [CstStartupConditions.GeneratorRunning]: {
@@ -168,8 +237,8 @@ export const StartupConditions = {
     GeneratorBreaker: true,
     TurbineRollup: 1800,
     Pumps: {
-      [`${CstPumps.FeedwaterPump1}`]: 1,
-      [`${CstPumps.FeedwaterPump2}`]: 0,
+      [`${CstPumps.FeedwaterPump1}`]: true,
+      [`${CstPumps.FeedwaterPump2}`]: false,
     },
     Valves: {
       [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: true,
@@ -179,7 +248,12 @@ export const StartupConditions = {
     },
     Flows: {
       [CstPumps.FeedwaterPump1]: 5000,
+      [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 100,
+      [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 100,
+
       [CstPumps.FeedwaterPump2]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
+      [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
     },
   },
 }
@@ -215,6 +289,14 @@ export const CstText = {
     Temp: 'Core temp',
     TempUnit: '°C',
     Level: 'Cooling level',
+    RodsOut: 'Control rods retracted',
+    RodSpeed1: 'Slow',
+    RodSpeed5: 'Medium',
+    RodSpeed10: 'Fast',
+    RodSpeedTxt: 'Rod speed',
+    RodActionTxt: 'Action',
+    RodRetract: 'Retract',
+    RodInsert: 'Insert',
   },
 
   TurbineTxt: {

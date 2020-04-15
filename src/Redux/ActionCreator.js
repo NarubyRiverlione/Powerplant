@@ -48,11 +48,12 @@ const ChangeReactorTemp = (EnergyChange, Flows, dispatch) => {
   ChangeSteam(Flows, dispatch)
 }
 
-
+// #region SIMULATOR
 // reset the simulator
 export const SimulatorReset = () => (
   { type: Cst.Actions.SimReset }
 )
+// Setup the simulator to a specific condition
 export const SimulatorSetup = (startupSenario) => (dispatch) => {
   const setupState = Cst.StartupConditions[startupSenario]
   if (setupState) {
@@ -64,12 +65,89 @@ export const SimulatorSetup = (startupSenario) => (dispatch) => {
       TurbineSetpoint: setupState.TurbineSetpoint,
       TurbineRollup: setupState.TurbineRollup,
       GeneratorBreaker: setupState.GeneratorBreaker,
+      RodsOut: setupState.RodsOut,
     })
   }
 }
-// change the water level in the reactor
-// every  CstTiming.ReactorLevelUpdate tick
-// by the previous calculated ReactorLevelChange
+// #endregion
+
+// #region  REACTOR
+/* Change energy level in reactor
+The change will take time (Cst.CstTiming.EnergyChange)
+And will in turn change the reactor temperature
+*/
+const ReactorChangeEnergy = () => (
+  (dispatch, getState) => {
+    const { RodSpeed, RodAction, RodsOut } = getState()
+    const Steps = RodSpeed * RodAction
+    console.log(`Steps: ${Steps}`)
+    // count rods that are retracted
+    const newRodsOut = RodsOut + Steps
+    dispatch({ type: Cst.Actions.ReactorRodsOut, RodsOut: newRodsOut })
+
+    const EnergyDelta = Steps * Cst.CstChangeStep.Energy
+    // console.log(`Energy delta: ${EnergyDelta}`)
+
+    // change each tick
+    const ChangeEnergy = (step) => {
+      const EnergyChange = Math.sign(step) * Cst.CstChangeStep.Energy
+      // TODO prevent negative energy level
+      // console.log(`Energy step: ${EnergyChange}`)
+      // change energy
+      dispatch({
+        type: Cst.Actions.EnergyAddDelta,
+        EnergyChange,
+      })
+      // change reactor temperature
+      const { Flows } = getState()
+      ChangeReactorTemp(EnergyChange, Flows, dispatch)
+    }
+
+    // make energy changes over time
+    ChangeOverTime(Cst.CstTiming.EnergyChange,
+      Math.sign(Steps) * Cst.CstChangeStep.Energy,
+      Math.abs(EnergyDelta),
+      (step) => ChangeEnergy(step),
+      false,
+      // done callback = release rod action button
+      () => {
+        dispatch({
+          type: Cst.Actions.ReactorRodAction,
+          RodAction: Cst.CstReactor.RodActionIdle,
+        })
+      })
+  })
+// Set speed of changing control rods
+export const ChangeRodSpeed = (RodSpeed) => (
+  (dispatch, getState) => {
+    const { RodAction } = getState()
+    if (RodAction !== Cst.CstReactor.RodActionIdle) {
+      console.warn('CANNOT change rod speed will rods are in motion')
+      return
+    }
+    dispatch({
+      type: Cst.Actions.ReactorRodSpeed,
+      RodSpeed,
+    })
+  })
+// set action of rods: +1 = retract, -1 = insert
+export const SetRodAction = (newRodAction) => (
+  (dispatch, getState) => {
+    const { RodAction } = getState()
+    if (RodAction !== Cst.CstReactor.RodActionIdle) {
+      console.warn('ILLEGAL rod action, rods are already in mortion')
+      return
+    }
+    // set rod action button pressed
+    dispatch({ type: Cst.Actions.ReactorRodAction, RodAction: newRodAction })
+    //  change reactor energy
+    dispatch(ReactorChangeEnergy())
+  })
+
+/* change the water level in the reactor
+ every  CstTiming.ReactorLevelUpdate tick
+ by the previous calculated ReactorLevelChange
+ */
 export const ReactorLevelChangeTimer = (stop = false) => (
   (dispatch, getState) => {
     // stop interval
@@ -94,35 +172,6 @@ export const ReactorLevelChangeTimer = (stop = false) => (
     })
   })
 
-/* Change energy level in reactor
-The change will take time (Cst.CstTiming.EnergyChange)
-And will in turn change the reactor temperature
-*/
-export const ReactorChangeEnergy = (Steps) => (
-  (dispatch, getState) => {
-    // console.log(`Steps: ${Steps}`)
-    const EnergyDelta = Steps * Cst.CstChangeStep.Energy
-    // console.log(`Energy delta: ${EnergyDelta}`)
-
-    const ChangeEnergy = (step) => {
-      const EnergyChange = Math.sign(step) * Cst.CstChangeStep.Energy
-      // TODO prevent negative energy level
-      // console.log(`Energy step: ${EnergyChange}`)
-      // change energy
-      dispatch({
-        type: Cst.Actions.EnergyAddDelta,
-        EnergyChange,
-      })
-      // change reactor temperature
-      const { Flows } = getState()
-      ChangeReactorTemp(EnergyChange, Flows, dispatch)
-    }
-    ChangeOverTime(Cst.CstTiming.EnergyChange,
-      Math.sign(Steps) * Cst.CstChangeStep.Energy,
-      EnergyDelta,
-      (step) => ChangeEnergy(step),
-      false)
-  })
 
 // Set energy in reactor
 export const ReactorSetStartEnergy = (StartEnergy) => (
@@ -135,7 +184,9 @@ export const ReactorSetStartEnergy = (StartEnergy) => (
     const { Flows } = getState()
     ChangeReactorTemp(StartEnergy, Flows, dispatch)
   })
+// #endregion
 
+// #region  TURBINE & GENERATOR
 // Open or close the main steam isolation valve
 export const ToggleMSIV = () => (
   (dispatch) => (
@@ -186,8 +237,9 @@ export const GeneratorChangeBreaker = () => (
       dispatch({ type: Cst.Actions.GeneratorBreaker, GeneratorBreaker: true })
     }
   })
+// #endregion
 
-
+// #region  General Valves & pumps
 // toggle pump state, then calc flow
 export const SetPump = (PumpName) => (
   (dispatch, getState) => {
@@ -313,3 +365,4 @@ export const ToggleValve = (ValveName, PumpName) => (
       (step) => ChangeValveFlow(PumpName, ValveName, step),
       true)
   })
+// #endregion

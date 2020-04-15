@@ -12,13 +12,10 @@ const Button = ({
   useEffect(() => {
     if (Color === 'ForestGreen' || Color === 'IndianRed') {
       setBackground((SetPressed ? 'ForestGreen' : 'IndianRed'))
-    } else {
-      setBackground((!SetPressed ? 'light' : '') + Color)
-    }
-    if (Color === 'ForestGreen' || Color === 'IndianRed') {
       setBorderColor((SetPressed ? 'gray' : 'Gainsboro'))
     } else {
-      setBorderColor((!SetPressed ? 'dark' : 'light') + Color)
+      setBackground((SetPressed ? 'light' : '') + Color)
+      setBorderColor((SetPressed ? 'dark' : 'light') + Color)
     }
     if (TextColor === 'GhostWhite' || TextColor === 'Navy') {
       setButtonTextColor((SetPressed ? 'GhostWhite' : 'Navy'))

@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 const Display = ({
   Title, Text, Width, ErrorMsg, Suffix,
 }) => {
-  const Xoffset = (!Title ? 10 : Title.length * 15 + 5)
-  const WidthTotal = (!Title ? 5 : Title.length * 15 + 5)
+  const Xoffset = (!Title ? 10 : Title.length * 10 + 15)
+  const WidthTotal = (!Title ? 5 : Title.length * 10 + 15)
     + Width
     + (!Suffix ? 5 : Suffix.length * 15 + 15)
 
@@ -14,7 +14,7 @@ const Display = ({
     // <div style={{ flex: 1 }} className="d-flex">
     <svg width={WidthTotal} height="50">
       {/* show title if provided */}
-      {Title && <text x="5" y="25" className="displayTitle">{Title}</text>}
+      {Title && <text x="5" y="35" className="displayTitle">{Title}</text>}
 
       {/* display text in rect   */}
       <rect
