@@ -33,10 +33,10 @@ const RecirculationPanel = () => (
           <Col auto>
             <div className="title">{RecirculationTxt.Steamdrum}</div>
           </Col>
-
-          <SteamPanel />
-
         </Row>
+
+        <SteamPanel />
+
       </Col>
 
       <Col size={5} md>

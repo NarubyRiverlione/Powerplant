@@ -31,8 +31,10 @@ export const Actions = {
   TurbineSetpointChange: 'TURBINE_SETPOINT_CHANGE',
   TurbineSetRollup: 'TURBINE_SET_ROLLUP',
   TurbineSpeed: 'TURBINE_SPEED',
+  ChangeHotWell: 'CHANGE_HOTWELL_LEVEL',
   // Generator
   GeneratorBreaker: 'GENERATOR_BREAKER',
+
 }
 
 export const CstTiming = {
@@ -63,7 +65,6 @@ export const CstReactor = {
   ColdTemp: 30,
 }
 
-
 export const CstSteam = {
   TempLoss: 3.28,
   FlowFactor: 0.001740309723,
@@ -91,6 +92,7 @@ export const CstPumps = {
 
 export const CstIntakeValve = 'Intake'
 export const CstOutputValve = 'Output'
+
 export const CstValves = {
   [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: 'RecirculateLeftA_Intake',
   [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: 'RecirculateLeftA_Output',
@@ -154,8 +156,8 @@ export const CstText = {
     ChoiceStartup: 'Choice your start up condition',
     Choices: [
       { Name: CstStartupConditions.Cold, Title: 'Cold & dark reactor' },
-      { Name: CstStartupConditions.BeforeBoiling, Title: 'Just before boiling reactor' },
-      { Name: CstStartupConditions.Boiling, Title: 'Boiling reactor' },
+      { Name: CstStartupConditions.BeforeBoiling, Title: 'Boiling in reactor' },
+      { Name: CstStartupConditions.Boiling, Title: 'Boiling in steamdrum' },
       { Name: CstStartupConditions.BeforeSteamFlow, Title: 'Just before turbine flow' },
       { Name: CstStartupConditions.Steam3MBL, Title: 'Turbine flow 3 MBL/h' },
       { Name: CstStartupConditions.GeneratorRunning, Title: 'Generator running' },
@@ -201,13 +203,15 @@ export const CstText = {
   },
 
   RecirculationTxt: {
-    Title: 'recirculation pumps',
+    Title: 'Recirculation pumps',
 
     Steamdrum: 'Steam drum',
     Temp: 'Temp',
     TempUnit: '°C',
     Pressure: 'Pressure',
     PressureUnit: 'bar',
+    SteamFlow: 'Flow',
+    SteamFlowUnit: 'MBL/h',
 
     CircuitLeft: 'Left circuit',
     PumpLA: 'Pump A',
@@ -229,6 +233,7 @@ export const CstText = {
     Valves: 'Valves',
     Level: 'Level',
     Flow: 'Flow',
+    HotwellLevel: 'Hotwell level',
   },
 
   SteamTxt: {

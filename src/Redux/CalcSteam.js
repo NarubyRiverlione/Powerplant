@@ -1,5 +1,5 @@
 import {
-  CstSteam, CstGenerator, CstPumps, CstFlowMax, Actions, CstTiming,
+  CstSteam, CstGenerator, CstPumps, Actions, CstTiming,
 } from '../Cst'
 
 export const UnitConversion = {
@@ -28,13 +28,16 @@ export const CalcPressureViaTemp = (Temp) => (
 
 export const PressureBar = (pressure) => pressure / UnitConversion.Pressure_mmHG_Bar
 
+// count pumps that are running & output valve is complete open
+const CountPumpsOperating = (pumps, containsName) => {
+  const runningPumps = Object.keys(pumps).filter((name) => name.includes(containsName) && pumps[name])
+  return runningPumps.length
+}
 // calculated the used recirculation vs the max
-const RecircFlowFactor = (Flows) => {
-  const RecircFlow = Flows[CstPumps.RecircLeftA] + Flows[CstPumps.RecircLeftB]
-    + Flows[CstPumps.RecircRightA] + Flows[CstPumps.RecircRightB]
-  const MaxRecircFlow = CstFlowMax[CstPumps.RecircLeftA] * 4
-  const Factor = RecircFlow / MaxRecircFlow
-  console.log(`Recirculation factor: ${Factor}`)
+const RecircFlowFactor = (Pumps) => {
+  const AmountRecircPumps = CountPumpsOperating(Pumps, 'Recirc')
+  const Factor = AmountRecircPumps / 4
+  // console.log(`Recirculation factor: ${Factor}`)
   return Factor
 }
 
@@ -42,11 +45,12 @@ const RecircFlowFactor = (Flows) => {
 // Change steam temp & pressure in the steam drum
 // Steam can only by created when a recirculation pump is running
 // steam temp is based on reactor temp - Loss
-export const ChangeSteamOverTime = (Flows, dispatch) => {
-  if (Flows[CstPumps.RecircLeftA] || Flows[CstPumps.RecircLeftB]
-    || Flows[CstPumps.RecircRightA] || Flows[CstPumps.RecircRightB]) {
-    const Loss = CstSteam.TempLoss / RecircFlowFactor(Flows)
-    console.log(`Temp loss reactor <-> steam drum = ${Loss}`)
+export const ChangeSteamOverTime = (Pumps, dispatch) => {
+  if (Pumps[CstPumps.RecircLeftA] || Pumps[CstPumps.RecircLeftB]
+    || Pumps[CstPumps.RecircRightA] || Pumps[CstPumps.RecircRightB]) {
+    const Loss = CstSteam.TempLoss / RecircFlowFactor(Pumps)
+    // console.log(`Temp loss reactor <-> steam drum = ${Loss}`)
+
     setTimeout(() => {
       dispatch({ type: Actions.ChangeSteam, Loss })
     }, CstTiming.SteamChange)

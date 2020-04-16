@@ -6,7 +6,7 @@ import ChangeOverTime from './Changes'
 
 // Change the temperature in the reactor
 // if there is recirculation then adjust the steam drum temperature & pressure
-export const ChangeReactorTemp = (EnergyChange, Flows, dispatch) => {
+export const ChangeReactorTemp = (EnergyChange, Pumps, dispatch) => {
   // console.log(`Reactor energy change: ${EnergyChange}`)
   // console.log(`Reactor temp was: ${state.ReactorTemp}`)
   const ReactorTempDelta = EnergyChange
@@ -15,10 +15,8 @@ export const ChangeReactorTemp = (EnergyChange, Flows, dispatch) => {
     ReactorTempDelta,
   })
   // update steam temp & pressure
-  // const { Flows } = getState()
-  ChangeSteamOverTime(Flows, dispatch)
+  ChangeSteamOverTime(Pumps, dispatch)
 }
-
 
 /* Change energy level in reactor
   The change will take time (CstTiming.EnergyChange)
@@ -47,8 +45,8 @@ const ReactorChangeEnergy = () => (
         EnergyChange,
       })
       // change reactor temperature
-      const { Flows } = getState()
-      ChangeReactorTemp(EnergyChange, Flows, dispatch)
+      const { Pumps } = getState()
+      ChangeReactorTemp(EnergyChange, Pumps, dispatch)
     }
 
     // make energy changes over time
@@ -65,6 +63,7 @@ const ReactorChangeEnergy = () => (
         })
       })
   })
+
 // Set speed of changing control rods
 export const ChangeRodSpeed = (RodSpeed) => (
   (dispatch, getState) => {
@@ -78,7 +77,8 @@ export const ChangeRodSpeed = (RodSpeed) => (
       RodSpeed,
     })
   })
-// set action of rods: +1 = retract, -1 = insert
+
+// set action of rods: +1 = retract, 0= idle, -1 = insert
 export const SetRodAction = (newRodAction) => (
   (dispatch, getState) => {
     const { RodAction } = getState()

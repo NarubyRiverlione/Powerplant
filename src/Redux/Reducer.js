@@ -1,108 +1,18 @@
 /* eslint-disable indent */
 /* eslint-disable no-case-declarations */
 import {
-  Actions, CstPumps, CstIntakeValve, CstOutputValve, CstReactor,
+  Actions,
 } from '../Cst'
+
 import {
   CalcPressureViaTemp, CalcTurbineSteamIntake, CalcSteamFlow, CalcGeneratorOutput,
   CalcFeedwaterFlow, CalcBypassValveOpen, CalcReactorLevelChange,
 } from './CalcSteam'
 
-
-export const InitialState = {
-  // Reactor
-  Energy: 0,
-  ReactorTemp: CstReactor.ColdTemp,
-  ReactorLevel: 0,
-  ReactorLevelChange: 0,
-  RefReactorLevelTimer: null,
-  RodsOut: 0,
-  RodSpeed: 0,
-  RodAction: 0,
-
-  // Steam
-  SteamTemp: 0,
-  SteamPressure: 0,
-  SteamFlow: 0,
-  FeedwaterFlow: 0,
-  MSIV: false,
-  // Turbine
-  BypassValve: 0,
-  TurbineSpeed: 0,
-  TurbineSetpoint: 0,
-  TurbineSteamIntake: 0,
-  TurbineRollup: 0,
-  // Generator
-  GeneratorPower: 0,
-  GeneratorBreaker: false,
-
-  Pumps: {
-    [CstPumps.RecircLeftA]: false,
-    [CstPumps.RecircLeftB]: false,
-
-    [CstPumps.RecircRightA]: false,
-    [CstPumps.RecircRightB]: false,
-
-    [CstPumps.FeedwaterPump1]: false,
-    [CstPumps.FeedwaterPump2]: false,
-  },
-
-  Valves: {
-    [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: false,
-
-    [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: false,
+import InitialState from './InitialState'
 
 
-    [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircRightA}_${CstOutputValve}`]: false,
-
-    [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: false,
-    [`${CstPumps.RecircRightB}_${CstOutputValve}`]: false,
-
-
-    [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: false,
-    [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: false,
-
-    [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: false,
-    [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: false,
-  },
-
-  Flows: {
-    [`${CstPumps.RecircLeftA}_${CstIntakeValve}`]: 0,
-    [CstPumps.RecircLeftA]: 0,
-    [`${CstPumps.RecircLeftA}_${CstOutputValve}`]: 0,
-
-    [`${CstPumps.RecircLeftB}_${CstIntakeValve}`]: 0,
-    [CstPumps.RecircLeftB]: 0,
-    [`${CstPumps.RecircLeftB}_${CstOutputValve}`]: 0,
-
-
-    [`${CstPumps.RecircRightA}_${CstIntakeValve}`]: 0,
-    [CstPumps.RecircRightA]: 0,
-    [`${CstPumps.RecircRightA}_${CstOutputValve}`]: 0,
-
-    [`${CstPumps.RecircRightB}_${CstIntakeValve}`]: 0,
-    [CstPumps.RecircRightB]: 0,
-    [`${CstPumps.RecircRightB}_${CstOutputValve}`]: 0,
-
-
-    [`${CstPumps.FeedwaterPump1}_${CstIntakeValve}`]: 0,
-    [CstPumps.FeedwaterPump1]: 0,
-    [`${CstPumps.FeedwaterPump1}_${CstOutputValve}`]: 0,
-
-    [`${CstPumps.FeedwaterPump2}_${CstIntakeValve}`]: 0,
-    [CstPumps.FeedwaterPump2]: 0,
-    [`${CstPumps.FeedwaterPump2}_${CstOutputValve}`]: 0,
-  },
-
-  Fout: false,
-  Foutmelding: null,
-}
-
-
-export const AppReducer = (state = InitialState, action) => {
+const AppReducer = (state = InitialState, action) => {
   switch (action.type) {
     // Simulator
     case Actions.SimReset:
@@ -118,6 +28,7 @@ export const AppReducer = (state = InitialState, action) => {
         TurbineSpeed: action.TurbineRollup,
         GeneratorBreaker: action.GeneratorBreaker,
         RodsOut: action.RodsOut,
+        // Hotwell: action.Hotwell,
       }
     // Valves button
     case Actions.ToggleValve:
@@ -248,7 +159,14 @@ export const AppReducer = (state = InitialState, action) => {
         GeneratorBreaker: action.GeneratorBreaker,
         GeneratorPower: CalcGeneratorOutput(state.TurbineSteamIntake, action.GeneratorBreaker, state.TurbineSpeed),
       }
+
+    case Actions.ChangeHotWell:
+      return { ...state, ChangeHotWell: action.ChangeHotWell }
+
+
     default:
       return state
   }
 }
+
+export default AppReducer

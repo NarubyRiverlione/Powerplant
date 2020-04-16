@@ -6,7 +6,9 @@ import thunkMiddleware from 'redux-thunk'
 // import { createLogger } from 'redux-logger'
 
 import PropTypes from 'prop-types'
-import { AppReducer, InitialState } from './Reducer'
+import AppReducer from './Reducer'
+import InitialState from './InitialState'
+
 
 /*
 // logger middleware only in dev

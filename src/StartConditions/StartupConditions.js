@@ -34,8 +34,8 @@ const StartupConditions = {
     Flows: RecirculationFlows_A,
   },
   [CstStartupConditions.Boiling]: {
-    StartEnergy: 69.97,
-    RodsOut: 1262,
+    StartEnergy: 75.99,
+    RodsOut: 1370,
     TurbineSetpoint: 0,
     TurbineRollup: 0,
     GeneratorBreaker: false,
@@ -44,7 +44,7 @@ const StartupConditions = {
     Flows: RecirculationFlows_A,
   },
   [CstStartupConditions.BeforeSteamFlow]: {
-    StartEnergy: 251.36,
+    StartEnergy: 251.41,
     RodsOut: 0,
     TurbineSetpoint: 0,
     TurbineRollup: 0,

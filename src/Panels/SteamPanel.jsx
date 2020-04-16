@@ -12,9 +12,10 @@ const { RecirculationTxt: SteamTxt } = CstText
 
 
 const SteamPanel = () => {
-  const { SteamTemp, SteamPressure } = useSelector((state) => ({
+  const { SteamTemp, SteamPressure, SteamFlow } = useSelector((state) => ({
     SteamTemp: state.SteamTemp,
     SteamPressure: state.SteamPressure,
+    SteamFlow: state.SteamFlow,
   }))
 
   return (
@@ -49,8 +50,22 @@ const SteamPanel = () => {
             Suffix={SteamTxt.PressureUnit}
           />
         </Col>
+      </Row>
 
+      <Row>
+        <Col size={2}>
+          <div className="text">
+            {SteamTxt.SteamFlow}
+          </div>
+        </Col>
 
+        <Col auto>
+          <Display
+            Text={SteamFlow.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+            Width={70}
+            Suffix={SteamTxt.SteamFlowUnit}
+          />
+        </Col>
       </Row>
     </React.Fragment>
   )

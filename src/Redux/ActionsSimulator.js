@@ -1,8 +1,8 @@
 import { Actions } from '../Cst'
-import { ChangeReactorTemp } from './ActionsReactor'
-
 import StartupConditions from '../StartConditions/StartupConditions'
-import { InitialState } from './Reducer'
+import InitialState from './InitialState'
+
+import { ChangeReactorTemp } from './ActionsReactor'
 
 
 // reset the simulator
@@ -30,8 +30,8 @@ export const SimulatorSetup = (startupSenario) => (
         type: Actions.EnergyAddDelta,
         EnergyChange: setupState.StartEnergy,
       })
-      // set reactor temp
-      ChangeReactorTemp(setupState.StartEnergy, setupState.Flows, dispatch)
+      // set reactor temp, will also update steam pressure and temp
+      ChangeReactorTemp(setupState.StartEnergy, setupState.Pumps, dispatch)
     }
   }
 )
