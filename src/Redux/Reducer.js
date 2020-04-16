@@ -3,7 +3,10 @@
 import {
   Actions, CstPumps, CstIntakeValve, CstOutputValve, CstReactor,
 } from '../Cst'
-import * as CalcSteam from './CalcSteam'
+import {
+  CalcPressureViaTemp, CalcTurbineSteamIntake, CalcSteamFlow, CalcGeneratorOutput,
+  CalcFeedwaterFlow, CalcBypassValveOpen, CalcReactorLevelChange,
+} from './CalcSteam'
 
 
 export const InitialState = {
@@ -147,12 +150,7 @@ export const AppReducer = (state = InitialState, action) => {
           [action.PumpName]: state.Flows[action.PumpName] + action.FlowChangeBy,
         },
       }
-    // MSIV
-    case Actions.ToggleMSIV:
-      return {
-        ...state,
-        MSIV: !state.MSIV,
-      }
+
     // Reactor
     case Actions.ReactorSetStartEnergy:
       return {
@@ -191,16 +189,16 @@ export const AppReducer = (state = InitialState, action) => {
     */
     case Actions.ChangeSteam:
       const SteamTemp = state.ReactorTemp - action.Loss < 0 ? 0 : state.ReactorTemp - action.Loss
-      const SteamPressure = CalcSteam.Pressure(SteamTemp)
-      const SteamFlow = CalcSteam.SteamFlow(SteamPressure)
+      const SteamPressure = CalcPressureViaTemp(SteamTemp)
+      const SteamFlow = CalcSteamFlow(SteamPressure)
 
-      const TurbineSteamIntake = CalcSteam.TurbineSteamIntake(SteamFlow, state.TurbineSetpoint)
-      const BypassValve = CalcSteam.BypassValve(SteamFlow, state.TurbineSetpoint)
+      const TurbineSteamIntake = CalcTurbineSteamIntake(SteamFlow, state.TurbineSetpoint)
+      const BypassValve = CalcBypassValveOpen(SteamFlow, state.TurbineSetpoint)
 
-      const FeedwaterFlow = CalcSteam.FeedwaterFlow(SteamFlow, TurbineSteamIntake)
-      const ReactorLevelChange = CalcSteam.ReactorLevelChange(SteamFlow, FeedwaterFlow)
+      const FeedwaterFlow = CalcFeedwaterFlow(SteamFlow, TurbineSteamIntake)
+      const ReactorLevelChange = CalcReactorLevelChange(SteamFlow, FeedwaterFlow)
 
-      const GeneratorPower = CalcSteam.Generator(TurbineSteamIntake, state.GeneratorBreaker, state.TurbineSpeed)
+      const GeneratorPower = CalcGeneratorOutput(TurbineSteamIntake, state.GeneratorBreaker, state.TurbineSpeed)
 
       return {
         ...state,
@@ -222,14 +220,14 @@ export const AppReducer = (state = InitialState, action) => {
     no steam into the turbine will trip the generator breaker */
     case Actions.TurbineSetpointChange:
       const TurbineSetpoint = state.TurbineSetpoint + action.Step < 0 ? 0 : state.TurbineSetpoint + action.Step
-      const TurbineSteamIntakeUpdate = CalcSteam.TurbineSteamIntake(state.SteamFlow, TurbineSetpoint)
+      const TurbineSteamIntakeUpdate = CalcTurbineSteamIntake(state.SteamFlow, TurbineSetpoint)
 
       return {
         ...state,
         TurbineSetpoint,
         TurbineSteamIntake: TurbineSteamIntakeUpdate,
-        BypassValve: CalcSteam.BypassValve(state.SteamFlow, TurbineSteamIntakeUpdate),
-        GeneratorPower: CalcSteam.Generator(TurbineSteamIntakeUpdate, state.GeneratorBreaker, state.TurbineSpeed),
+        BypassValve: CalcBypassValveOpen(state.SteamFlow, TurbineSteamIntakeUpdate),
+        GeneratorPower: CalcGeneratorOutput(TurbineSteamIntakeUpdate, state.GeneratorBreaker, state.TurbineSpeed),
         GeneratorBreaker: TurbineSteamIntakeUpdate > 0 ? state.GeneratorBreaker : false,
       }
     // prepare the turbine
@@ -248,7 +246,7 @@ export const AppReducer = (state = InitialState, action) => {
       return {
         ...state,
         GeneratorBreaker: action.GeneratorBreaker,
-        GeneratorPower: CalcSteam.Generator(state.TurbineSteamIntake, action.GeneratorBreaker, state.TurbineSpeed),
+        GeneratorPower: CalcGeneratorOutput(state.TurbineSteamIntake, action.GeneratorBreaker, state.TurbineSpeed),
       }
     default:
       return state

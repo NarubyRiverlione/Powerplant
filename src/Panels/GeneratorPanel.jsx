@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-reflex-grid'
 
 import { CstText } from '../Cst'
-import { GeneratorChangeBreaker } from '../Redux/ActionCreator'
+import { GeneratorChangeBreaker } from '../Redux/ActionsTurbine'
 
 import Display from '../Components/ControlElements/Display'
 import Button from '../Components/ControlElements/Button'

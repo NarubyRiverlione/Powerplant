@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Row } from 'react-reflex-grid'
-import { ChangeRodSpeed, SetRodAction } from '../Redux/ActionCreator'
+import { ChangeRodSpeed, SetRodAction } from '../Redux/ActionsReactor'
 
 import Display from '../Components/ControlElements/Display'
 import Button from '../Components/ControlElements/Button'

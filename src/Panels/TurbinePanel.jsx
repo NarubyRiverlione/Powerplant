@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-reflex-grid'
 
 import { CstText } from '../Cst'
-import { TurbineChangeSetpoint, TurbineSetRollup } from '../Redux/ActionCreator'
+import { TurbineChangeSetpoint, TurbineSetRollup } from '../Redux/ActionsTurbine'
 
 import Display from '../Components/ControlElements/Display'
 import ReactorButton from '../Components/ReactorButton'
@@ -112,8 +112,16 @@ const TurbinePanel = () => {
 
         {/* Turbine Speed */}
         <Col auto>
-          <Row><Col auto><span className="subtitle">{TurbineTxt.Speed}</span></Col></Row>
-          <Row><Display Text={TurbineSpeed.toLocaleString(undefined, { maximumFractionDigits: 0 })} Width={100} Suffix="RPM" /></Row>
+          <Row>
+            <Col auto><span className="subtitle">{TurbineTxt.Speed}</span></Col>
+          </Row>
+          <Row>
+            <Display
+              Text={TurbineSpeed.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              Width={100}
+              Suffix="RPM"
+            />
+          </Row>
         </Col>
       </Row>
 

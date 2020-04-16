@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Container } from 'react-reflex-grid'
 
 
-import { ReactorLevelChangeTimer } from '../Redux/ActionCreator'
+import { ReactorLevelChangeTimer } from '../Redux/ActionsReactor'
 import { CstText } from '../Cst'
 
 import SimControlsPanel from '../Panels/SimControlsPanel'

@@ -5,7 +5,9 @@ import PropTypes from 'prop-types'
 import { Col, Row } from 'react-reflex-grid'
 
 // import Selector from './ControlElements/Selector'
-import { SetPump, ToggleValve } from '../Redux/ActionCreator'
+import SetPump from '../Redux/ActionsPumps'
+import ToggleValve from '../Redux/ActionsValves'
+
 import Button from './ControlElements/Button'
 import { CstIntakeValve, CstOutputValve } from '../Cst'
 import Display from './ControlElements/Display'
@@ -64,7 +66,11 @@ const Pump = ({ PumpName, Title }) => {
           />
         </Col>
         <Col auto>
-          <Display Text={(Flows[PumpName]).toLocaleString(undefined, { maximumFractionDigits: 1 })} Width={50} Suffix="%" />
+          <Display
+            Text={(Flows[PumpName]).toLocaleString(undefined, { maximumFractionDigits: 1 })}
+            Width={50}
+            Suffix="%"
+          />
         </Col>
       </Row>
 

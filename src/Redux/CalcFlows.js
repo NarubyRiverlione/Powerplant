@@ -1,12 +1,14 @@
-import * as Cst from '../Cst'
+import {
+  CstFlowMax, CstOutputValve, CstIntakeValve, CstPumps, CstChangeStep, CstTiming,
+} from '../Cst'
 import ChangeOverTime from './Changes'
 
 
-const CalcFlow = (PumpName, Level) => Level * Cst.CstFlowMax[PumpName]
+const CalcFlow = (PumpName, Level) => Level * CstFlowMax[PumpName]
 
 // only flow when intake and output valves are open
-const TargetFlow = (Level, Valves, PumpName) => (Valves[`${PumpName}_${Cst.CstIntakeValve}`]
-  && Valves[`${PumpName}_${Cst.CstOutputValve}`]
+const TargetFlow = (Level, Valves, PumpName) => (Valves[`${PumpName}_${CstIntakeValve}`]
+  && Valves[`${PumpName}_${CstOutputValve}`]
   ? CalcFlow(PumpName, Level)
   : 0)
 
@@ -20,11 +22,11 @@ const SetFlow = (PumpName, Valves, Flows, Pumps, dispatch, ChangeFlow, ChangeSte
   if (FlowDelta === 0) return
 
   let Step
-  if (PumpName.includes(Cst.CstPumps.FeedwaterPump1) || PumpName.includes(Cst.CstPumps.FeedwaterPump2)) {
-    Step = Math.sign(FlowDelta) * Cst.CstChangeStep.FeedwaterPump
+  if (PumpName.includes(CstPumps.FeedwaterPump1) || PumpName.includes(CstPumps.FeedwaterPump2)) {
+    Step = Math.sign(FlowDelta) * CstChangeStep.FeedwaterPump
   }
   if (PumpName.includes('Recirculate')) {
-    Step = Math.sign(FlowDelta) * Cst.CstChangeStep.RecirculatePump
+    Step = Math.sign(FlowDelta) * CstChangeStep.RecirculatePump
   }
   if (!Step) console.error('cannot find step for pump')
   let TempFlow = OldFlow
@@ -48,7 +50,7 @@ const SetFlow = (PumpName, Valves, Flows, Pumps, dispatch, ChangeFlow, ChangeSte
   }
 
   console.log(`Flow start changing: todo:${FlowDelta} , step=${Step}`)
-  ChangeOverTime(Cst.CstTiming.FeedwaterPumpChange, Step,
+  ChangeOverTime(CstTiming.FeedwaterPumpChange, Step,
     FlowDelta, (step) => UpdateFlowByStep(step))
 }
 

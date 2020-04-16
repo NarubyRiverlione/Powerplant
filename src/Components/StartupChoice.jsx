@@ -3,17 +3,16 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 
 import { useHistory } from 'react-router-dom'
-import { CstNavScreens, CstReactor } from '../Cst'
-import { ReactorSetStartEnergy, SimulatorReset, SimulatorSetup } from '../Redux/ActionCreator'
+import { CstNavScreens } from '../Cst'
+import { SimulatorReset, SimulatorSetup } from '../Redux/ActionsSimulator'
+
 import Button from './ControlElements/Button'
 
 const Startup = (startupSenario, dispatch, history) => {
   // Reset simulator : all valves, pumps,..
   dispatch(SimulatorReset())
-  // Setup wanted state of valves, pumps..
+  // Setup wanted state of reactor, valves, pumps..
   dispatch(SimulatorSetup(startupSenario))
-  // Set conditions in reactor
-  dispatch(ReactorSetStartEnergy(CstReactor.StartEnergy[startupSenario]))
   // go to power plant screen
   history.push(CstNavScreens.PowerplantScreen)
 }
