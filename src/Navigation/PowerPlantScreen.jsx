@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Container } from 'react-reflex-grid'
 
-
 import { ReactorLevelChangeTimer } from '../Redux/ActionsReactor'
 import { CstText } from '../Cst'
 
@@ -14,11 +13,9 @@ import FeedwaterPanel from '../Panels/FeedwaterPanel'
 import GeneratorPanel from '../Panels/GeneratorPanel'
 import RecirculationPanel from '../Panels/RecirculationPanel'
 
-
 const {
   ReactorTxt, TurbineTxt, FeedwaterTxt, GeneratorTxt, RecirculationTxt,
 } = CstText
-
 
 const PowerPlantScreen = () => {
   const dispatch = useDispatch()
@@ -35,7 +32,6 @@ const PowerPlantScreen = () => {
       <ControlPanel Name={ReactorTxt.Title} StatusStatus="">
         <ReactorPanel />
       </ControlPanel>
-
 
       <ControlPanel Name={RecirculationTxt.Title} StatusStatus="">
         <RecirculationPanel />

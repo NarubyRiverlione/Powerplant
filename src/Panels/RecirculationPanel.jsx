@@ -60,5 +60,4 @@ const RecirculationPanel = () => (
   </React.Fragment>
 )
 
-
 export default RecirculationPanel

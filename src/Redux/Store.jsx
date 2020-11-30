@@ -9,7 +9,6 @@ import PropTypes from 'prop-types'
 import AppReducer from './Reducer'
 import InitialState from './InitialState'
 
-
 /*
 // logger middleware only in dev
 const LoggerMiddleWare = createLogger({

@@ -23,7 +23,6 @@ const TurbinePanel = () => {
     TurbineRollup: state.TurbineRollup,
   }))
 
-
   return (
     <React.Fragment>
 
@@ -124,7 +123,6 @@ const TurbinePanel = () => {
           </Row>
         </Col>
       </Row>
-
 
     </React.Fragment>
   )

@@ -1,6 +1,5 @@
 import { Actions, CstIntakeValve, CstFlowMax } from '../Cst'
 
-
 // toggle pump state, then calc flow
 const SetPump = (PumpName) => (
   (dispatch, getState) => {
@@ -38,6 +37,5 @@ const SetPump = (PumpName) => (
     }
     */
   })
-
 
 export default SetPump

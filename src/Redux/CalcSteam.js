@@ -41,7 +41,6 @@ const RecircFlowFactor = (Pumps) => {
   return Factor
 }
 
-
 // Change steam temp & pressure in the steam drum
 // Steam can only by created when a recirculation pump is running
 // steam temp is based on reactor temp - Loss
@@ -88,7 +87,6 @@ export const CalcReactorLevelChange = (Steamflow, FeedFlow) => {
   console.log(`Reactor water lvl output: ${Steamflow}, input: ${FeedFlow} -->  change by: ${Change}`)
   return Change
 }
-
 
 export const CalcBypassValveOpen = (Steamflow, TurbineSteamIntake) => {
   let bypassOpenPct = ((Steamflow - TurbineSteamIntake) / CstSteam.BypassMaxFlow) * 100

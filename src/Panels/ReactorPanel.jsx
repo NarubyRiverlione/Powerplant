@@ -21,7 +21,6 @@ const ReactorPanel = () => {
     RodAction: state.RodAction,
   }))
 
-
   return (
     <React.Fragment>
       <Row>

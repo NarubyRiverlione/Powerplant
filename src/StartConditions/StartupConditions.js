@@ -3,7 +3,6 @@ import {
   CstPumps, CstIntakeValve, CstOutputValve, CstStartupConditions,
 } from '../Cst'
 
-
 const RecirculationPumps_A = {
   [`${CstPumps.RecircLeftA}`]: true,
   [`${CstPumps.RecircRightA}`]: true,
@@ -107,6 +106,5 @@ const StartupConditions = {
     },
   },
 }
-
 
 export default StartupConditions

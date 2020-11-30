@@ -3,32 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.27.0",
-    "@typescript-eslint/parser": "^2.27.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.14.0",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
+    "react": "^17.0.1",
     "react-css-collapse": "^4.0.6",
-    "react-dom": "^16.13.1",
+    "react-dom": "^17.0.1",
     "react-redux": "^7.2.0",
     "react-reflex-grid": "^2.10.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^4.0.1",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "cypress": "^3.3.2",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-config-react-app": "^5.2.1",
-    "eslint-plugin-cypress": "^2.10.3",
-    "eslint-plugin-flowtype": "^4.7.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-react-hooks": "^3.0.0"
+    "cypress": "^6.0.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,7 +38,55 @@
     "lint": "eslint src/**/*.js* --fix"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "airbnb"
+    ],
+    "rules": {
+      "react/jsx-fragments": "off",
+      "react-hooks/rules-of-hooks": "error",
+      "max-len": [
+        "warn",
+        {
+          "code": 120,
+          "comments": 150
+        }
+      ],
+      "indent": [
+        "warn",
+        2
+      ],
+      "jsx-a11y/no-noninteractive-element-interactions": [
+        "warn"
+      ],
+      "jsx-a11y/click-events-have-key-events": [
+        "warn"
+      ],
+      "jsx-a11y/no-static-element-interactions": [
+        "warn"
+      ],
+      "linebreak-style": [
+        0
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-mixed-spaces-and-tabs": [
+        "warn",
+        "smart-tabs"
+      ],
+      "no-console": [
+        "off"
+      ],
+      "react/forbid-prop-types": [
+        "warn"
+      ]
+    }
   },
   "browserslist": {
     "production": [

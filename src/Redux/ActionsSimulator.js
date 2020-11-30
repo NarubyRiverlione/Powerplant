@@ -4,7 +4,6 @@ import InitialState from './InitialState'
 
 import { ChangeReactorTemp } from './ActionsReactor'
 
-
 // reset the simulator
 export const SimulatorReset = () => (
   { type: Actions.SimReset }

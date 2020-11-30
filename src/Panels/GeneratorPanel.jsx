@@ -10,7 +10,6 @@ import Button from '../Components/ControlElements/Button'
 
 const { GeneratorTxt } = CstText
 
-
 const GeneratorPanel = () => {
   const dispatch = useDispatch()
   const { GeneratorPower, GeneratorBreaker } = useSelector((state) => ({

@@ -12,7 +12,6 @@ import Button from './ControlElements/Button'
 import { CstIntakeValve, CstOutputValve } from '../Cst'
 import Display from './ControlElements/Display'
 
-
 const Pump = ({ PumpName, Title }) => {
   const dispatch = useDispatch()
   const { Valves, Flows, Pumps } = useSelector((state) => ({
@@ -23,7 +22,6 @@ const Pump = ({ PumpName, Title }) => {
 
   const ValveName = (valveSuffix) => `${PumpName}_${valveSuffix}`
   const ValvePosition = (valveSuffix) => Valves[ValveName(valveSuffix)]
-
 
   return (
     <React.Fragment>
@@ -73,7 +71,6 @@ const Pump = ({ PumpName, Title }) => {
           />
         </Col>
       </Row>
-
 
       {/* Output valve  */}
       <Row justify-center>

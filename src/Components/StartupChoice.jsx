@@ -30,7 +30,6 @@ const StartupChoice = ({ Choice }) => {
       cb={() => Startup(Choice.Name, dispatch, history)}
     />
 
-
   )
 }
 

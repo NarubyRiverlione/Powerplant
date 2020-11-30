@@ -2,7 +2,6 @@ import { Actions, CstTiming, CstChangeStep } from '../Cst'
 
 import ChangeOverTime from './Changes'
 
-
 // change turbine setpoint
 export const TurbineChangeSetpoint = (Step) => (
   (dispatch) => (

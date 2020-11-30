@@ -68,7 +68,6 @@ const ControlPanel = ({ Name, Status, children }) => {
   )
 }
 
-
 ControlPanel.propTypes = {
   Name: PropTypes.string.isRequired,
   Status: PropTypes.string,

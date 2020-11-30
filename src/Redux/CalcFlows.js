@@ -3,7 +3,6 @@ import {
 } from '../Cst'
 import ChangeOverTime from './Changes'
 
-
 const CalcFlow = (PumpName, Level) => Level * CstFlowMax[PumpName]
 
 // only flow when intake and output valves are open
@@ -11,7 +10,6 @@ const TargetFlow = (Level, Valves, PumpName) => (Valves[`${PumpName}_${CstIntake
   && Valves[`${PumpName}_${CstOutputValve}`]
   ? CalcFlow(PumpName, Level)
   : 0)
-
 
 const SetFlow = (PumpName, Valves, Flows, Pumps, dispatch, ChangeFlow, ChangeSteam) => {
   const Level = Pumps[PumpName]

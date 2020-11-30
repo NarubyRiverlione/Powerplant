@@ -7,9 +7,7 @@ import { PressureBar } from '../Redux/CalcSteam'
 
 import Display from '../Components/ControlElements/Display'
 
-
 const { RecirculationTxt: SteamTxt } = CstText
-
 
 const SteamPanel = () => {
   const { SteamTemp, SteamPressure, SteamFlow } = useSelector((state) => ({

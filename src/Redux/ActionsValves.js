@@ -6,7 +6,6 @@ import { SetSteamFlow, ChangeSteamOverTime } from './CalcSteam'
 import ChangeOverTime from './Changes'
 import SetFlow from './CalcFlows'
 
-
 const CheckAfterValveOperation = (Pumpname, Valvename, dispatch, getState) => {
   const { Pumps, Flows, Valves } = getState()
   // check if both valve are complete open
@@ -62,7 +61,6 @@ const ToggleValve = (ValveName, PumpName) => (
       console.warn(`CANNOT close  ${ValveName} as  ${PumpName} is running`)
       return
     }
-
 
     // change valve button
     const newValves = { ...Valves, [ValveName]: NewPosition }

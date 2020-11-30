@@ -11,7 +11,6 @@ import {
 
 import InitialState from './InitialState'
 
-
 const AppReducer = (state = InitialState, action) => {
   switch (action.type) {
     // Simulator
@@ -162,7 +161,6 @@ const AppReducer = (state = InitialState, action) => {
 
     case Actions.ChangeHotWell:
       return { ...state, ChangeHotWell: action.ChangeHotWell }
-
 
     default:
       return state
