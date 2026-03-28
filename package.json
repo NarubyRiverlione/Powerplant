@@ -20,7 +20,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "cypress": "^6.0.0",
+    "cypress": "^15.10.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-cypress": "^2.11.2",
